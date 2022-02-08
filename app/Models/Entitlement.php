@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class Entitlement extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'employee_id',
+        'leave_policy_id',
+        'cycle_start_date',
+        'cycle_end_date',
+        'amount',
+        'balance',
+    ];
+
+    /**
+     * Get the carry forward associated with the leave application.
+     */
+    public function carry_forward()
+    {
+        return $this->hasOne(CarryForward::class);
+    }
+
+    /**
+     * Get the leave credit associated with the leave application.
+     */
+    public function leave_credit()
+    {
+        return $this->hasOne(LeaveCredit::class);
+    }
+
+    /**
+     * Get the leave policy associated with the entitlement.
+     */
+    public function leave_policy()
+    {
+        return $this->belongsTo(LeavePolicy::class);
+    }
+
+    /**
+     * Get the employee associated with the entitlement.
+     */
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+}
