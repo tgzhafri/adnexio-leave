@@ -30,7 +30,7 @@ class Approval extends Model
     /**
      * Get the leave application that the approval belongs to.
      */
-    public function leave_application()
+    public function leaveApplication()
     {
         return $this->belongsTo(LeaveApplication::class);
     }

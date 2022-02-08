@@ -24,7 +24,7 @@ class LeavePolicy extends Model
         'icon',
         'cycle_period',
         'accrual_option',
-        'accrual_happens',
+        'accrual_happen',
         'approval_config_id',
         'carry_forward_amount',
         'carry_forward_expiry',
@@ -48,7 +48,7 @@ class LeavePolicy extends Model
     /**
      * Get the approval config that the leave policy belongs to.
      */
-    public function approval_config()
+    public function approvalConfig()
     {
         return $this->belongsTo(ApprovalConfig::class);
     }
@@ -56,7 +56,7 @@ class LeavePolicy extends Model
     /**
      * Get the leave eligibility associated with the leave policy.
      */
-    public function leave_eligibility()
+    public function leaveEligibility()
     {
         return $this->hasOne(LeaveEligibility::class);
     }
@@ -72,7 +72,7 @@ class LeavePolicy extends Model
     /**
      * Get the leave eligibility associated with the leave policy.
      */
-    public function leave_entitlements()
+    public function leaveEntitlement()
     {
         return $this->hasMany(LeaveEntitlement::class);
     }
@@ -80,7 +80,7 @@ class LeavePolicy extends Model
     /**
      * Get the leave eligibility associated with the leave policy.
      */
-    public function leave_applications()
+    public function leaveApplication()
     {
         return $this->hasMany(LeaveApplication::class);
     }

@@ -43,7 +43,7 @@ class LeaveApplication extends Model
     /**
      * Get the leave date associated with the leave application.
      */
-    public function leave_date()
+    public function leaveDate()
     {
         return $this->hasOne(LeaveDate::class);
     }
@@ -51,7 +51,7 @@ class LeaveApplication extends Model
     /**
      * Get the employee associated with the leave application.
      */
-    public function leave_policy()
+    public function leavePolicy()
     {
         return $this->belongsTo(LeavePolicy::class);
     }

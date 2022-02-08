@@ -15,6 +15,7 @@ class CreateApprovalConfigsTable extends Migration
     {
         Schema::create('approval_configs', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('first_approval');
             $table->string('second_approval')->nullable();
             $table->string('third_approval')->nullable();

@@ -49,7 +49,7 @@ class Company extends Model
     /**
      * Get the leave policies for the company.
      */
-    public function leave_policies()
+    public function leavePolicy()
     {
         return $this->hasMany(LeavePolicy::class);
     }

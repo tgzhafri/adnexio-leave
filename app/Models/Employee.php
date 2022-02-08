@@ -38,7 +38,7 @@ class Employee extends Model
     /**
      * Get the job title associated with the employee.
      */
-    public function job_title()
+    public function jobTitle()
     {
         return $this->hasOne(JobTitle::class);
     }
@@ -54,7 +54,7 @@ class Employee extends Model
     /**
      * Get the entitlement for the employee.
      */
-    public function leave_applications()
+    public function leaveApplication()
     {
         return $this->hasMany(LeaveApplication::class);
     }

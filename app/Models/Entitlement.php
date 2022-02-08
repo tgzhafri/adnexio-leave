@@ -27,7 +27,7 @@ class Entitlement extends Model
     /**
      * Get the carry forward associated with the leave application.
      */
-    public function carry_forward()
+    public function carryForward()
     {
         return $this->hasOne(CarryForward::class);
     }
@@ -35,7 +35,7 @@ class Entitlement extends Model
     /**
      * Get the leave credit associated with the leave application.
      */
-    public function leave_credit()
+    public function leaveCredit()
     {
         return $this->hasOne(LeaveCredit::class);
     }
@@ -43,7 +43,7 @@ class Entitlement extends Model
     /**
      * Get the leave policy associated with the entitlement.
      */
-    public function leave_policy()
+    public function leavePolicy()
     {
         return $this->belongsTo(LeavePolicy::class);
     }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LeaveEligibilityController;
+use App\Http\Controllers\LeavePolicyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,5 @@ use App\Http\Controllers\LeaveEligibilityController;
 Route::apiResource('/employee', EmployeeController::class);
 Route::apiResource('/company', CompanyController::class);
 Route::apiResource('/leaveEligibility', LeaveEligibilityController::class);
+Route::apiResource('/leavePolicy', LeavePolicyController::class);
 Route::apiResource('/approvalConfig', ApprovalConfigController::class);

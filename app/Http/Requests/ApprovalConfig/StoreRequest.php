@@ -24,9 +24,10 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required|max:50',
             'first_approval' => 'required|max:100',
-            'second_approval' => 'required|max:100',
-            'third_approval' => 'required|max:100',
+            'second_approval' => 'sometimes|max:100',
+            'third_approval' => 'sometimes|max:100',
         ];
     }
 }

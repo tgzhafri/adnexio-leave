@@ -16,6 +16,7 @@ class ApprovalConfig extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'name',
         'first_approval',
         'second_approval',
         'third_approval',
@@ -24,7 +25,7 @@ class ApprovalConfig extends Model
     /**
      * Get the leave policy for the approval config.
      */
-    public function leave_policies()
+    public function leavePolicy()
     {
         return $this->hasMany(LeavePolicy::class);
     }

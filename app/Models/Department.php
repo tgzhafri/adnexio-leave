@@ -22,7 +22,7 @@ class Department extends Model
     /**
      * Get the job titles for the department
      */
-    public function job_titles()
+    public function jobTitle()
     {
         return $this->hasMany(JobTitle::class);
     }
