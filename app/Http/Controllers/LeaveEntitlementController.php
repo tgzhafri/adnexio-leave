@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LeaveEligibilityResource;
-use App\Models\LeaveEligibility;
+use App\Http\Requests\LeaveEntitlement\StoreRequest;
+use App\Http\Resources\LeaveEntitlementResource;
+use App\Models\LeaveEntitlement;
 use Illuminate\Http\Request;
 
-class LeaveEligibilityController extends Controller
+class LeaveEntitlementController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,11 +16,13 @@ class LeaveEligibilityController extends Controller
      */
     public function index()
     {
-        $leaveEligibility = LeaveEligibility::all();
+        $leaveEntitlement = LeaveEntitlement::all();
+
         return response([
-            'leaveEligibility' =>
-            LeaveEligibilityResource::collection($leaveEligibility),
-            'message' => 'Successful'
+            'success' => true,
+            'message' => 'Retrieve index leave entitlement successful',
+            'data' =>
+            LeaveEntitlementResource::collection($leaveEntitlement)
         ], 200);
     }
 
@@ -39,15 +42,16 @@ class LeaveEligibilityController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $leaveEligibility = LeaveEligibility::create($request->validated());
+        $leaveEntitlement = LeaveEntitlement::create($request->all());
 
         return response([
-            'employee' => new
-                LeaveEligibilityResource($leaveEligibility),
-            'message' => 'Leave Eligibility Store Success'
-        ], 200);
+            'success' => true,
+            'message' => 'Leave Entitlement Store Successful',
+            'data' => new
+                LeaveEntitlementResource($leaveEntitlement),
+        ]);
     }
 
     /**

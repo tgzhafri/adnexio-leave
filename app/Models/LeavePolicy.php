@@ -21,19 +21,24 @@ class LeavePolicy extends Model
         'abbreviation',
         'description',
         'color',
-        'icon',
+        'document_required',
+        'reason_required',
+        'half_day_option',
         'cycle_period',
+        'eligible_amount',
+        'eligible_period',
         'accrual_option',
         'accrual_happen',
         'approval_config_id',
+        'leave_quota_amount',
+        'leave_quota_unit',
+        'leave_quota_category',
+        'restriction_amount',
         'carry_forward_amount',
         'carry_forward_expiry',
-        'leave_credit',
-        'leave_credit_expiry',
-        'daily_quota',
-        'restriction_amount',
-        'proof_required',
-        'half_day_option',
+        'leave_credit_instant_use',
+        'leave_credit_expiry_amount',
+        'leave_credit_expiry_period',
         'status',
     ];
 
@@ -51,14 +56,6 @@ class LeavePolicy extends Model
     public function approvalConfig()
     {
         return $this->belongsTo(ApprovalConfig::class);
-    }
-
-    /**
-     * Get the leave eligibility associated with the leave policy.
-     */
-    public function leaveEligibility()
-    {
-        return $this->hasOne(LeaveEligibility::class);
     }
 
     /**

@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LeavePolicy\StoreRequest;
+use App\Http\Resources\LeavePolicyCollection;
 use App\Http\Resources\LeavePolicyResource;
-use App\Models\ApprovalConfig;
-use App\Models\LeaveEligibility;
 use App\Models\LeaveEntitlement;
 use App\Models\LeavePolicy;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class LeavePolicyController extends Controller
 {
@@ -18,27 +16,9 @@ class LeavePolicyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(LeavePolicy $leavePolicy)
     {
-        // $leavePolicies = LeavePolicy::whereId(1)
-        //     ->with(['leaveEligibility', 'leaveEntitlement', 'approvalConfig'])
-        //     ->first();
-
-        // return $this->jsonResponse(
-        //     compact('leavePolicies'),
-        //     '',
-        //     200
-        // );
-
-        $leavePolicies = LeavePolicy::all();
-
-        return response([
-            'success' => true,
-            'message' => 'Retrieve index leave policies successful',
-            'data' =>
-            LeavePolicyResource::collection($leavePolicies)
-        ], 200);
-
+        return new LeavePolicyCollection($leavePolicy->get());
     }
 
     /**
@@ -57,30 +37,45 @@ class LeavePolicyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request, LeaveEntitlement $leaveEntitlement)
     {
         $leavePolicy = LeavePolicy::create($request->all());
 
-        $leaveEligibility = new LeaveEligibility();
-        $leaveEligibility->leave_policy_id = $leavePolicy->id;
-        $leaveEligibility->amount = $request->amount;
-        $leaveEligibility->period = $request->period;
-        $leaveEligibility->save();
+        $leaveEntitlement->fill([
+            'leave_policy_id' => $leavePolicy->id,
+            'layer' => $request->layer,
+            'amount' => $request->amount,
+            'start_year_of_service' => $request->start_year_of_service,
+            'end_year_of_service' => $request->end_year_of_service
+        ]);
 
+        $leavePolicy->leaveEntitlement()->save($leaveEntitlement);
+
+        $detailPolicy = LeavePolicy::whereId($leavePolicy->id)
+            ->with(['leaveEntitlement', 'approvalConfig'])
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Retrieve detail leave policies successful',
+            'leave_policy' => $detailPolicy // to include every related models to leave policy
+        ]);
         // $leaveEntitlement = new LeaveEntitlement();
         // $leaveEntitlement->leave_policy_id = $leavePolicy->id;
-        // $leaveEntitlement->name = $request->name;
+        // $leaveEntitlement->layer = $request->layer;
         // $leaveEntitlement->amount = $request->amount;
         // $leaveEntitlement->start_year_of_service = $request->start_year_of_service;
         // $leaveEntitlement->end_year_of_service = $request->end_year_of_service;
         // $leaveEntitlement->save();
 
-        return response([
-            'success' => true,
-            'message' => 'Leave Policy Store Successful',
-            'data' => new
-                LeavePolicyResource($leavePolicy),
-        ], 200);
+        // return new LeavePolicyCollection($leavePolicy->latest()->limit(1)->get());
+        // return response([
+        //     'success' => true,
+        //     'message' => 'Leave Policy Store Successful',
+        //     'data' => new
+        //         LeavePolicyResource($leavePolicy),
+        // ]);
+
     }
 
     /**
@@ -91,7 +86,15 @@ class LeavePolicyController extends Controller
      */
     public function show($id)
     {
-        //
+        $leavePolicy = LeavePolicy::whereId($id)
+            ->with(['leaveEntitlement', 'approvalConfig'])
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Retrieve detail leave policies successful',
+            'leave_policy' => $leavePolicy // to include every related models to leave policy
+        ]);
     }
 
     /**

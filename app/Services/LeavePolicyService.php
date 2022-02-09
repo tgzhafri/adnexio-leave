@@ -24,12 +24,5 @@ class LeavePolicyService
         $this->approvalConfig = $approvalConfig;
     }
 
-    public function create($companyId, $name, $abbreviation, $description, $color, $icon, $cyclePeriod, $accrualOption, $accrualHappens, $approvalConfigId, $carryForwardAmount, $carryForwardExpiry, $leaveCredit, $leaveCreditExpiry, $dailyQuota, $restrictionAmount, $proofRequired, $halfDayOption, $status): void
-    {
-        $policy = $this->createPolicy($companyId, $name, $abbreviation, $description, $color, $icon, $cyclePeriod, $accrualOption, $accrualHappens, $approvalConfigId, $carryForwardAmount, $carryForwardExpiry, $leaveCredit, $leaveCreditExpiry, $dailyQuota, $restrictionAmount, $proofRequired, $halfDayOption, $status);
 
-
-    }
-
-    protected function createPolicy()
-}
+};

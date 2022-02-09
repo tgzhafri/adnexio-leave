@@ -16,7 +16,7 @@ class CreateLeaveEntitlementsTable extends Migration
         Schema::create('leave_entitlements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('leave_policy_id')->constrained('leave_policies')->onDelete('cascade');
-            $table->string('name');
+            $table->integer('layer');
             $table->integer('amount');
             $table->integer('start_year_of_service');
             $table->integer('end_year_of_service');

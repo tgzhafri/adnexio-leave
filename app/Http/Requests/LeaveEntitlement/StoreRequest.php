@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\LeaveEligibility;
+namespace App\Http\Requests\LeaveEntitlement;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -13,7 +13,7 @@ class StoreRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'leave_policy_id' => 'integer|required',
+            'layer' => 'integer|required',
+            'amount' => 'integer|required',
+            'start_year_of_service' => 'integer|required',
+            'end_year_of_service' => 'integer|required',
         ];
     }
 }

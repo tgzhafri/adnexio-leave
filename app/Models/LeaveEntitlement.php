@@ -17,7 +17,7 @@ class LeaveEntitlement extends Model
      */
     protected $fillable = [
         'leave_policy_id',
-        'name',
+        'layer',
         'amount',
         'start_year_of_service',
         'end_year_of_service',
