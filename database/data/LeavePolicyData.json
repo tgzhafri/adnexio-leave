@@ -1,0 +1,346 @@
+[
+    {
+        "company_id": 1,
+        "name": "Annual Leave",
+        "abbreviation": "AL",
+        "description": "Annual leave for every employee",
+        "color": "blue",
+        "document_required": 0,
+        "reason_required": 0,
+        "half_day_option": 1,
+        "cycle_period": "yearly",
+        "eligible_amount": 30,
+        "eligible_period": "day",
+        "accrual_option": "full_amount",
+        "accrual_happen": null,
+        "approval_config_id": 1,
+        "leave_quota_amount": null,
+        "leave_quota_unit": "number",
+        "leave_quota_category": "department",
+        "restriction_amount": 0,
+        "day_prior": null,
+        "carry_forward_amount": 5,
+        "carry_forward_expiry": "cycle_period",
+        "leave_credit_instant_use": 0,
+        "leave_credit_expiry_amount": 0,
+        "leave_credit_expiry_period": null,
+        "status": 1,
+        "entitlement": [
+            {
+                "layer": 1,
+                "amount": 15,
+                "start_year_of_service": 0,
+                "end_year_of_service": 3
+            },
+            {
+                "layer": 2,
+                "amount": 18,
+                "start_year_of_service": 3,
+                "end_year_of_service": 5
+            },
+            {
+                "layer": 3,
+                "amount": 21,
+                "start_year_of_service": 5,
+                "end_year_of_service": 99
+            }
+        ],
+        "category": [
+            {
+                "name": "gender",
+                "data": "male",
+                "status": 1
+            },
+            {
+                "name": "gender",
+                "data": "female",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "single",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "married",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "divorced",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "widowed",
+                "status": 1
+            },
+            {
+                "name": "employment_type",
+                "data": "permanent",
+                "status": 1
+            },
+            {
+                "name": "employment_type",
+                "data": "contract",
+                "status": 1
+            }
+        ]
+    },
+    {
+        "company_id": 1,
+        "name": "Sick Leave",
+        "abbreviation": "SL",
+        "description": "Sick leave for every employee",
+        "color": "blue",
+        "document_required": 1,
+        "reason_required": 0,
+        "half_day_option": 0,
+        "cycle_period": "yearly",
+        "eligible_amount": null,
+        "eligible_period": null,
+        "accrual_option": "full_amount",
+        "accrual_happen": null,
+        "approval_config_id": 1,
+        "leave_quota_amount": null,
+        "leave_quota_unit": null,
+        "leave_quota_category": null,
+        "restriction_amount": 0,
+        "day_prior": null,
+        "carry_forward_amount": null,
+        "carry_forward_expiry": null,
+        "leave_credit_instant_use": 0,
+        "leave_credit_expiry_amount": 0,
+        "leave_credit_expiry_period": null,
+        "status": 1,
+        "entitlement": [
+            {
+                "layer": 1,
+                "amount": 15,
+                "start_year_of_service": 0,
+                "end_year_of_service": 3
+            },
+            {
+                "layer": 2,
+                "amount": 18,
+                "start_year_of_service": 3,
+                "end_year_of_service": 5
+            },
+            {
+                "layer": 3,
+                "amount": 21,
+                "start_year_of_service": 5,
+                "end_year_of_service": 99
+            }
+        ],
+        "category": [
+            {
+                "name": "gender",
+                "data": "male",
+                "status": 1
+            },
+            {
+                "name": "gender",
+                "data": "female",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "single",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "married",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "divorced",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "widowed",
+                "status": 1
+            },
+            {
+                "name": "employment_type",
+                "data": "permanent",
+                "status": 1
+            },
+            {
+                "name": "employment_type",
+                "data": "contract",
+                "status": 1
+            }
+        ]
+    },
+    {
+        "company_id": 1,
+        "name": "Hospitalisation Leave",
+        "abbreviation": "HL",
+        "description": "Hospitalisation leave for every employee",
+        "color": "blue",
+        "document_required": 1,
+        "reason_required": 1,
+        "half_day_option": 0,
+        "cycle_period": "yearly",
+        "eligible_amount": 30,
+        "eligible_period": "day",
+        "accrual_option": "full_amount",
+        "accrual_happen": null,
+        "approval_config_id": 1,
+        "leave_quota_amount": null,
+        "leave_quota_unit": null,
+        "leave_quota_category": null,
+        "restriction_amount": 0,
+        "day_prior": null,
+        "carry_forward_amount": null,
+        "carry_forward_expiry": null,
+        "leave_credit_instant_use": 0,
+        "leave_credit_expiry_amount": 0,
+        "leave_credit_expiry_period": null,
+        "status": 1,
+        "entitlement": [
+            {
+                "layer": 1,
+                "amount": 60,
+                "start_year_of_service": 0,
+                "end_year_of_service": 99
+            }
+        ],
+        "category": [
+            {
+                "name": "gender",
+                "data": "male",
+                "status": 1
+            },
+            {
+                "name": "gender",
+                "data": "female",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "single",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "married",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "divorced",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "widowed",
+                "status": 1
+            },
+            {
+                "name": "employment_type",
+                "data": "permanent",
+                "status": 1
+            },
+            {
+                "name": "employment_type",
+                "data": "contract",
+                "status": 1
+            }
+        ]
+    },
+    {
+        "company_id": 1,
+        "name": "Unpaid Leave",
+        "abbreviation": "UL",
+        "description": "Unpaid leave for every permanent employee",
+        "color": "blue",
+        "document_required": 0,
+        "reason_required": 1,
+        "half_day_option": 0,
+        "cycle_period": "yearly",
+        "eligible_amount": 30,
+        "eligible_period": "day",
+        "accrual_option": "full_amount",
+        "accrual_happen": "start_month",
+        "approval_config_id": 1,
+        "leave_quota_amount": null,
+        "leave_quota_unit": "number",
+        "leave_quota_category": "department",
+        "restriction_amount": 0,
+        "day_prior": 5,
+        "carry_forward_amount": null,
+        "carry_forward_expiry": null,
+        "leave_credit_instant_use": 0,
+        "leave_credit_expiry_amount": 0,
+        "leave_credit_expiry_period": null,
+        "status": 1,
+        "entitlement": [
+            {
+                "layer": 1,
+                "amount": 15,
+                "start_year_of_service": 0,
+                "end_year_of_service": 3
+            },
+            {
+                "layer": 2,
+                "amount": 18,
+                "start_year_of_service": 3,
+                "end_year_of_service": 5
+            },
+            {
+                "layer": 3,
+                "amount": 21,
+                "start_year_of_service": 5,
+                "end_year_of_service": 99
+            }
+        ],
+        "category": [
+            {
+                "name": "gender",
+                "data": "male",
+                "status": 1
+            },
+            {
+                "name": "gender",
+                "data": "female",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "single",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "married",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "divorced",
+                "status": 1
+            },
+            {
+                "name": "marital_status",
+                "data": "widowed",
+                "status": 1
+            },
+            {
+                "name": "employment_type",
+                "data": "permanent",
+                "status": 1
+            },
+            {
+                "name": "employment_type",
+                "data": "contract",
+                "status": 0
+            }
+        ]
+    }
+]

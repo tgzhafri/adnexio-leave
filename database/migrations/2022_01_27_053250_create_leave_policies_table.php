@@ -33,6 +33,7 @@ class CreateLeavePoliciesTable extends Migration
             $table->enum('leave_quota_unit', ['percent', 'number'])->nullable();
             $table->enum('leave_quota_category', ['department', 'company'])->nullable();
             $table->integer('restriction_amount')->nullable();
+            $table->integer('day_prior')->nullable();
             $table->integer('carry_forward_amount')->nullable();
             $table->string('carry_forward_expiry')->nullable();
             $table->boolean('leave_credit_instant_use')->nullable();

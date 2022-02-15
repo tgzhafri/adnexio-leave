@@ -11,7 +11,7 @@ class LeavePolicyCollection extends ResourceCollection
     {
         return [
             'success' => true,
-            'message' => 'Retreived leave policy details successful',
+            'message' => 'Retreived Index leave policy details successful',
             'code' => 200
         ];
     }
@@ -27,6 +27,7 @@ class LeavePolicyCollection extends ResourceCollection
             'data' => [
                 'leave_policy' => $this->collection->map(function ($data) {
                     return [
+                        'id' => $data->id,
                         'company_id' => $data->company_id,
                         'name' => $data->name,
                         'abbreviation' => $data->abbreviation,
@@ -45,6 +46,7 @@ class LeavePolicyCollection extends ResourceCollection
                         'leave_quota_unit' => $data->leave_quota_unit,
                         'leave_quota_category' => $data->leave_quota_category,
                         'restriction_amount' => $data->restriction_amount,
+                        'day_prior' => $data->day_prior,
                         'carry_forward_amount' => $data->carry_forward_amount,
                         'carry_forward_expiry' => $data->carry_forward_expiry,
                         'leave_credit_instant_use' => $data->leave_credit_instant_use,

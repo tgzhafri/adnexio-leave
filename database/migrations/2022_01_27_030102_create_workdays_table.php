@@ -16,13 +16,13 @@ class CreateWorkdaysTable extends Migration
         Schema::create('workdays', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
-            $table->enum('Monday', ['workday', 'workday(AM)', 'workday(PM)', 'off_day', 'rest_day']);
-            $table->enum('Tuesday', ['workday', 'workday(AM)', 'workday(PM)', 'off_day', 'rest_day']);
-            $table->enum('Wednesday', ['workday', 'workday(AM)', 'workday(PM)', 'off_day', 'rest_day']);
-            $table->enum('Thursday', ['workday', 'workday(AM)', 'workday(PM)', 'off_day', 'rest_day']);
-            $table->enum('Friday', ['workday', 'workday(AM)', 'workday(PM)', 'off_day', 'rest_day']);
-            $table->enum('Saturday', ['workday', 'workday(AM)', 'workday(PM)', 'off_day', 'rest_day']);
-            $table->enum('Sunday', ['workday', 'workday(AM)', 'workday(PM)', 'off_day', 'rest_day']);
+            $table->enum('Monday', ['full_day', 'half_day_am', 'half_day_pm', 'off_day', 'rest_day']);
+            $table->enum('Tuesday', ['full_day', 'half_day_am', 'half_day_pm', 'off_day', 'rest_day']);
+            $table->enum('Wednesday', ['full_day', 'half_day_am', 'half_day_pm', 'off_day', 'rest_day']);
+            $table->enum('Thursday', ['full_day', 'half_day_am', 'half_day_pm', 'off_day', 'rest_day']);
+            $table->enum('Friday', ['full_day', 'half_day_am', 'half_day_pm', 'off_day', 'rest_day']);
+            $table->enum('Saturday', ['full_day', 'half_day_am', 'half_day_pm', 'off_day', 'rest_day']);
+            $table->enum('Sunday', ['full_day', 'half_day_am', 'half_day_pm', 'off_day', 'rest_day']);
             $table->softDeletes();
             $table->timestamps();
         });

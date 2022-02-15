@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             ApprovalConfigSeeder::class,
             CompanySeeder::class,
             EmployeeSeeder::class,
+            LeavePolicySeeder::class,
         ]);
     }
 }

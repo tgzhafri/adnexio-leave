@@ -34,6 +34,7 @@ class LeavePolicy extends Model
         'leave_quota_unit',
         'leave_quota_category',
         'restriction_amount',
+        'day_prior',
         'carry_forward_amount',
         'carry_forward_expiry',
         'leave_credit_instant_use',
@@ -72,6 +73,14 @@ class LeavePolicy extends Model
     public function leaveEntitlement()
     {
         return $this->hasMany(LeaveEntitlement::class);
+    }
+
+    /**
+     * Get the category associated with the leave policy.
+     */
+    public function category()
+    {
+        return $this->hasMany(Category::class);
     }
 
     /**

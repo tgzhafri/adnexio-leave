@@ -1,0 +1,80 @@
+[
+    {
+        "name": "Tengku Zhafri",
+        "company_id": "1",
+        "user_id": "1",
+        "employee_no": "100",
+        "dob": "1995-03-30",
+        "employment_type": "Permanent",
+        "profile_photo": "www.123123.url.com",
+        "joined_date": "2020-01-01",
+        "gender": "Male",
+        "marital_status": "Single",
+        "status": "1"
+    },
+    {
+        "name": "Amaluddin",
+        "company_id": "1",
+        "user_id": "2",
+        "employee_no": "101",
+        "dob": "1996-01-01",
+        "employment_type": "Permanent",
+        "profile_photo": "www.123123.url.com",
+        "joined_date": "2020-01-01",
+        "gender": "Male",
+        "marital_status": "Single",
+        "status": "1"
+    },
+    {
+        "name": "Wong Chee Hoe",
+        "company_id": "1",
+        "user_id": "3",
+        "employee_no": "103",
+        "dob": "1995-09-01",
+        "employment_type": "Permanent",
+        "profile_photo": "www.123123.url.com",
+        "joined_date": "2020-01-01",
+        "gender": "Male",
+        "marital_status": "Married",
+        "status": "1"
+    },
+    {
+        "name": "Aminah",
+        "company_id": "1",
+        "user_id": "4",
+        "employee_no": "104",
+        "dob": "1995-09-01",
+        "employment_type": "Permanent",
+        "profile_photo": "www.123123.url.com",
+        "joined_date": "2020-01-01",
+        "gender": "Female",
+        "marital_status": "Married",
+        "status": "1"
+    },
+    {
+        "name": "Sarah",
+        "company_id": "1",
+        "user_id": "5",
+        "employee_no": "105",
+        "dob": "1995-09-01",
+        "employment_type": "Contract",
+        "profile_photo": "www.123123.url.com",
+        "joined_date": "2020-01-01",
+        "gender": "Female",
+        "marital_status": "Married",
+        "status": "1"
+    },
+    {
+        "name": "Ali",
+        "company_id": "1",
+        "user_id": "6",
+        "employee_no": "106",
+        "dob": "1995-09-01",
+        "employment_type": "Contract",
+        "profile_photo": "www.123123.url.com",
+        "joined_date": "2020-01-01",
+        "gender": "Male",
+        "marital_status": "Divorced",
+        "status": "1"
+    }
+]

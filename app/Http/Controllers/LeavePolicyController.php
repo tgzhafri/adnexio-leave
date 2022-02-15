@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LeavePolicy\StoreRequest;
 use App\Http\Resources\LeavePolicyCollection;
 use App\Http\Resources\LeavePolicyResource;
+use App\Models\Category;
 use App\Models\LeaveEntitlement;
 use App\Models\LeavePolicy;
+use App\Services\LeavePolicyService;
 use Illuminate\Http\Request;
 
 class LeavePolicyController extends Controller
@@ -19,6 +21,13 @@ class LeavePolicyController extends Controller
     public function index(LeavePolicy $leavePolicy)
     {
         return new LeavePolicyCollection($leavePolicy->get());
+
+        // $leavePolicy = LeavePolicy::all();
+        // return response([
+        //     'success' => true,
+        //     'message' => 'Retrieve Index leave policies successful',
+        //     'leave_policy' => LeavePolicyResource::collection($leavePolicy),
+        // ], 200);
     }
 
     /**
@@ -37,45 +46,9 @@ class LeavePolicyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request, LeaveEntitlement $leaveEntitlement)
+    public function store(StoreRequest $request, LeavePolicyService $service)
     {
-        $leavePolicy = LeavePolicy::create($request->all());
-
-        $leaveEntitlement->fill([
-            'leave_policy_id' => $leavePolicy->id,
-            'layer' => $request->layer,
-            'amount' => $request->amount,
-            'start_year_of_service' => $request->start_year_of_service,
-            'end_year_of_service' => $request->end_year_of_service
-        ]);
-
-        $leavePolicy->leaveEntitlement()->save($leaveEntitlement);
-
-        $detailPolicy = LeavePolicy::whereId($leavePolicy->id)
-            ->with(['leaveEntitlement', 'approvalConfig'])
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Retrieve detail leave policies successful',
-            'leave_policy' => $detailPolicy // to include every related models to leave policy
-        ]);
-        // $leaveEntitlement = new LeaveEntitlement();
-        // $leaveEntitlement->leave_policy_id = $leavePolicy->id;
-        // $leaveEntitlement->layer = $request->layer;
-        // $leaveEntitlement->amount = $request->amount;
-        // $leaveEntitlement->start_year_of_service = $request->start_year_of_service;
-        // $leaveEntitlement->end_year_of_service = $request->end_year_of_service;
-        // $leaveEntitlement->save();
-
-        // return new LeavePolicyCollection($leavePolicy->latest()->limit(1)->get());
-        // return response([
-        //     'success' => true,
-        //     'message' => 'Leave Policy Store Successful',
-        //     'data' => new
-        //         LeavePolicyResource($leavePolicy),
-        // ]);
-
+        return $service->store($request);
     }
 
     /**
@@ -87,12 +60,12 @@ class LeavePolicyController extends Controller
     public function show($id)
     {
         $leavePolicy = LeavePolicy::whereId($id)
-            ->with(['leaveEntitlement', 'approvalConfig'])
+            ->with(['leaveEntitlement', 'approvalConfig', 'category'])
             ->get();
 
         return response()->json([
             'success' => true,
-            'message' => 'Retrieve detail leave policies successful',
+            'message' => 'Retrieve Show leave policies successful',
             'leave_policy' => $leavePolicy // to include every related models to leave policy
         ]);
     }
@@ -115,9 +88,9 @@ class LeavePolicyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(LeavePolicy $leavePolicy, StoreRequest $request, LeavePolicyService $service)
     {
-        //
+        return $service->update($leavePolicy, $request);
     }
 
     /**
@@ -126,8 +99,10 @@ class LeavePolicyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(LeavePolicy $leavePolicy)
     {
-        //
+        $leavePolicy->delete();
+
+        return response(['message' => 'Leave policy deleted']);
     }
 }

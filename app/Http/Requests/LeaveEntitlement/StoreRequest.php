@@ -25,7 +25,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'leave_policy_id' => 'integer|required',
-            'layer' => 'integer|required',
+            'layer' => 'integer|required|',
             'amount' => 'integer|required',
             'start_year_of_service' => 'integer|required',
             'end_year_of_service' => 'integer|required',

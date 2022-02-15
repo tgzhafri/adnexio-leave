@@ -16,6 +16,7 @@ class LeavePolicyResource extends JsonResource
     public function toArray($request): array
     {
         return [
+            'id' => $this->id,
             'company_id' => $this->company_id,
             'name' => $this->name,
             'abbreviation' => $this->abbreviation,
@@ -34,6 +35,7 @@ class LeavePolicyResource extends JsonResource
             'leave_quota_unit' => $this->leave_quota_unit,
             'leave_quota_category' => $this->leave_quota_category,
             'restriction_amount' => $this->restriction_amount,
+            'day_prior' => $this->day_prior,
             'carry_forward_amount' => $this->carry_forward_amount,
             'carry_forward_expiry' => $this->carry_forward_expiry,
             'leave_credit_instant_use' => $this->leave_credit_instant_use,
@@ -42,12 +44,6 @@ class LeavePolicyResource extends JsonResource
             'status' => $this->status,
             'created_at' => Carbon::parse($this->created_at)->toDateTimeString(),
             'updated_at' => Carbon::parse($this->updated_at)->toDateTimeString(),
-            // 'leave_policy_id' => $this->leave_policy_id,
-            // 'layer' => $this->layer,
-            // 'amount' => $this->amount,
-            // 'start_year_of_service' => $this->start_year_of_service,
-            // 'end_year_of_service' => $this->end_year_of_service,
-
         ];
     }
 }
