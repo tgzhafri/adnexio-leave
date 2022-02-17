@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\LeavePolicy;
+use App\Observers\LeavePolicyObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -27,6 +29,14 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        LeavePolicy::observe(LeavePolicyObserver::class);
+
+        // parent::boot();
+
+        // Event::listen(['eloquent.saved: *', 'eloquent.created: *', ...], function($context) {
+        // // dump($context); ---> $context hold information about concerned model and fired event : e.g "eloquent.created: App\User"
+        // // YOUR CODE GOES HERE
+
+        // });
     }
 }

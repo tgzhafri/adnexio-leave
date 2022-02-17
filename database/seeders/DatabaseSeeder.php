@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             EmployeeSeeder::class,
             LeavePolicySeeder::class,
+            CategorySeeder::class,
+            LeaveEntitlementSeeder::class,
         ]);
     }
 }

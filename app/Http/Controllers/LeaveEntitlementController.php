@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LeaveEntitlement\StoreRequest;
 use App\Http\Resources\LeaveEntitlementResource;
 use App\Models\LeaveEntitlement;
 use Illuminate\Http\Request;
@@ -16,13 +15,11 @@ class LeaveEntitlementController extends Controller
      */
     public function index()
     {
-        $leaveEntitlement = LeaveEntitlement::all();
-
+        $entitlements = LeaveEntitlement::all();
         return response([
-            'success' => true,
-            'message' => 'Retrieve index leave entitlement successful',
-            'data' =>
-            LeaveEntitlementResource::collection($leaveEntitlement)
+            'leave_entitlements' =>
+            LeaveEntitlementResource::collection($entitlements),
+            'message' => 'Successful'
         ], 200);
     }
 
@@ -42,16 +39,9 @@ class LeaveEntitlementController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(Request $request)
     {
-        $leaveEntitlement = LeaveEntitlement::create($request->all());
-
-        return response([
-            'success' => true,
-            'message' => 'Leave Entitlement Store Successful',
-            'data' => new
-                LeaveEntitlementResource($leaveEntitlement),
-        ]);
+        //
     }
 
     /**
@@ -62,7 +52,13 @@ class LeaveEntitlementController extends Controller
      */
     public function show($id)
     {
-        //
+        $leaveEntitlement = LeaveEntitlement::where('leave_policy_id', $id)->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Retrieve leave entitlements for the leave policy successful',
+            'entitlement' => $leaveEntitlement
+        ]);
     }
 
     /**

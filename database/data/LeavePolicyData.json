@@ -44,48 +44,6 @@
                 "start_year_of_service": 5,
                 "end_year_of_service": 99
             }
-        ],
-        "category": [
-            {
-                "name": "gender",
-                "data": "male",
-                "status": 1
-            },
-            {
-                "name": "gender",
-                "data": "female",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "single",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "married",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "divorced",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "widowed",
-                "status": 1
-            },
-            {
-                "name": "employment_type",
-                "data": "permanent",
-                "status": 1
-            },
-            {
-                "name": "employment_type",
-                "data": "contract",
-                "status": 1
-            }
         ]
     },
     {
@@ -93,7 +51,7 @@
         "name": "Sick Leave",
         "abbreviation": "SL",
         "description": "Sick leave for every employee",
-        "color": "blue",
+        "color": "green1",
         "document_required": 1,
         "reason_required": 0,
         "half_day_option": 0,
@@ -133,48 +91,6 @@
                 "start_year_of_service": 5,
                 "end_year_of_service": 99
             }
-        ],
-        "category": [
-            {
-                "name": "gender",
-                "data": "male",
-                "status": 1
-            },
-            {
-                "name": "gender",
-                "data": "female",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "single",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "married",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "divorced",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "widowed",
-                "status": 1
-            },
-            {
-                "name": "employment_type",
-                "data": "permanent",
-                "status": 1
-            },
-            {
-                "name": "employment_type",
-                "data": "contract",
-                "status": 1
-            }
         ]
     },
     {
@@ -182,7 +98,7 @@
         "name": "Hospitalisation Leave",
         "abbreviation": "HL",
         "description": "Hospitalisation leave for every employee",
-        "color": "blue",
+        "color": "yellow1",
         "document_required": 1,
         "reason_required": 1,
         "half_day_option": 0,
@@ -210,48 +126,6 @@
                 "start_year_of_service": 0,
                 "end_year_of_service": 99
             }
-        ],
-        "category": [
-            {
-                "name": "gender",
-                "data": "male",
-                "status": 1
-            },
-            {
-                "name": "gender",
-                "data": "female",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "single",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "married",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "divorced",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "widowed",
-                "status": 1
-            },
-            {
-                "name": "employment_type",
-                "data": "permanent",
-                "status": 1
-            },
-            {
-                "name": "employment_type",
-                "data": "contract",
-                "status": 1
-            }
         ]
     },
     {
@@ -259,7 +133,7 @@
         "name": "Unpaid Leave",
         "abbreviation": "UL",
         "description": "Unpaid leave for every permanent employee",
-        "color": "blue",
+        "color": "red",
         "document_required": 0,
         "reason_required": 1,
         "half_day_option": 0,
@@ -298,48 +172,6 @@
                 "amount": 21,
                 "start_year_of_service": 5,
                 "end_year_of_service": 99
-            }
-        ],
-        "category": [
-            {
-                "name": "gender",
-                "data": "male",
-                "status": 1
-            },
-            {
-                "name": "gender",
-                "data": "female",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "single",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "married",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "divorced",
-                "status": 1
-            },
-            {
-                "name": "marital_status",
-                "data": "widowed",
-                "status": 1
-            },
-            {
-                "name": "employment_type",
-                "data": "permanent",
-                "status": 1
-            },
-            {
-                "name": "employment_type",
-                "data": "contract",
-                "status": 0
             }
         ]
     }
