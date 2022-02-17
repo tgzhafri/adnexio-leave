@@ -157,20 +157,43 @@
         "entitlement": [
             {
                 "layer": 1,
-                "amount": 15,
+                "amount": 30,
                 "start_year_of_service": 0,
-                "end_year_of_service": 3
-            },
+                "end_year_of_service": 99
+            }
+        ]
+    },
+    {
+        "company_id": 1,
+        "name": "Work From Home",
+        "abbreviation": "WFH",
+        "description": "Work From Home for every permanent employee",
+        "color": "green1",
+        "document_required": 0,
+        "reason_required": 0,
+        "half_day_option": 0,
+        "cycle_period": "monthly",
+        "eligible_amount": 30,
+        "eligible_period": "day",
+        "accrual_option": "full_amount",
+        "accrual_happen": "start_month",
+        "approval_config_id": 1,
+        "leave_quota_amount": 5,
+        "leave_quota_unit": "number",
+        "leave_quota_category": "department",
+        "restriction_amount": 0,
+        "day_prior": 3,
+        "carry_forward_amount": null,
+        "carry_forward_expiry": null,
+        "leave_credit_instant_use": 0,
+        "leave_credit_expiry_amount": 0,
+        "leave_credit_expiry_period": null,
+        "status": 1,
+        "entitlement": [
             {
-                "layer": 2,
-                "amount": 18,
-                "start_year_of_service": 3,
-                "end_year_of_service": 5
-            },
-            {
-                "layer": 3,
-                "amount": 21,
-                "start_year_of_service": 5,
+                "layer": 1,
+                "amount": 2,
+                "start_year_of_service": 0,
                 "end_year_of_service": 99
             }
         ]

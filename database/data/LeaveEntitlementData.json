@@ -40,5 +40,12 @@
         "amount": 60,
         "start_year_of_service": 0,
         "end_year_of_service": 99
+    },
+    {
+        "leave_policy_id": 5,
+        "layer": 1,
+        "amount": 2,
+        "start_year_of_service": 0,
+        "end_year_of_service": 99
     }
 ]

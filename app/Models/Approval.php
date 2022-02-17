@@ -16,22 +16,16 @@ class Approval extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_approval',
-        'first_approval_status',
-        'first_approval_timestamp',
-        'second_approval',
-        'second_approval_status',
-        'second_approval_timestamp',
-        'third_approval',
-        'third_approval_status',
-        'third_approval_timestamp',
+        'leave_request_id',
+        'verifier_id',
+        'status',
     ];
 
     /**
      * Get the leave application that the approval belongs to.
      */
-    public function leaveApplication()
+    public function leaveRequest()
     {
-        return $this->belongsTo(LeaveApplication::class);
+        return $this->belongsTo(LeaveRequest::class);
     }
 }

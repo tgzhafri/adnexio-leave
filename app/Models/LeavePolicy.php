@@ -86,8 +86,8 @@ class LeavePolicy extends Model
     /**
      * Get the leave eligibility associated with the leave policy.
      */
-    public function leaveApplication()
+    public function leaveRequest()
     {
-        return $this->hasMany(LeaveApplication::class);
+        return $this->hasMany(LeaveRequest::class);
     }
 }

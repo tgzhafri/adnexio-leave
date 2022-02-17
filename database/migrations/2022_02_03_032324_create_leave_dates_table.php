@@ -15,7 +15,7 @@ class CreateLeaveDatesTable extends Migration
     {
         Schema::create('leave_dates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('leave_application_id')->constrained('leave_applications')->onDelete('cascade');
+            $table->foreignId('leave_request_id')->constrained('leave_requests')->onDelete('cascade');
             $table->date('date');
             $table->enum('time', ['full_day', 'am', 'pm']);
             $table->softDeletes();

@@ -103,6 +103,6 @@ class LeavePolicyController extends Controller
     {
         $leavePolicy->delete();
 
-        return response(['message' => 'Leave policy deleted']);
+        return response(['message' => 'Leave policy deleted success']);
     }
 }

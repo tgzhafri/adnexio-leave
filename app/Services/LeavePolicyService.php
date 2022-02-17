@@ -11,7 +11,6 @@ use App\Models\LeavePolicy;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Arr;
-use PhpParser\Node\Stmt\Catch_;
 
 class LeavePolicyService
 {
@@ -58,10 +57,21 @@ class LeavePolicyService
             ['status', '=', 1]
         ])->select('data')->get()->toArray();
         $categoriesArr = Arr::flatten($categories);
-        // dd($dataArr);
+
+        // ---------- start code for date manipulation ---------------- //
         $startYear = Carbon::now()->startOfYear();
         $endYear = Carbon::now()->endOfYear();
         $current_date = Carbon::now();
+        ////------- method to list all 12 months in a year using carbon-----------//
+        $period = CarbonPeriod::create($startYear, '1 month', $endYear);
+        foreach ($period as $month) {
+            $months[] = [
+                "start_date" => Carbon::parse($month)->format('Y-m-d'),
+                "end_date" => Carbon::parse($month)->endOfMonth()->format('Y-m-d'),
+            ];
+        }
+        ////------- method to list all 12 months in a year using carbon-----------//
+        // ---------- end code for date manipulation ---------------- //
 
         if ($leavePolicy->cycle_period == 'yearly') {
             foreach ($employees as $employee) {
@@ -87,15 +97,6 @@ class LeavePolicyService
         }
 
         if ($leavePolicy->cycle_period == 'monthly') {
-            ////------- method to list all 12 months in a year using carbon-----------//
-            $period = CarbonPeriod::create($startYear, '1 month', $endYear);
-            foreach ($period as $month) {
-                $months[] = [
-                    "start_date" => Carbon::parse($month)->format('Y-m-d'),
-                    "end_date" => Carbon::parse($month)->endOfMonth()->format('Y-m-d'),
-                ];
-            }
-            ////------- method to list all 12 months in a year using carbon-----------//
             foreach ($employees as $employee) {
                 foreach ($months as $month) {
                     $joined_date = Carbon::createFromFormat('Y-m-d', $employee['joined_date']);
@@ -189,12 +190,31 @@ class LeavePolicyService
             ['status', '=', 1]
         ])->select('data')->get()->toArray();
         $categoriesArr = Arr::flatten($categories);
-        // dd($dataArr);
+        $entitlements = Entitlement::where('leave_policy_id', $leavePolicy->id)->first();
+        // dd($entitlements);
+
+        // ---------- start code for date manipulation ---------------- //
         $startYear = Carbon::now()->startOfYear();
         $endYear = Carbon::now()->endOfYear();
         $current_date = Carbon::now();
+        ////------- method to list all 12 months in a year using carbon-----------//
+        $period = CarbonPeriod::create($startYear, '1 month', $endYear);
+        foreach ($period as $month) {
+            $months[] = [
+                "start_date" => Carbon::parse($month)->format('Y-m-d'),
+                "end_date" => Carbon::parse($month)->endOfMonth()->format('Y-m-d'),
+            ];
+        }
+        ////------- method to list all 12 months in a year using carbon-----------//
+        // ---------- end code for date manipulation ---------------- //
 
-        if ($leavePolicy->cycle_period == 'yearly') {
+        // ------------ remove existing entitlement data and create new updated data -----------//
+        if ($entitlements) {
+            Entitlement::where('leave_policy_id', $leavePolicy->id)->forceDelete();
+        }
+        // ------------ remove existing entitlement data and create new updated data -----------//
+
+        if ($leavePolicy->cycle_period == 'yearly') { //------ cycle period YEARLY ----------//
             foreach ($employees as $employee) {
                 $joined_date = Carbon::createFromFormat('Y-m-d', $employee['joined_date']);
                 $year_of_service = $current_date->diffInYears($joined_date);
@@ -209,7 +229,6 @@ class LeavePolicyService
                                 'amount' => $leaveEntitlement['amount'],
                                 'balance' => $leaveEntitlement['amount']
                             ];
-                            // dd($arr);
                             Entitlement::create($arr);
                         }
                     }
@@ -217,16 +236,7 @@ class LeavePolicyService
             }
         }
 
-        if ($leavePolicy->cycle_period == 'monthly') {
-            ////------- method to list all 12 months in a year using carbon-----------//
-            $period = CarbonPeriod::create($startYear, '1 month', $endYear);
-            foreach ($period as $month) {
-                $months[] = [
-                    "start_date" => Carbon::parse($month)->format('Y-m-d'),
-                    "end_date" => Carbon::parse($month)->endOfMonth()->format('Y-m-d'),
-                ];
-            }
-            ////------- method to list all 12 months in a year using carbon-----------//
+        if ($leavePolicy->cycle_period == 'monthly') { // -------- cycle period MONTHLY ----------- //
             foreach ($employees as $employee) {
                 foreach ($months as $month) {
                     $joined_date = Carbon::createFromFormat('Y-m-d', $employee['joined_date']);
@@ -242,7 +252,6 @@ class LeavePolicyService
                                     'amount' => $leaveEntitlement['amount'],
                                     'balance' => $leaveEntitlement['amount']
                                 ];
-                                // dd($arr);
                                 Entitlement::create($arr);
                             }
                         }

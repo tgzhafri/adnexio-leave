@@ -15,15 +15,9 @@ class CreateApprovalsTable extends Migration
     {
         Schema::create('approvals', function (Blueprint $table) {
             $table->id();
-            $table->string('first_approval');
-            $table->string('first_approval_status');
-            $table->timestamp('first_approval_timestamp');
-            $table->string('second_approval')->nullable();
-            $table->string('second_approval_status')->nullable();
-            $table->timestamp('second_approval_timestamp')->nullable();
-            $table->string('third_approval')->nullable();
-            $table->string('third_approval_status')->nullable();
-            $table->timestamp('third_approval_timestamp')->nullable();
+            $table->foreignId('leave_request_id')->constrained('leave_requests')->onDelete('cascade');
+            $table->string('verifier_id');
+            $table->integer('status')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

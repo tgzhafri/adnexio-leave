@@ -24,8 +24,8 @@ class LeaveDate extends Model
     /**
      * Get the leave application associated with the leave date.
      */
-    public function leaveApplication()
+    public function leaveRequest()
     {
-        return $this->belongsTo(LeaveApplication::class);
+        return $this->belongsTo(LeaveRequest::class);
     }
 }

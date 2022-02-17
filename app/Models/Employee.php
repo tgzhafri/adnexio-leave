@@ -55,8 +55,8 @@ class Employee extends Model
     /**
      * Get the entitlement for the employee.
      */
-    public function leaveApplication()
+    public function leaveRequest()
     {
-        return $this->hasMany(LeaveApplication::class);
+        return $this->hasMany(LeaveRequest::class);
     }
 }

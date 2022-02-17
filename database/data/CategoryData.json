@@ -158,5 +158,45 @@
         "leave_policy_id": 4,
         "name": "employment_type",
         "data": "permanent"
+    },
+    {
+        "leave_policy_id": 5,
+        "name": "gender",
+        "data": "female"
+    },
+    {
+        "leave_policy_id": 5,
+        "name": "gender",
+        "data": "male"
+    },
+    {
+        "leave_policy_id": 5,
+        "name": "marital_status",
+        "data": "single"
+    },
+    {
+        "leave_policy_id": 5,
+        "name": "marital_status",
+        "data": "married"
+    },
+    {
+        "leave_policy_id": 5,
+        "name": "marital_status",
+        "data": "divorced"
+    },
+    {
+        "leave_policy_id": 5,
+        "name": "marital_status",
+        "data": "widowed"
+    },
+    {
+        "leave_policy_id": 5,
+        "name": "employment_type",
+        "data": "contract"
+    },
+    {
+        "leave_policy_id": 5,
+        "name": "employment_type",
+        "data": "permanent"
     }
 ]
