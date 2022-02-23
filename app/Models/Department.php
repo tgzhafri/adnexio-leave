@@ -22,8 +22,8 @@ class Department extends Model
     /**
      * Get the job titles for the department
      */
-    public function jobTitle()
+    public function employee()
     {
-        return $this->hasMany(JobTitle::class);
+        return $this->hasMany(Employee::class);
     }
 }

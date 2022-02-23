@@ -35,7 +35,6 @@ class LeavePolicyService
             $arr = [
                 'leave_policy_id' => $leavePolicy->id,
                 'name' => $item['name'],
-                'data' => $item['data'],
                 'status' => $item['status']
             ];
             Category::create($arr);
@@ -55,7 +54,7 @@ class LeavePolicyService
         $categories = Category::where([
             ['leave_policy_id', '=', $leavePolicy->id],
             ['status', '=', 1]
-        ])->select('data')->get()->toArray();
+        ])->select('name')->get()->toArray();
         $categoriesArr = Arr::flatten($categories);
 
         // ---------- start code for date manipulation ---------------- //
@@ -88,7 +87,6 @@ class LeavePolicyService
                                 'amount' => $leaveEntitlement['amount'],
                                 'balance' => $leaveEntitlement['amount']
                             ];
-                            // dd($arr);
                             Entitlement::create($arr);
                         }
                     }
@@ -124,7 +122,7 @@ class LeavePolicyService
 
         // to return every related models to leave policy
         $detailPolicy = LeavePolicy::whereId($leavePolicy->id)
-            ->with(['leaveEntitlement', 'approvalConfig', 'category'])
+            ->with(['leaveEntitlement', 'approvalRoute', 'category'])
             ->get();
 
         return response()->json([
@@ -168,14 +166,12 @@ class LeavePolicyService
                     ->update([
                         'leave_policy_id' => $leavePolicy->id,
                         'name' => $item['name'],
-                        'data' => $item['data'],
                         'status' => $item['status'],
                     ]);
             } else { // check if item not exist, create and store new data
                 $arr = [
                     'leave_policy_id' => $leavePolicy->id,
                     'name' => $item['name'],
-                    'data' => $item['data'],
                     'status' => $item['status']
                 ];
                 Category::create($arr);
@@ -188,7 +184,7 @@ class LeavePolicyService
         $categories = Category::where([
             ['leave_policy_id', '=', $leavePolicy->id],
             ['status', '=', 1]
-        ])->select('data')->get()->toArray();
+        ])->select('name')->get()->toArray();
         $categoriesArr = Arr::flatten($categories);
         $entitlements = Entitlement::where('leave_policy_id', $leavePolicy->id)->first();
         // dd($entitlements);
@@ -263,7 +259,7 @@ class LeavePolicyService
 
         // return leave policy including all related models
         $detailPolicy = LeavePolicy::whereId($leavePolicy->id)
-            ->with(['leaveEntitlement', 'approvalConfig', 'category'])
+            ->with(['leaveEntitlement', 'approvalRoute', 'category'])
             ->get();
 
         return response()->json([

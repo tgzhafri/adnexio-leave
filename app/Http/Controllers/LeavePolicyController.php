@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LeavePolicy\StoreRequest;
 use App\Http\Resources\LeavePolicyCollection;
-use App\Http\Resources\LeavePolicyResource;
-use App\Models\Category;
-use App\Models\LeaveEntitlement;
 use App\Models\LeavePolicy;
 use App\Services\LeavePolicyService;
 use Illuminate\Http\Request;
@@ -60,7 +57,7 @@ class LeavePolicyController extends Controller
     public function show($id)
     {
         $leavePolicy = LeavePolicy::whereId($id)
-            ->with(['leaveEntitlement', 'approvalConfig', 'category'])
+            ->with(['leaveEntitlement', 'approvalRoute', 'category'])
             ->get();
 
         return response()->json([

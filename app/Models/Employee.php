@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Spatie\Permission\Traits\HasRoles;
+use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
-class Employee extends Model
+class Employee extends Authenticatable
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, HasRoles, HasRecursiveRelationships;
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +20,12 @@ class Employee extends Model
      */
     protected $fillable = [
         'company_id',
+        'name',
         'user_id',
+        'department_id',
+        'position_id',
+        'parent_id',
+        'job_title',
         'employee_no',
         'dob',
         'employment_type',
@@ -37,11 +45,19 @@ class Employee extends Model
     }
 
     /**
-     * Get the job title associated with the employee.
+     * Get the poisition associated with the employee.
      */
-    public function jobTitle()
+    public function position()
     {
-        return $this->hasOne(JobTitle::class);
+        return $this->belongsTo(Position::class);
+    }
+
+    /**
+     * Get the department associated with the employee.
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
     }
 
     /**

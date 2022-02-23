@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LeaveRequest\StoreRequest;
+use App\Http\Resources\LeaveRequestResource;
+use App\Models\Approval;
+use App\Models\LeaveDate;
+use App\Models\LeaveRequest;
 use Illuminate\Http\Request;
 
 class LeaveRequestController extends Controller
@@ -13,7 +18,13 @@ class LeaveRequestController extends Controller
      */
     public function index()
     {
-        //
+        $leaveRequests = LeaveRequest::all();
+        return response([
+            'success' => true,
+            'message' => 'Retrieve employee leave requests successful',
+            'leave_request' =>
+            LeaveRequestResource::collection($leaveRequests),
+        ], 200);
     }
 
     /**
@@ -32,9 +43,39 @@ class LeaveRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request, Approval $approval)
     {
-        //
+        $leaveRequest = LeaveRequest::create($request->all());
+
+        $leaveDate = $request->date;
+        // dd($leaveRequest->id);
+        foreach ($leaveDate as $item) {
+            $arr = [
+                'leave_request_id' => $leaveRequest->id,
+                'date' => $item['date'],
+                'time' => $item['time']
+            ];
+            // dd($arr);
+            LeaveDate::create($arr);
+        }
+
+        // // method to insert single request into db of related model
+        $approval->fill([
+            'leave_policy_id' => $leaveRequest->id,
+            'verifier_id' => $leaveRequest->employee_id,
+        ]);
+        $leaveRequest->approval()->save($approval);
+
+        // to return every related models to leave request
+        $detailRequest = LeaveRequest::whereId($leaveRequest->id)
+            ->with(['leaveDate'])
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Leave request stored successful',
+            'leave_policy' => $detailRequest
+        ]);
     }
 
     /**
@@ -45,7 +86,15 @@ class LeaveRequestController extends Controller
      */
     public function show($id)
     {
-        //
+        $leaveRequests = LeaveRequest::where('employee_id', $id)
+            ->with(['leaveDate', 'approval'])
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Retrieve employee leave requests successful',
+            'leave_request' => $leaveRequests
+        ]);
     }
 
     /**
@@ -66,9 +115,9 @@ class LeaveRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(LeaveRequest $leaveRequest, StoreRequest $request, $id)
     {
-        //
+        $leaveRequest->update($request->validated());
     }
 
     /**

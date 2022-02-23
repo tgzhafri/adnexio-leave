@@ -16,8 +16,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('leave_policy_id')->constrained('leave_policies')->onDelete('cascade');
-            $table->enum('name', ['gender', 'marital_status', 'employment_type']);
-            $table->string('data');
+            $table->string('name');
             $table->integer('status')->default(1);
             $table->softDeletes();
             $table->timestamps();

@@ -15,6 +15,7 @@ class EntitlementResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'employee_id' => $this->employee_id,
             'leave_policy_id' => $this->leave_policy_id,
             'cycle_start_date' => $this->cycle_start_date,

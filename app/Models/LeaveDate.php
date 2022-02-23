@@ -16,7 +16,7 @@ class LeaveDate extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'leave_application_id',
+        'leave_request_id',
         'date',
         'time',
     ];

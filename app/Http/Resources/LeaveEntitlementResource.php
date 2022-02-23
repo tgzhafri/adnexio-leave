@@ -15,6 +15,7 @@ class LeaveEntitlementResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id' => $this->id,
             'leave_policy_id' => $this->leave_policy_id,
             'layer' => $this->layer,
             'amount' => $this->amount,

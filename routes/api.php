@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EntitlementController;
+use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\LeaveEntitlementController;
 use App\Http\Controllers\LeavePolicyController;
+use App\Http\Controllers\LeaveRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,9 +22,12 @@ use App\Http\Controllers\LeavePolicyController;
 |
 */
 
+Route::get('/employee/organisationChart', [EmployeeController::class, 'orgChart']);
 Route::apiResource('/employee', EmployeeController::class);
 Route::apiResource('/company', CompanyController::class);
+Route::apiResource('/holiday', HolidayController::class);
 Route::apiResource('/leavePolicy', LeavePolicyController::class);
+Route::apiResource('/leaveRequest', LeaveRequestController::class);
 Route::apiResource('/entitlement', EntitlementController::class);
 Route::apiResource('/leaveEntitlement', LeaveEntitlementController::class);
 Route::apiResource('/approvalConfig', ApprovalConfigController::class);

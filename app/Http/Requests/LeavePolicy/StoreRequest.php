@@ -37,7 +37,7 @@ class StoreRequest extends FormRequest
             'eligible_period' => 'sometimes|max:50',
             'accrual_option' => 'required|max:50',
             'accrual_happen' => 'sometimes|max:50',
-            'approval_config_id' => 'required|max:50',
+            'approval_route_id' => 'required|max:50',
             'leave_quota_amount' => 'sometimes|max:50',
             'leave_quota_unit' => 'sometimes|max:50',
             'leave_quota_category' => 'sometimes|max:50',

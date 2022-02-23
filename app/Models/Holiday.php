@@ -22,6 +22,8 @@ class Holiday extends Model
         'date',
         'location',
         'type',
+        'holiday_type',
+        'status',
     ];
 
     /**

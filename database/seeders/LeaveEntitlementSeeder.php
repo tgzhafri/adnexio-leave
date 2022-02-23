@@ -16,8 +16,8 @@ class LeaveEntitlementSeeder extends Seeder
     public function run()
     {
         $json = File::get("database/data/LeaveEntitlementData.json");
-        $policies = json_decode($json);
-        foreach ($policies as $key => $data) {
+        $entitlements = json_decode($json);
+        foreach ($entitlements as $key => $data) {
             LeaveEntitlement::create([
                 'leave_policy_id' => $data->leave_policy_id,
                 'layer' => $data->layer,

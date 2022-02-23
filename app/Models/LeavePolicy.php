@@ -29,7 +29,7 @@ class LeavePolicy extends Model
         'eligible_period',
         'accrual_option',
         'accrual_happen',
-        'approval_config_id',
+        'approval_route_id',
         'leave_quota_amount',
         'leave_quota_unit',
         'leave_quota_category',
@@ -52,11 +52,11 @@ class LeavePolicy extends Model
     }
 
     /**
-     * Get the approval config that the leave policy belongs to.
+     * Get the approval route that the leave policy belongs to.
      */
-    public function approvalConfig()
+    public function approvalRoute()
     {
-        return $this->belongsTo(ApprovalConfig::class);
+        return $this->belongsTo(ApprovalRoute::class);
     }
 
     /**

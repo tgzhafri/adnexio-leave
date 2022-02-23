@@ -16,12 +16,11 @@ class CategorySeeder extends Seeder
     public function run()
     {
         $json = File::get("database/data/CategoryData.json");
-        $policies = json_decode($json);
-        foreach ($policies as $key => $data) {
+        $categories = json_decode($json);
+        foreach ($categories as $key => $data) {
             Category::create([
                 'leave_policy_id' => $data->leave_policy_id,
                 'name' => $data->name,
-                'data' => $data->data,
             ]);
         }
     }

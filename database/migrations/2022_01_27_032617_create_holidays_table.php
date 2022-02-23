@@ -18,9 +18,11 @@ class CreateHolidaysTable extends Migration
             $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->string('name');
             $table->string('day');
+            $table->string('type');
             $table->date('date');
             $table->string('location')->nullable();
-            $table->enum('type', ['company', 'public']);
+            $table->enum('holiday_type', ['company', 'public'])->default('public');
+            $table->integer('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

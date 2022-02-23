@@ -17,11 +17,10 @@ class LeaveRequest extends Model
      */
     protected $fillable = [
         'employee_id',
-        'approval_id',
         'leave_policy_id',
         'status',
-        'description',
-        'attachment',
+        'reason',
+        'documentation',
     ];
 
     /**

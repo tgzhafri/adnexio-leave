@@ -18,7 +18,6 @@ class Category extends Model
     protected $fillable = [
         'leave_policy_id',
         'name',
-        'data',
         'status',
     ];
 

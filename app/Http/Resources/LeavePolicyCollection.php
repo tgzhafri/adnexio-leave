@@ -41,7 +41,7 @@ class LeavePolicyCollection extends ResourceCollection
                         'eligible_period' => $data->eligible_period,
                         'accrual_option' => $data->accrual_option,
                         'accrual_happen' => $data->accrual_happen,
-                        'approval_config_id' => $data->approval_config_id,
+                        'approval_route_id' => $data->approval_route_id,
                         'leave_quota_amount' => $data->leave_quota_amount,
                         'leave_quota_unit' => $data->leave_quota_unit,
                         'leave_quota_category' => $data->leave_quota_category,

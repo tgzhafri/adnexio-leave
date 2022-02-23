@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Position;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -14,8 +15,11 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call([
-            ApprovalConfigSeeder::class,
+            ApprovalRouteSeeder::class,
             CompanySeeder::class,
+            UserSeeder::class,
+            DepartmentSeeder::class,
+            PositionSeeder::class,
             EmployeeSeeder::class,
             LeavePolicySeeder::class,
             CategorySeeder::class,
