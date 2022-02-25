@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Approval;
 use Illuminate\Http\Request;
 
 class ApprovalController extends Controller
@@ -13,7 +14,13 @@ class ApprovalController extends Controller
      */
     public function index()
     {
-        //
+        $approvals = Approval::all();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Retrieve list of approvals successful',
+            'approvals' => $approvals // to include every related models to leave policy
+        ]);
     }
 
     /**
@@ -45,7 +52,16 @@ class ApprovalController extends Controller
      */
     public function show($id)
     {
-        //
+        $approvals = Approval::where('verifier_id', $id)
+            ->with('leaveRequest')
+            ->get();
+        // dd($approvals);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Retrieve list of approvals successful',
+            'approvals' => $approvals // to include every related models to leave policy
+        ]);
     }
 
     /**
@@ -68,7 +84,6 @@ class ApprovalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
     /**

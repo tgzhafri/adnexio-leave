@@ -16,8 +16,8 @@ class ApprovalRouteSeeder extends Seeder
     {
         $approval = new ApprovalRoute();
         $approval->name = 'Default Approval Layer';
-        $approval->first_approval = 'head_of_department';
-        $approval->second_approval = 'hr_admin';
+        $approval->layer_one = 'supervisor';
+        $approval->layer_two = 'admin';
         $approval->save();
     }
 }

@@ -18,7 +18,8 @@ class LeaveDate extends Model
     protected $fillable = [
         'leave_request_id',
         'date',
-        'time',
+        'type',
+        'value',
     ];
 
     /**

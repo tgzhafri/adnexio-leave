@@ -17,9 +17,9 @@ class ApprovalRoute extends Model
      */
     protected $fillable = [
         'name',
-        'first_approval',
-        'second_approval',
-        'third_approval',
+        'layer_one',
+        'layer_two',
+        'layer_three',
     ];
 
     /**

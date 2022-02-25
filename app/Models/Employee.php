@@ -13,6 +13,8 @@ class Employee extends Authenticatable
 {
     use HasFactory, SoftDeletes, HasRoles, HasRecursiveRelationships;
 
+    protected $guard_name = 'api';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -23,6 +25,8 @@ class Employee extends Authenticatable
         'name',
         'user_id',
         'department_id',
+        'role',
+        'role2',
         'position_id',
         'parent_id',
         'job_title',

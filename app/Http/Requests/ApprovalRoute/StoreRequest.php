@@ -25,9 +25,9 @@ class StoreRequest extends FormRequest
     {
         return [
             'name' => 'required|max:50',
-            'first_approval' => 'required|max:100',
-            'second_approval' => 'sometimes|max:100',
-            'third_approval' => 'sometimes|max:100',
+            'layer_one' => 'required|max:100',
+            'layer_two' => 'sometimes|max:100',
+            'layer_three' => 'sometimes|max:100',
         ];
     }
 }

@@ -28,7 +28,7 @@ class StoreRequest extends FormRequest
             'leave_policy_id' => 'required',
             'status' => 'sometimes',
             'reason' => 'sometimes',
-            'documentation' => 'sometimes',
+            'documentation' => 'sometimes|mimes:pdf,jpeg,png,jpg|max:2048',
         ];
     }
 }

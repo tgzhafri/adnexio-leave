@@ -1,8 +1,8 @@
 <?php
 
-use App\Http\Controllers\ApprovalConfigController;
+use App\Http\Controllers\ApprovalController;
+use App\Http\Controllers\ApprovalRouteController;
 use App\Http\Controllers\CompanyController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EntitlementController;
@@ -27,7 +27,8 @@ Route::apiResource('/employee', EmployeeController::class);
 Route::apiResource('/company', CompanyController::class);
 Route::apiResource('/holiday', HolidayController::class);
 Route::apiResource('/leavePolicy', LeavePolicyController::class);
-Route::apiResource('/leaveRequest', LeaveRequestController::class);
 Route::apiResource('/entitlement', EntitlementController::class);
 Route::apiResource('/leaveEntitlement', LeaveEntitlementController::class);
-Route::apiResource('/approvalConfig', ApprovalConfigController::class);
+Route::apiResource('/approvalRoute', ApprovalRouteController::class);
+Route::apiResource('/approval', ApprovalController::class);
+Route::apiResource('/leaveRequest', LeaveRequestController::class);

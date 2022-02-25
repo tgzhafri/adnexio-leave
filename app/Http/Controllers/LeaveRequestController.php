@@ -43,8 +43,12 @@ class LeaveRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request, Approval $approval)
+    public function store(Request $request, Approval $approval)
     {
+        // $path = $request->file('documentation')->store('images', 's3');
+        // $url = 'https://myawsfirsttrial.s3.ap-southeast-1.amazonaws.com/';
+        // $link = $url . $path;
+
         $leaveRequest = LeaveRequest::create($request->all());
 
         $leaveDate = $request->date;
@@ -53,7 +57,7 @@ class LeaveRequestController extends Controller
             $arr = [
                 'leave_request_id' => $leaveRequest->id,
                 'date' => $item['date'],
-                'time' => $item['time']
+                'type' => $item['type']
             ];
             // dd($arr);
             LeaveDate::create($arr);
@@ -61,20 +65,21 @@ class LeaveRequestController extends Controller
 
         // // method to insert single request into db of related model
         $approval->fill([
-            'leave_policy_id' => $leaveRequest->id,
+            'leave_request_id' => $leaveRequest->id,
             'verifier_id' => $leaveRequest->employee_id,
+            'status' => 1,
         ]);
         $leaveRequest->approval()->save($approval);
 
         // to return every related models to leave request
         $detailRequest = LeaveRequest::whereId($leaveRequest->id)
-            ->with(['leaveDate'])
+            ->with(['approval'])
             ->get();
 
         return response()->json([
             'success' => true,
             'message' => 'Leave request stored successful',
-            'leave_policy' => $detailRequest
+            'data' => LeaveRequestResource::collection($detailRequest),
         ]);
     }
 
@@ -84,16 +89,22 @@ class LeaveRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, LeaveDate $leaveDate)
     {
+        $arr = [
+            'start_date' => '01-01-2022',
+            'end_date' => '01-01-2022',
+            'day' => 2,
+
+        ];
         $leaveRequests = LeaveRequest::where('employee_id', $id)
-            ->with(['leaveDate', 'approval'])
+            ->with(['approval'])
             ->get();
 
         return response()->json([
             'success' => true,
             'message' => 'Retrieve employee leave requests successful',
-            'leave_request' => $leaveRequests
+            'data' => LeaveRequestResource::collection($leaveRequests),
         ]);
     }
 

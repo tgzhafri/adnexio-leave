@@ -21,6 +21,7 @@ class CreateEmployeesTable extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
             $table->foreignId('position_id')->constrained('positions')->onDelete('cascade');
+            $table->string('role');
             $table->string('employee_no');
             $table->string('job_title');
             $table->date('dob');

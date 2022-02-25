@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ApprovalConfig\StoreRequest;
+use App\Http\Requests\ApprovalRoute\StoreRequest;
 use App\Http\Resources\ApprovalRouteResource;
 use App\Models\ApprovalRoute;
 use Illuminate\Http\Request;
@@ -16,10 +16,10 @@ class ApprovalRouteController extends Controller
      */
     public function index()
     {
-        $approvalConfig = ApprovalRoute::all();
+        $approvalRoute = ApprovalRoute::all();
         return response([
-            'approvalConfig' =>
-            ApprovalRouteResource::collection($approvalConfig),
+            'approvalRoute' =>
+            ApprovalRouteResource::collection($approvalRoute),
             'message' => 'Successful'
         ], 200);
     }
@@ -42,12 +42,12 @@ class ApprovalRouteController extends Controller
      */
     public function store(StoreRequest $request)
     {
-        $approvalConfig = ApprovalRoute::create($request->validated());
+        $approvalRoute = ApprovalRoute::create($request->validated());
 
         return response([
-            'approvalConfig' => new
-                ApprovalRouteResource($approvalConfig),
-            'message' => 'Approval Config Store Success'
+            'approvalRoute' => new
+                ApprovalRouteResource($approvalRoute),
+            'message' => 'Approval Route Store Success'
         ], 200);
     }
 

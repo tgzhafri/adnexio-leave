@@ -40,14 +40,6 @@ class LeavePolicyService
             Category::create($arr);
         }
 
-        // method to insert single request into db of related model
-        // $category->fill([
-        //     'leave_policy_id' => $leavePolicy->id,
-        //     'name' => $request->name,
-        //     'data' => $request->data
-        // ]);
-        // $leavePolicy->category()->save($category);
-
         // //------ code start ---- Insert employee entitlement according to the requirement setup ----------////
         $employees = Employee::all();
         $leaveEntitlements = LeaveEntitlement::where('leave_policy_id', $leavePolicy->id)->get()->toArray(); // toArray() return collection into a simplified array
