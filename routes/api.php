@@ -10,6 +10,7 @@ use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\LeaveEntitlementController;
 use App\Http\Controllers\LeavePolicyController;
 use App\Http\Controllers\LeaveRequestController;
+use App\Http\Controllers\WorkdayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,7 @@ use App\Http\Controllers\LeaveRequestController;
 Route::get('/employee/organisationChart', [EmployeeController::class, 'orgChart']);
 Route::apiResource('/employee', EmployeeController::class);
 Route::apiResource('/company', CompanyController::class);
+Route::apiResource('/workday', WorkdayController::class);
 Route::apiResource('/holiday', HolidayController::class);
 Route::apiResource('/leavePolicy', LeavePolicyController::class);
 Route::apiResource('/entitlement', EntitlementController::class);

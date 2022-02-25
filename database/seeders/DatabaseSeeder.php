@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             LeaveEntitlementSeeder::class,
             EmployeeSeeder::class,
+            WorkdaySeeder::class,
         ]);
     }
 }

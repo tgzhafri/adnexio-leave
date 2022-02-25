@@ -17,13 +17,8 @@ class Workday extends Model
      */
     protected $fillable = [
         'company_id',
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursay',
-        'Friday',
-        'Saturday',
-        'Sunday',
+        'day',
+        'type'
     ];
 
     /**

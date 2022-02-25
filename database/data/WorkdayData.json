@@ -1,0 +1,37 @@
+[
+    {
+        "company_id": 1,
+        "day": "Monday",
+        "type": "full_day"
+    },
+    {
+        "company_id": 1,
+        "day": "Tuesday",
+        "type": "full_day"
+    },
+    {
+        "company_id": 1,
+        "day": "Wednesday",
+        "type": "full_day"
+    },
+    {
+        "company_id": 1,
+        "day": "Thursday",
+        "type": "am"
+    },
+    {
+        "company_id": 1,
+        "day": "Friday",
+        "type": "pm"
+    },
+    {
+        "company_id": 1,
+        "day": "Saturday",
+        "type": "rest_day"
+    },
+    {
+        "company_id": 1,
+        "day": "Sunday",
+        "type": "off_day"
+    }
+]
