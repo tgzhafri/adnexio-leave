@@ -26,8 +26,12 @@ class LeavePolicySeeder extends Seeder
                 'description' => $data->description,
                 'color' => $data->color,
                 'document_required' => $data->document_required,
+                'with_entitlement' => $data->with_entitlement,
                 'reason_required' => $data->reason_required,
                 'half_day_option' => $data->half_day_option,
+                'credit_deduction' => $data->credit_deduction,
+                'credit_expiry_amount' => $data->credit_expiry_amount,
+                'credit_expiry_period' => $data->credit_expiry_period,
                 'cycle_period' => $data->cycle_period,
                 'eligible_amount' => $data->eligible_amount,
                 'eligible_period' => $data->eligible_period,
@@ -41,10 +45,7 @@ class LeavePolicySeeder extends Seeder
                 'day_prior' => $data->day_prior,
                 'carry_forward_amount' => $data->carry_forward_amount,
                 'carry_forward_expiry' => $data->carry_forward_expiry,
-                'leave_credit_instant_use' => $data->leave_credit_instant_use,
-                'leave_credit_expiry_amount' => $data->leave_credit_expiry_amount,
-                'leave_credit_expiry_period' => $data->leave_credit_expiry_period,
-                'status' => $data->status,
+                // 'status' => $data->status,
             ]);
         }
     }

@@ -21,9 +21,13 @@ class LeavePolicy extends Model
         'abbreviation',
         'description',
         'color',
+        'with_entitlement',
         'document_required',
         'reason_required',
         'half_day_option',
+        'credit_deduction',
+        'credit_expiry_amount',
+        'credit_expiry_period',
         'cycle_period',
         'eligible_amount',
         'eligible_period',
@@ -37,9 +41,6 @@ class LeavePolicy extends Model
         'day_prior',
         'carry_forward_amount',
         'carry_forward_expiry',
-        'leave_credit_instant_use',
-        'leave_credit_expiry_amount',
-        'leave_credit_expiry_period',
         'status',
     ];
 

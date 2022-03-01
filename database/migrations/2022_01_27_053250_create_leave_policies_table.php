@@ -20,13 +20,17 @@ class CreateLeavePoliciesTable extends Migration
             $table->string('abbreviation', 10);
             $table->string('description', 125);
             $table->string('color')->nullable();
+            $table->boolean('with_entitlement');
             $table->boolean('document_required');
             $table->boolean('reason_required');
             $table->boolean('half_day_option');
-            $table->enum('cycle_period', ['monthly', 'yearly']);
+            $table->boolean('credit_deduction');
+            $table->integer('credit_expiry_amount')->nullable();
+            $table->enum('credit_expiry_period', ['end_of_year', 'day', 'week', 'month'])->nullable();
+            $table->enum('cycle_period', ['monthly', 'yearly'])->default('yearly');
             $table->integer('eligible_amount')->nullable();
             $table->enum('eligible_period', ['day', 'week', 'month'])->nullable();
-            $table->enum('accrual_option', ['full_amount', 'prorate']);
+            $table->enum('accrual_option', ['full_amount', 'prorate'])->nullable();
             $table->enum('accrual_happen', ['start_month', 'end_month'])->nullable();
             $table->foreignId('approval_route_id')->constrained('approval_routes')->onDelete('cascade');
             $table->integer('leave_quota_amount')->nullable();
@@ -36,10 +40,7 @@ class CreateLeavePoliciesTable extends Migration
             $table->integer('day_prior')->nullable();
             $table->integer('carry_forward_amount')->nullable();
             $table->string('carry_forward_expiry')->nullable();
-            $table->boolean('leave_credit_instant_use')->nullable();
-            $table->integer('leave_credit_expiry_amount')->nullable();
-            $table->enum('leave_credit_expiry_period', ['cycle_period', 'day', 'week'])->nullable();
-            $table->integer('status')->default(1); // 1 active, 0 archived
+            $table->integer('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

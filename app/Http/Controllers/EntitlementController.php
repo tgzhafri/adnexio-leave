@@ -54,7 +54,8 @@ class EntitlementController extends Controller
     {
         $entitlements = Entitlement::where('employee_id', $id)
             ->with(['leavePolicy' => function ($query) {
-                $query->select('id', 'name', 'color', 'abbreviation', 'description');
+                $query->where('with_entitlement', 1)
+                    ->select('id', 'name', 'color', 'abbreviation', 'description');
             }])
             ->get();
 

@@ -17,14 +17,9 @@ class CreateLeaveCreditsTable extends Migration
             $table->id();
             $table->foreignId('entitlement_id')->constrained('entitlements')->onDelete('cascade');
             $table->integer('amount');
-            $table->date('completed_date');
+            $table->integer('balance');
             $table->date('expiry_date');
             $table->string('status');
-            $table->string('assign_by');
-            $table->string('assign_to');
-            $table->enum('tag', ['leave', 'in_lieu']);
-            $table->string('acknowledgement_superior');
-            $table->string('acknowledgement_employee');
             $table->softDeletes();
             $table->timestamps();
         });
