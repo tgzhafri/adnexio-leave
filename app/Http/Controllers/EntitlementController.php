@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\EntitlementResource;
 use App\Models\Entitlement;
+use App\Services\EntitlementService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EntitlementController extends Controller
@@ -16,11 +18,7 @@ class EntitlementController extends Controller
     public function index()
     {
         $entitlements = Entitlement::all();
-        return response([
-            'entitlement' =>
-            EntitlementResource::collection($entitlements),
-            'message' => 'Successful'
-        ], 200);
+        return $this->sendResponse("Index entitlement successful", $entitlements, 200);
     }
 
     /**
@@ -50,20 +48,11 @@ class EntitlementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, EntitlementService $service)
     {
-        $entitlements = Entitlement::where('employee_id', $id)
-            ->with(['leavePolicy' => function ($query) {
-                $query->where('with_entitlement', 1)
-                    ->select('id', 'name', 'color', 'abbreviation', 'description');
-            }])
-            ->get();
+        $result = $service->show($id);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Retrieve employee entitlements successful',
-            'entitlement' => $entitlements
-        ]);
+        return $this->sendResponse("Show employee's entitlement succesful", $result, 200);
     }
 
     /**

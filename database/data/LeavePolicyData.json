@@ -138,7 +138,7 @@
         "description": "Unpaid leave for every permanent employee",
         "color": "red",
         "document_required": 1,
-        "with_entitlement": 0,
+        "with_entitlement": 1,
         "reason_required": 1,
         "half_day_option": 0,
         "cycle_period": "yearly",
@@ -157,7 +157,15 @@
         "credit_deduction": 0,
         "credit_expiry_amount": 0,
         "credit_expiry_period": null,
-        "status": 1
+        "status": 1,
+        "entitlement": [
+            {
+                "layer": 1,
+                "amount": 30,
+                "start_year_of_service": 0,
+                "end_year_of_service": 99
+            }
+        ]
     },
     {
         "company_id": 1,
@@ -208,7 +216,7 @@
         "cycle_period": "yearly",
         "eligible_amount": null,
         "eligible_period": null,
-        "accrual_option": null,
+        "accrual_option": "full_amount",
         "accrual_happen": null,
         "approval_route_id": 1,
         "leave_quota_amount": null,
@@ -235,7 +243,7 @@
         "cycle_period": "yearly",
         "eligible_amount": 30,
         "eligible_period": "day",
-        "accrual_option": null,
+        "accrual_option": "full_amount",
         "accrual_happen": null,
         "approval_route_id": 1,
         "leave_quota_amount": null,
@@ -263,7 +271,7 @@
         "cycle_period": "yearly",
         "eligible_amount": 30,
         "eligible_period": "day",
-        "accrual_option": null,
+        "accrual_option": "full_amount",
         "accrual_happen": null,
         "approval_route_id": 1,
         "leave_quota_amount": null,

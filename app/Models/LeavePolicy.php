@@ -65,7 +65,7 @@ class LeavePolicy extends Model
      */
     public function entitlement()
     {
-        return $this->hasOne(Entitlement::class);
+        return $this->hasMany(Entitlement::class);
     }
 
     /**

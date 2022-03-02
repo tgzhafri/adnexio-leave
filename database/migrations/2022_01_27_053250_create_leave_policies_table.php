@@ -30,7 +30,7 @@ class CreateLeavePoliciesTable extends Migration
             $table->enum('cycle_period', ['monthly', 'yearly'])->default('yearly');
             $table->integer('eligible_amount')->nullable();
             $table->enum('eligible_period', ['day', 'week', 'month'])->nullable();
-            $table->enum('accrual_option', ['full_amount', 'prorate'])->nullable();
+            $table->enum('accrual_option', ['full_amount', 'prorate'])->default('full_amount');
             $table->enum('accrual_happen', ['start_month', 'end_month'])->nullable();
             $table->foreignId('approval_route_id')->constrained('approval_routes')->onDelete('cascade');
             $table->integer('leave_quota_amount')->nullable();

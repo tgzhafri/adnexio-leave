@@ -19,12 +19,7 @@ class LeaveRequestController extends Controller
     public function index()
     {
         $leaveRequests = LeaveRequest::all();
-        return response([
-            'success' => true,
-            'message' => 'Retrieve employee leave requests successful',
-            'leave_request' =>
-            LeaveRequestResource::collection($leaveRequests),
-        ], 200);
+        return $this->sendResponse("Index leave request successful", $leaveRequests, 200);
     }
 
     /**
@@ -76,11 +71,9 @@ class LeaveRequestController extends Controller
             ->with(['approval'])
             ->get();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Leave request stored successful',
-            'data' => LeaveRequestResource::collection($detailRequest),
-        ]);
+        $result = LeaveRequestResource::collection($detailRequest);
+
+        return $this->sendResponse("Store leave request successful", $result, 200);
     }
 
     /**
@@ -91,21 +84,13 @@ class LeaveRequestController extends Controller
      */
     public function show($id, LeaveDate $leaveDate)
     {
-        $arr = [
-            'start_date' => '01-01-2022',
-            'end_date' => '01-01-2022',
-            'day' => 2,
-
-        ];
         $leaveRequests = LeaveRequest::where('employee_id', $id)
             ->with(['approval'])
             ->get();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Retrieve employee leave requests successful',
-            'data' => LeaveRequestResource::collection($leaveRequests),
-        ]);
+        $result = LeaveRequestResource::collection($leaveRequests);
+
+        return $this->sendResponse("Show employee's leave request successful", $result, 200);
     }
 
     /**

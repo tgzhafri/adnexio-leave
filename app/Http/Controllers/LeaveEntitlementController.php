@@ -15,12 +15,9 @@ class LeaveEntitlementController extends Controller
      */
     public function index()
     {
-        $entitlements = LeaveEntitlement::all();
-        return response([
-            'leave_entitlements' =>
-            LeaveEntitlementResource::collection($entitlements),
-            'message' => 'Successful'
-        ], 200);
+        $leaveEntitlement = LeaveEntitlement::all();
+
+        return $this->sendResponse("Index leave entitlement successful", $leaveEntitlement, 200);
     }
 
     /**
@@ -54,11 +51,7 @@ class LeaveEntitlementController extends Controller
     {
         $leaveEntitlement = LeaveEntitlement::where('leave_policy_id', $id)->get();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Retrieve leave entitlements for the leave policy successful',
-            'entitlement' => $leaveEntitlement
-        ]);
+        return $this->sendResponse("Index entitlement successful", $leaveEntitlement, 200);
     }
 
     /**

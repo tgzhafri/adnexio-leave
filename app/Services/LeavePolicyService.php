@@ -63,15 +63,7 @@ class LeavePolicyService
         // //------ code end ---- Insert employee entitlement according to the requirement setup ----------////
 
         // to return every related models to leave policy
-        $detailPolicy = LeavePolicy::whereId($leavePolicy->id)
-            ->with(['leaveEntitlement', 'approvalRoute', 'category'])
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Leave policies stored successful',
-            'leave_policy' => $detailPolicy
-        ]);
+        return $this->leavePolicyResponse($leavePolicy);
     }
 
     public function update(LeavePolicy $leavePolicy, StoreRequest $request)
@@ -138,15 +130,7 @@ class LeavePolicyService
         // //------ code end ---- Insert employee entitlement according to the requirement setup ----------////
 
         // return leave policy including all related models
-        $detailPolicy = LeavePolicy::whereId($leavePolicy->id)
-            ->with(['leaveEntitlement', 'approvalRoute', 'category'])
-            ->get();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Leave policies updated successful',
-            'leave_policy' => $detailPolicy
-        ]);
+        return $this->leavePolicyResponse($leavePolicy);
     }
 
     public function cyclePeriod()
@@ -271,5 +255,14 @@ class LeavePolicyService
                 }
             }
         }
+    }
+
+    public function leavePolicyResponse($leavePolicy)
+    {
+        $detailPolicy = LeavePolicy::whereId($leavePolicy->id)
+            ->with(['leaveEntitlement', 'approvalRoute', 'category'])
+            ->get();
+
+        return $detailPolicy;
     }
 };

@@ -15,11 +15,8 @@ class WorkdayController extends Controller
     public function index()
     {
         $workday = Workday::all();
-        return response([
-            'success' => true,
-            'message' => 'Retrieve list of workday successful',
-            'data' => $workday
-        ], 200);
+
+        return $this->sendResponse("Index workday succesful", $workday, 200);
     }
 
     /**
@@ -83,11 +80,8 @@ class WorkdayController extends Controller
                 ]);
         }
         $workdayList = Workday::where('company_id', $workday->company_id)->get();
-        return response([
-            'success' => true,
-            'message' => 'Update list of workday successful',
-            'data' => $workdayList
-        ], 200);
+
+        return $this->sendResponse("Update workday succesful", $workdayList, 200);
     }
 
     /**

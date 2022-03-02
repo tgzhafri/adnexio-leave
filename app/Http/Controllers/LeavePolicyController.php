@@ -17,14 +17,9 @@ class LeavePolicyController extends Controller
      */
     public function index(LeavePolicy $leavePolicy)
     {
-        return new LeavePolicyCollection($leavePolicy->get());
+        $leavePolicy = LeavePolicy::all();
 
-        // $leavePolicy = LeavePolicy::all();
-        // return response([
-        //     'success' => true,
-        //     'message' => 'Retrieve Index leave policies successful',
-        //     'leave_policy' => LeavePolicyResource::collection($leavePolicy),
-        // ], 200);
+        return $this->sendResponse("Index leave policies successful", $leavePolicy, 200);
     }
 
     /**
@@ -45,7 +40,9 @@ class LeavePolicyController extends Controller
      */
     public function store(StoreRequest $request, LeavePolicyService $service)
     {
-        return $service->store($request);
+        $result = $service->store($request);
+
+        return $this->sendResponse("Store leave policies successful", $result, 200);
     }
 
     /**
@@ -60,11 +57,7 @@ class LeavePolicyController extends Controller
             ->with(['leaveEntitlement', 'approvalRoute', 'category'])
             ->get();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Retrieve Show leave policies successful',
-            'leave_policy' => $leavePolicy // to include every related models to leave policy
-        ]);
+        return $this->sendResponse("Show leave policies successful", $leavePolicy, 200);
     }
 
     /**
@@ -87,7 +80,9 @@ class LeavePolicyController extends Controller
      */
     public function update(LeavePolicy $leavePolicy, StoreRequest $request, LeavePolicyService $service)
     {
-        return $service->update($leavePolicy, $request);
+        $result = $service->update($leavePolicy, $request);
+
+        return $this->sendResponse("Update leave policies successful", $result, 200);
     }
 
     /**
@@ -100,6 +95,6 @@ class LeavePolicyController extends Controller
     {
         $leavePolicy->delete();
 
-        return response(['message' => 'Leave policy deleted success']);
+        return $this->sendResponse("Delete leave policies successful", $leavePolicy, 200);
     }
 }
