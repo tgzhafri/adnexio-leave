@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-use Staudenmeir\LaravelAdjacencyList\Eloquent\HasRecursiveRelationships;
 
 class Employee extends Authenticatable
 {
-    use HasFactory, SoftDeletes, HasRoles, HasRecursiveRelationships;
+    use HasFactory, SoftDeletes, HasRoles;
 
     protected $guard_name = 'api';
 

@@ -7,6 +7,7 @@ use App\Http\Resources\LeaveRequestResource;
 use App\Models\Approval;
 use App\Models\LeaveDate;
 use App\Models\LeaveRequest;
+use App\Services\LeaveRequestService;
 use Illuminate\Http\Request;
 
 class LeaveRequestController extends Controller
@@ -38,40 +39,9 @@ class LeaveRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Approval $approval)
+    public function store(Request $request, Approval $approval, LeaveRequestService $service)
     {
-        // $path = $request->file('documentation')->store('images', 's3');
-        // $url = 'https://myawsfirsttrial.s3.ap-southeast-1.amazonaws.com/';
-        // $link = $url . $path;
-
-        $leaveRequest = LeaveRequest::create($request->all());
-
-        $leaveDate = $request->date;
-        // dd($leaveRequest->id);
-        foreach ($leaveDate as $item) {
-            $arr = [
-                'leave_request_id' => $leaveRequest->id,
-                'date' => $item['date'],
-                'type' => $item['type']
-            ];
-            // dd($arr);
-            LeaveDate::create($arr);
-        }
-
-        // // method to insert single request into db of related model
-        $approval->fill([
-            'leave_request_id' => $leaveRequest->id,
-            'verifier_id' => $leaveRequest->employee_id,
-            'status' => 1,
-        ]);
-        $leaveRequest->approval()->save($approval);
-
-        // to return every related models to leave request
-        $detailRequest = LeaveRequest::whereId($leaveRequest->id)
-            ->with(['approval'])
-            ->get();
-
-        $result = LeaveRequestResource::collection($detailRequest);
+        $result = $service->store($request, $approval);
 
         return $this->sendResponse("Store leave request successful", $result, 200);
     }
@@ -84,9 +54,7 @@ class LeaveRequestController extends Controller
      */
     public function show($id, LeaveDate $leaveDate)
     {
-        $leaveRequests = LeaveRequest::where('employee_id', $id)
-            ->with(['approval'])
-            ->get();
+        $leaveRequests = LeaveRequest::where('employee_id', $id)->get();
 
         $result = LeaveRequestResource::collection($leaveRequests);
 

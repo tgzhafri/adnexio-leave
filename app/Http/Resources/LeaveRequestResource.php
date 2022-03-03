@@ -2,7 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Entitlement;
 use App\Models\LeaveDate;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class LeaveRequestResource extends JsonResource
@@ -25,6 +27,14 @@ class LeaveRequestResource extends JsonResource
         $startDate = LeaveDate::where('leave_request_id', $this->id)->orderBy('date', 'asc')->value('date');
         $endDate = LeaveDate::where('leave_request_id', $this->id)->orderBy('date', 'desc')->value('date');
 
+        $entitlement = Entitlement::where([
+            ['employee_id', '=', $this->employee_id],
+            ['leave_policy_id', '=', $this->leave_policy_id]
+        ])->first();
+
+        $entitlementAmount = $entitlement->amount;
+        $balance = $entitlement->balance;
+
         return [
             'id' => $this->id,
             'employee_id' => $this->employee_id,
@@ -36,6 +46,10 @@ class LeaveRequestResource extends JsonResource
             'end_date' => $endDate,
             'type' => $type,
             'duration' => $duration,
+            'entitlement' => [
+                'amount' => $entitlementAmount,
+                'balance' => $balance
+            ],
         ];
     }
 }

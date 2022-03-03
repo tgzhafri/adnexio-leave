@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\EntitlementResource;
 use App\Models\Entitlement;
 use Carbon\Carbon;
 
@@ -15,35 +16,23 @@ class EntitlementService
             ['employee_id', '=', $id],
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
-        ])
-            ->whereHas('leavePolicy', function ($query) {
-                $query->where('with_entitlement', '=', 1);
-            })
-            ->with('leavePolicy', function ($query) {
-                $query->select('id', 'name', 'color', 'abbreviation', 'description', 'with_entitlement');
-            })
-            ->get();
+        ])->whereHas('leavePolicy', function ($query) {
+            $query->where('with_entitlement', '=', 1);
+        })->get();
 
         $withoutEntitlements = Entitlement::where([
             ['employee_id', '=', $id],
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
-        ])
-            ->whereHas('leavePolicy', function ($query) {
-                $query->where('with_entitlement', '=', 0);
-            })
-            ->with('leavePolicy', function ($query) {
-                $query->select('id', 'name', 'color', 'abbreviation', 'description', 'with_entitlement');
-            })
-            ->get();
+        ])->whereHas('leavePolicy', function ($query) {
+            $query->where('with_entitlement', '=', 0);
+        })->get();
 
-        // $replacement
 
         $result = [
-            'withEntitlements' => $withEntitlements,
-            'withoutEntitlements' => $withoutEntitlements
+            'with_entitlement' => EntitlementResource::collection($withEntitlements),
+            'without_entitlement' => EntitlementResource::collection($withoutEntitlements),
         ];
-
         return $result;
     }
 }

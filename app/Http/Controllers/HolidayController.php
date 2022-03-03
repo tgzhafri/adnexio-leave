@@ -18,7 +18,9 @@ class HolidayController extends Controller
     public function index()
     {
         $holidays = Holiday::all();
-        return $this->sendResponse("Index holidays successful", $holidays, 200);
+        $result = HolidayResource::collection($holidays);
+
+        return $this->sendResponse("Index holidays successful", $result, 200);
     }
 
     /**
@@ -61,7 +63,9 @@ class HolidayController extends Controller
         }
 
         $getHolidays = Holiday::all();
-        return $this->sendResponse("Store holidays successful", $getHolidays, 200);
+        $result = HolidayResource::collection($getHolidays);
+
+        return $this->sendResponse("Store holidays successful", $result, 200);
     }
 
     /**

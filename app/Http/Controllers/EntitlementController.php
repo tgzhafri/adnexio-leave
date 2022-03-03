@@ -52,6 +52,10 @@ class EntitlementController extends Controller
     {
         $result = $service->show($id);
 
+        // $entitlements = Entitlement::where('employee_id', $id)->get();
+        // $result = EntitlementResource::collection($entitlements);
+
+
         return $this->sendResponse("Show employee's entitlement succesful", $result, 200);
     }
 

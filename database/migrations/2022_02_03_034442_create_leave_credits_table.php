@@ -16,10 +16,11 @@ class CreateLeaveCreditsTable extends Migration
         Schema::create('leave_credits', function (Blueprint $table) {
             $table->id();
             $table->foreignId('entitlement_id')->constrained('entitlements')->onDelete('cascade');
-            $table->integer('amount');
-            $table->integer('balance');
-            $table->date('expiry_date');
-            $table->string('status');
+            $table->integer('requested');
+            $table->integer('granted')->nullable();
+            $table->integer('rejected')->nullable();
+            $table->date('expiry_date')->nullable();
+            $table->string('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });

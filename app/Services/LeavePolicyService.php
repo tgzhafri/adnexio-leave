@@ -16,8 +16,8 @@ class LeavePolicyService
 {
     public function store(StoreRequest $request)
     {
+        $employees = Employee::all();
         $leavePolicy = LeavePolicy::create($request->all());
-
         // ---------- start code for date manipulation ---------------- //
         $months = $this->cyclePeriod()['months'];
         $startYear = $this->cyclePeriod()['startYear'];
@@ -25,32 +25,31 @@ class LeavePolicyService
         $currentDate = $this->cyclePeriod()['currentDate'];
         // ---------- end code for date manipulation ---------------- //
 
-        $employees = Employee::all();
+        $entitlements = $request->entitlement; // insert into leave entitlement table
+        if (!$entitlements && $request->with_entitlement == 0) {
+            // case for without entitlement leave policies,
+            // insert into Entitlement table with NULL balance and amount for the said leave policy
+            foreach ($employees as $employee) {
+                $this->withoutEntitlement($leavePolicy, $employee, $startYear, $endYear);
+            }
+        } else {
+            foreach ($entitlements as $item) {
+                $this->createLeaveEntitlement($item, $leavePolicy);
+            }
+        }
+        $categoryArr = $request->category; // insert into category table
+        if ($categoryArr) {
+            foreach ($categoryArr as $item) {
+                $this->createCategory($item, $leavePolicy);
+            }
+        }
+
         $leaveEntitlements = LeaveEntitlement::where('leave_policy_id', $leavePolicy->id)->get()->toArray(); // toArray() return collection into a simplified array
         $categories = Category::where([
             ['leave_policy_id', '=', $leavePolicy->id],
             ['status', '=', 1]
         ])->select('name')->get()->toArray();
         $categoriesArr = Arr::flatten($categories);
-
-        $leaveEntitlement = $request->entitlement; // insert into leave entitlement table
-        if (!$leaveEntitlement) {
-            // case for without entitlement leave policies
-            foreach ($employees as $employee) {
-                $this->withoutEntitlement($leavePolicy, $employee, $startYear, $endYear);
-            }
-        } else {
-            foreach ($leaveEntitlement as $item) {
-                $this->createLeaveEntitlement($item, $leavePolicy);
-            }
-        }
-        // method to insert multiple/array of requests into db of related model
-        $categoryArr = $request->category; // update category table
-        if ($categoryArr) {
-            foreach ($categoryArr as $item) {
-                $this->createCategory($item, $leavePolicy);
-            }
-        }
 
         // //------ code start ---- Insert employee entitlement according to the requirement setup ----------////
         if ($leavePolicy->cycle_period == 'yearly') {
@@ -68,16 +67,9 @@ class LeavePolicyService
 
     public function update(LeavePolicy $leavePolicy, StoreRequest $request)
     {
-        $leavePolicy->update($request->validated());
-
         $employees = Employee::all();
-        $leaveEntitlements = LeaveEntitlement::where('leave_policy_id', $leavePolicy->id)->get()->toArray(); // toArray() return collection into a simplified array
-        $categories = Category::where([
-            ['leave_policy_id', '=', $leavePolicy->id],
-            ['status', '=', 1]
-        ])->select('name')->get()->toArray();
-        $categoriesArr = Arr::flatten($categories);
-        $entitlements = Entitlement::where('leave_policy_id', $leavePolicy->id)->first();
+        $leavePolicy->update($request->validated());
+        $getEntitlements = Entitlement::where('leave_policy_id', $leavePolicy->id)->first();
 
         // ---------- start code for date manipulation ---------------- //
         $months = $this->cyclePeriod()['months'];
@@ -87,13 +79,13 @@ class LeavePolicyService
         // ---------- end code for date manipulation ---------------- //
 
         // ------------ remove existing entitlement data and create new updated data -----------//
-        if ($entitlements) {
+        if ($getEntitlements) {
             Entitlement::where('leave_policy_id', $leavePolicy->id)->forceDelete();
         }
         // ------------ remove existing entitlement data and create new updated data -----------//
 
         $entitlements = $request->entitlement;
-        if (!$entitlements) {
+        if (!$entitlements && $request->with_entitlement == 0) {
             foreach ($employees as $employee) {
                 $this->withoutEntitlement($leavePolicy, $employee, $startYear, $endYear);
             }
@@ -118,6 +110,12 @@ class LeavePolicyService
                 }
             }
         }
+        $leaveEntitlements = LeaveEntitlement::where('leave_policy_id', $leavePolicy->id)->get()->toArray(); // toArray() return collection into a simplified array
+        $categories = Category::where([
+            ['leave_policy_id', '=', $leavePolicy->id],
+            ['status', '=', 1]
+        ])->select('name')->get()->toArray();
+        $categoriesArr = Arr::flatten($categories);
 
         // //------ code start ---- Insert employee entitlement according to the requirement setup ----------////
         if ($leavePolicy->cycle_period == 'yearly') { //------ cycle period YEARLY ----------//

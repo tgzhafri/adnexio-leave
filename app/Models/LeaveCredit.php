@@ -17,8 +17,11 @@ class LeaveCredit extends Model
      */
     protected $fillable = [
         'entitlement_id',
-        'amount',
-        'balance',
+        'requested',
+        'granted',
+        'rejected',
+        'utilised',
+        'outstanding',
         'expiry_date',
         'status',
     ];

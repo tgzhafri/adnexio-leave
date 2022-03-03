@@ -22,6 +22,7 @@ class LeavePolicyResource extends JsonResource
             'abbreviation' => $this->abbreviation,
             'description' => $this->description,
             'color' => $this->color,
+            'with_entitlement' => $this->with_entitlement,
             'document_required' => $this->document_required,
             'reason_required' => $this->reason_required,
             'half_day_option' => $this->half_day_option,

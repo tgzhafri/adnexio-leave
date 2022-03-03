@@ -25,16 +25,6 @@ class EmployeeController extends Controller
             'message' => 'Successful'
         ], 200);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function orgChart()
-    {
-        $employees = Employee::tree()->get()->toTree();
-        return $employees;
-    }
 
     /**
      * Show the form for creating a new resource.

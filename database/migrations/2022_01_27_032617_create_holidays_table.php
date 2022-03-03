@@ -21,7 +21,7 @@ class CreateHolidaysTable extends Migration
             $table->string('type');
             $table->date('date');
             $table->string('location')->nullable();
-            $table->enum('holiday_type', ['company', 'public'])->default('public');
+            $table->enum('holiday_type', ['custom', 'public'])->default('public');
             $table->integer('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
