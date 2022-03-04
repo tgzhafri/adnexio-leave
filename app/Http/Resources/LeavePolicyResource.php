@@ -17,7 +17,7 @@ class LeavePolicyResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'company_id' => $this->company_id,
+            // 'company_id' => $this->company_id,
             'name' => $this->name,
             'abbreviation' => $this->abbreviation,
             'description' => $this->description,
@@ -34,7 +34,7 @@ class LeavePolicyResource extends JsonResource
             'eligible_period' => $this->eligible_period,
             'accrual_option' => $this->accrual_option,
             'accrual_happen' => $this->accrual_happen,
-            'approval_route_id' => $this->approval_route_id,
+            // 'approval_route_id' => $this->approval_route_id,
             'leave_quota_amount' => $this->leave_quota_amount,
             'leave_quota_unit' => $this->leave_quota_unit,
             'leave_quota_category' => $this->leave_quota_category,

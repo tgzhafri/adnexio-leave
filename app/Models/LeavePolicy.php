@@ -16,7 +16,7 @@ class LeavePolicy extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'company_id',
+        // 'company_id',
         'name',
         'abbreviation',
         'description',
@@ -33,7 +33,7 @@ class LeavePolicy extends Model
         'eligible_period',
         'accrual_option',
         'accrual_happen',
-        'approval_route_id',
+        // 'approval_route_id',
         'leave_quota_amount',
         'leave_quota_unit',
         'leave_quota_category',
@@ -44,21 +44,21 @@ class LeavePolicy extends Model
         'status',
     ];
 
-    /**
-     * Get the company that the leave policy belongs to.
-     */
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
+    // /**
+    //  * Get the company that the leave policy belongs to.
+    //  */
+    // public function company()
+    // {
+    //     return $this->belongsTo(Company::class);
+    // }
 
-    /**
-     * Get the approval route that the leave policy belongs to.
-     */
-    public function approvalRoute()
-    {
-        return $this->belongsTo(ApprovalRoute::class);
-    }
+    // /**
+    //  * Get the approval route that the leave policy belongs to.
+    //  */
+    // public function approvalRoute()
+    // {
+    //     return $this->belongsTo(ApprovalRoute::class);
+    // }
 
     /**
      * Get the leave eligibility associated with the leave policy.
@@ -79,9 +79,9 @@ class LeavePolicy extends Model
     /**
      * Get the category associated with the leave policy.
      */
-    public function category()
+    public function leaveCategory()
     {
-        return $this->hasMany(Category::class);
+        return $this->hasMany(LeaveCategory::class);
     }
 
     /**

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-class Employee extends Authenticatable
+class Staff extends Authenticatable
 {
     use HasFactory, SoftDeletes, HasRoles;
 
@@ -24,8 +24,6 @@ class Employee extends Authenticatable
         'name',
         'user_id',
         'department_id',
-        'role',
-        'role2',
         'position_id',
         'parent_id',
         'job_title',

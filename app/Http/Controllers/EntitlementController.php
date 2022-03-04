@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\EntitlementResource;
 use App\Models\Entitlement;
 use App\Services\EntitlementService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class EntitlementController extends Controller
@@ -52,11 +50,11 @@ class EntitlementController extends Controller
     {
         $result = $service->show($id);
 
-        // $entitlements = Entitlement::where('employee_id', $id)->get();
+        // $entitlements = Entitlement::where('staff_id', $id)->get();
         // $result = EntitlementResource::collection($entitlements);
 
 
-        return $this->sendResponse("Show employee's entitlement succesful", $result, 200);
+        return $this->sendResponse("Show staff's entitlement succesful", $result, 200);
     }
 
     /**

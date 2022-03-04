@@ -16,7 +16,7 @@ class Entitlement extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'employee_id',
+        'staff_id',
         'leave_policy_id',
         'cycle_start_date',
         'cycle_end_date',
@@ -49,10 +49,10 @@ class Entitlement extends Model
     }
 
     /**
-     * Get the employee associated with the entitlement.
+     * Get the staff associated with the entitlement.
      */
-    public function employee()
+    public function staff()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Staff::class);
     }
 }

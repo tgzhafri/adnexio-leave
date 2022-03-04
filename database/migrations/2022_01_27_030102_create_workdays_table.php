@@ -15,7 +15,7 @@ class CreateWorkdaysTable extends Migration
     {
         Schema::create('workdays', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            // $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->string('day');
             $table->enum('type', ['full_day', 'am', 'pm', 'off_day', 'rest_day']);
             $table->softDeletes();

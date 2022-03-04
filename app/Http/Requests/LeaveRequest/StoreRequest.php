@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'employee_id' => 'required',
+            'staff_id' => 'required',
             'leave_policy_id' => 'required',
             'status' => 'sometimes',
             'reason' => 'sometimes',

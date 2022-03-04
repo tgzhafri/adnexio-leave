@@ -54,11 +54,11 @@ class LeaveRequestController extends Controller
      */
     public function show($id, LeaveDate $leaveDate)
     {
-        $leaveRequests = LeaveRequest::where('employee_id', $id)->get();
+        $leaveRequests = LeaveRequest::where('staff_id', $id)->get();
 
         $result = LeaveRequestResource::collection($leaveRequests);
 
-        return $this->sendResponse("Show employee's leave request successful", $result, 200);
+        return $this->sendResponse("Show staff's leave request successful", $result, 200);
     }
 
     /**

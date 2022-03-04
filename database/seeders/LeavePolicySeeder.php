@@ -20,7 +20,7 @@ class LeavePolicySeeder extends Seeder
         $policies = json_decode($json);
         foreach ($policies as $key => $data) {
             LeavePolicy::create([
-                'company_id' => $data->company_id,
+                // 'company_id' => $data->company_id,
                 'name' => $data->name,
                 'abbreviation' => $data->abbreviation,
                 'description' => $data->description,
@@ -37,7 +37,7 @@ class LeavePolicySeeder extends Seeder
                 'eligible_period' => $data->eligible_period,
                 'accrual_option' => $data->accrual_option,
                 'accrual_happen' => $data->accrual_happen,
-                'approval_route_id' => $data->approval_route_id,
+                // 'approval_route_id' => $data->approval_route_id,
                 'leave_quota_amount' => $data->leave_quota_amount,
                 'leave_quota_unit' => $data->leave_quota_unit,
                 'leave_quota_category' => $data->leave_quota_category,

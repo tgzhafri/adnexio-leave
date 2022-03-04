@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCompaniesTable extends Migration
+class CreateLeaveCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('leave_categories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('leave_policy_id')->constrained('leave_policies')->onDelete('cascade');
             $table->string('name');
-            $table->integer('organisation_no');
-            $table->string('logo')->nullable();
-            $table->string('address')->nullable();
+            $table->integer('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
         });
@@ -31,6 +30,6 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('leave_categories');
     }
 }

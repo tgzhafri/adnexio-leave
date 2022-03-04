@@ -19,7 +19,7 @@ class WorkdaySeeder extends Seeder
         $workday = json_decode($json);
         foreach ($workday as $key => $data) {
             Workday::create([
-                'company_id' => $data->company_id,
+                // 'company_id' => $data->company_id,
                 'day' => $data->day,
                 'type' => $data->type,
             ]);

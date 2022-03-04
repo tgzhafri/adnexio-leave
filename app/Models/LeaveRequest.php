@@ -16,7 +16,7 @@ class LeaveRequest extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'employee_id',
+        'staff_id',
         'leave_policy_id',
         'status',
         'reason',
@@ -32,11 +32,11 @@ class LeaveRequest extends Model
     }
 
     /**
-     * Get the employee associated with the leave application.
+     * Get the staff associated with the leave application.
      */
-    public function employee()
+    public function staff()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Staff::class);
     }
 
     /**
@@ -48,7 +48,7 @@ class LeaveRequest extends Model
     }
 
     /**
-     * Get the employee associated with the leave application.
+     * Get the staff associated with the leave application.
      */
     public function leavePolicy()
     {

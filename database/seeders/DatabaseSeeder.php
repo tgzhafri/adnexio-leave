@@ -17,14 +17,13 @@ class DatabaseSeeder extends Seeder
         $this->call([
             ApprovalRouteSeeder::class,
             RolesAndPermissionsSeeder::class,
-            CompanySeeder::class,
             UserSeeder::class,
             DepartmentSeeder::class,
             PositionSeeder::class,
             LeavePolicySeeder::class,
-            CategorySeeder::class,
+            LeaveCategorySeeder::class,
             LeaveEntitlementSeeder::class,
-            EmployeeSeeder::class,
+            StaffSeeder::class,
             WorkdaySeeder::class,
         ]);
     }

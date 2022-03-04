@@ -50,7 +50,7 @@ class HolidayController extends Controller
             foreach ($holidays as $item) { // update mass holidays
                 $date = Carbon::createFromFormat('m/d/Y', $item['date'])->toDateString();
                 $arr = [
-                    'company_id' => 1,
+                    // 'company_id' => 1,
                     'name' => $item['name'],
                     'date' => $date,
                     'day' => $item['week_day'],

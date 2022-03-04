@@ -15,7 +15,7 @@ class CreateEntitlementsTable extends Migration
     {
         Schema::create('entitlements', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->constrained('employees')->onDelete('cascade');
+            $table->foreignId('staff_id')->constrained('staff')->onDelete('cascade');
             $table->foreignId('leave_policy_id')->constrained('leave_policies')->onDelete('cascade');
             $table->date('cycle_start_date');
             $table->date('cycle_end_date');

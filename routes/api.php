@@ -4,7 +4,7 @@ use App\Http\Controllers\ApprovalController;
 use App\Http\Controllers\ApprovalRouteController;
 use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\EntitlementController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\LeaveEntitlementController;
@@ -23,8 +23,7 @@ use App\Http\Controllers\WorkdayController;
 |
 */
 
-Route::get('/employee/organisationChart', [EmployeeController::class, 'orgChart']);
-Route::apiResource('/employee', EmployeeController::class);
+Route::apiResource('/staff', StaffController::class);
 Route::apiResource('/company', CompanyController::class);
 Route::apiResource('/workday', WorkdayController::class);
 Route::apiResource('/holiday', HolidayController::class);

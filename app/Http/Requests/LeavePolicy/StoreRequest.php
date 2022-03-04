@@ -24,7 +24,8 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'company_id' => 'required|max:50',
+            // 'company_id' => 'required|max:50',
+            // 'approval_route_id' => 'required|max:50',
             'name' => 'required|max:50',
             'abbreviation' => 'required|max:10',
             'description' => 'required|max:125',
@@ -38,7 +39,6 @@ class StoreRequest extends FormRequest
             'eligible_period' => 'sometimes|max:50',
             'accrual_option' => 'required|max:50',
             'accrual_happen' => 'sometimes|max:50',
-            'approval_route_id' => 'required|max:50',
             'leave_quota_amount' => 'sometimes|max:50',
             'leave_quota_unit' => 'sometimes|max:50',
             'leave_quota_category' => 'sometimes|max:50',

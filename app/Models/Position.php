@@ -22,8 +22,8 @@ class Position extends Model
     /**
      * Get the job titles for the position
      */
-    public function employee()
+    public function staff()
     {
-        return $this->hasMany(Employee::class);
+        return $this->hasMany(Staff::class);
     }
 }

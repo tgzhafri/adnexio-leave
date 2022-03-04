@@ -28,7 +28,7 @@ class LeaveRequestResource extends JsonResource
         $endDate = LeaveDate::where('leave_request_id', $this->id)->orderBy('date', 'desc')->value('date');
 
         $entitlement = Entitlement::where([
-            ['employee_id', '=', $this->employee_id],
+            ['staff_id', '=', $this->staff_id],
             ['leave_policy_id', '=', $this->leave_policy_id]
         ])->first();
 
@@ -37,7 +37,7 @@ class LeaveRequestResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'employee_id' => $this->employee_id,
+            'staff_id' => $this->staff_id,
             'leave_policy_id' => $this->leave_policy_id,
             'status' => $this->status,
             'reason' => $this->reason,

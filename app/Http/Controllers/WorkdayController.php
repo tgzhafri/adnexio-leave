@@ -79,7 +79,8 @@ class WorkdayController extends Controller
                     'type' => $item['type']
                 ]);
         }
-        $workdayList = Workday::where('company_id', $workday->company_id)->get();
+        // $workdayList = Workday::where('company_id', $workday->company_id)->get();
+        $workdayList = Workday::all();
 
         return $this->sendResponse("Update workday succesful", $workdayList, 200);
     }

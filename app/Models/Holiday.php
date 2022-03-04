@@ -17,7 +17,7 @@ class Holiday extends Model
      */
     protected $fillable = [
         'name',
-        'company_id',
+        // 'company_id',
         'day',
         'date',
         'location',
@@ -26,11 +26,11 @@ class Holiday extends Model
         'status',
     ];
 
-    /**
-     * Get the company that the holiday belongs to.
-     */
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
+    // /**
+    //  * Get the company that the holiday belongs to.
+    //  */
+    // public function company()
+    // {
+    //     return $this->belongsTo(Company::class);
+    // }
 }

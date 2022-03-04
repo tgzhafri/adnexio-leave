@@ -52,10 +52,10 @@ class User extends Authenticatable
     }
 
     /**
-     * Get the employee associated with the user.
+     * Get the staff associated with the user.
      */
-    public function employee()
+    public function staff()
     {
-        return $this->hasOne(Employee::class);
+        return $this->hasOne(Staff::class);
     }
 }

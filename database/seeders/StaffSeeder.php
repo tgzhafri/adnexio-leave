@@ -3,13 +3,14 @@
 namespace Database\Seeders;
 
 use App\Models\Employee;
+use App\Models\Staff;
 use Illuminate\Database\Seeder;
 use File;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\PermissionRegistrar;
 
-class EmployeeSeeder extends Seeder
+class StaffSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,14 +20,14 @@ class EmployeeSeeder extends Seeder
     public function run()
     {
 
-        $json = File::get("database/data/EmployeeData.json");
-        $employees = json_decode($json);
-        foreach ($employees as $key => $data) {
-            $employee = Employee::create([
+        $json = File::get("database/data/StaffData.json");
+        $staff = json_decode($json);
+        foreach ($staff as $key => $data) {
+            $employee = Staff::create([
                 'parent_id' => $data->parent_id,
                 'name' => $data->name,
-                'company_id' => $data->company_id,
-                'user_id' => $data->user_id,
+                // 'company_id' => $data->company_id,
+                // 'user_id' => $data->user_id,
                 'dob' => $data->dob,
                 'department_id' => $data->department_id,
                 'job_title' => $data->job_title,

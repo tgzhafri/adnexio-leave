@@ -16,7 +16,7 @@ class CreateApprovalsTable extends Migration
         Schema::create('approvals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('leave_request_id')->constrained('leave_requests')->onDelete('cascade');
-            $table->foreignId('verifier_id')->constrained('employees')->onDelete('cascade');
+            $table->foreignId('verifier_id')->constrained('staff')->onDelete('cascade');
             $table->integer('status')->default(0);
             $table->softDeletes();
             $table->timestamps();

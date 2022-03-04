@@ -37,28 +37,27 @@ class LeaveRequestService
             LeaveDate::create($arr);
             $item['type'] == 'full_day' ? $duration++ : $duration = 0.5;
         }
-
         // // method to insert single request into db of related model
         $approval->fill([
             'leave_request_id' => $leaveRequest->id,
-            'verifier_id' => $leaveRequest->employee_id,
+            'verifier_id' => $leaveRequest->staff_id,
             'status' => 1,
         ]);
         $leaveRequest->approval()->save($approval);
 
         $entitlement = Entitlement::where([
-            ['employee_id', '=', $request->employee_id],
+            ['staff_id', '=', $request->staff_id],
             ['leave_policy_id', '=', $request->leave_policy_id]
         ])->first();
 
         // // ------- leave request for leave policy WITH entitlement ------------ // //
         if (in_array($request->leave_policy_id, $withEntitlementArr)) {
 
-            // //--------- update leave balance for employee entitlement ----------// //
+            // //--------- update leave balance for staff entitlement ----------// //
             $updatedBalance = $entitlement->balance - $duration;
 
             Entitlement::where([
-                ['employee_id', '=', $request->employee_id],
+                ['staff_id', '=', $request->staff_id],
                 ['leave_policy_id', '=', $request->leave_policy_id]
             ])->update([
                 'balance' => $updatedBalance

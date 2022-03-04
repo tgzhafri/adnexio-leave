@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Entitlement;
 use App\Models\LeaveDate;
 use App\Models\LeavePolicy;
 use App\Models\LeaveRequest;
@@ -23,7 +22,7 @@ class EntitlementResource extends JsonResource
 
         $leavePolicy = LeavePolicy::where('id', $this->leave_policy_id)->first();
         $leaveRequests = LeaveRequest::where([
-            ['employee_id', '=', $this->employee_id],
+            ['staff_id', '=', $this->staff_id],
             ['leave_policy_id', '=', $this->leave_policy_id]
         ])->get();
 
@@ -39,7 +38,7 @@ class EntitlementResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'employee_id' => $this->employee_id,
+            'staff_id' => $this->staff_id,
             'cycle_start_date' => $this->cycle_start_date,
             'cycle_end_date' => $this->cycle_end_date,
             'entitlement' => [

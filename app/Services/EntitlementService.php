@@ -13,7 +13,7 @@ class EntitlementService
         $currentCycle = Carbon::now()->format('Y-m-d');
 
         $withEntitlements = Entitlement::where([
-            ['employee_id', '=', $id],
+            ['staff_id', '=', $id],
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
         ])->whereHas('leavePolicy', function ($query) {
@@ -21,7 +21,7 @@ class EntitlementService
         })->get();
 
         $withoutEntitlements = Entitlement::where([
-            ['employee_id', '=', $id],
+            ['staff_id', '=', $id],
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
         ])->whereHas('leavePolicy', function ($query) {

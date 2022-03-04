@@ -16,16 +16,16 @@ class Workday extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'company_id',
+        // 'company_id',
         'day',
         'type'
     ];
 
-    /**
-     * Get the company that the workday belongs to.
-     */
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
+    // /**
+    //  * Get the company that the workday belongs to.
+    //  */
+    // public function company()
+    // {
+    //     return $this->belongsTo(Company::class);
+    // }
 }
