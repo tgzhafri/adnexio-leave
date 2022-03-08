@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateApprovalsTable extends Migration
+class CreateLeaveApprovalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateApprovalsTable extends Migration
      */
     public function up()
     {
-        Schema::create('approvals', function (Blueprint $table) {
+        Schema::create('leave_approvals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('leave_request_id')->constrained('leave_requests')->onDelete('cascade');
             $table->foreignId('verifier_id')->constrained('staff')->onDelete('cascade');
@@ -30,6 +30,6 @@ class CreateApprovalsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('approvals');
+        Schema::dropIfExists('leave_approvals');
     }
 }

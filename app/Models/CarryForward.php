@@ -20,6 +20,7 @@ class CarryForward extends Model
         'year',
         'expiry_date',
         'amount',
+        'utilised'
     ];
     /**
      * Get the approval associated with the leave application.

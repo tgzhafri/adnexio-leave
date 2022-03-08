@@ -19,7 +19,7 @@ class CreateLeaveRequestsTable extends Migration
             $table->foreignId('leave_policy_id')->constrained('leave_policies')->onDelete('cascade');
             $table->string('status');
             $table->string('reason', 125)->nullable();
-            $table->string('documentation')->nullable();
+            $table->string('attachment')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

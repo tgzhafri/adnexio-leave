@@ -28,6 +28,8 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Approval::observe(ApprovalObserver::class);
+        // Approval::observe(ApprovalObserver::class);
+
+        
     }
 }

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Holiday;
+namespace App\Http\Requests\LeaveRequest;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class LeaveRequestPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,14 +24,11 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            // 'company_id' => 'required',
-            'name' => 'required',
-            'date' => 'required',
-            'day' => 'required',
-            'type' => 'sometimes',
-            'holiday_type' => 'sometimes',
-            'location' => 'sometimes',
+            'staff_id' => 'required',
+            'leave_policy_id' => 'required',
             'status' => 'sometimes',
+            'reason' => 'sometimes',
+            'attachment' => 'sometimes|mimes:pdf,jpeg,png,jpg|max:2048',
         ];
     }
 }

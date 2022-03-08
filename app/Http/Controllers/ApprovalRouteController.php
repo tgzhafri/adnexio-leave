@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ApprovalRoute\StoreRequest;
+use App\Http\Requests\ApprovalRoute\ApprovalRoutePostRequest;
 use App\Http\Resources\ApprovalRouteResource;
 use App\Models\ApprovalRoute;
 use Illuminate\Http\Request;
@@ -40,7 +40,7 @@ class ApprovalRouteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(ApprovalRoutePostRequest $request)
     {
         $approvalRoute = ApprovalRoute::create($request->validated());
 

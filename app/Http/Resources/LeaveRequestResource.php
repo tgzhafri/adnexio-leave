@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Entitlement;
 use App\Models\LeaveDate;
+use App\Models\LeavePolicy;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -27,18 +28,38 @@ class LeaveRequestResource extends JsonResource
         $startDate = LeaveDate::where('leave_request_id', $this->id)->orderBy('date', 'asc')->value('date');
         $endDate = LeaveDate::where('leave_request_id', $this->id)->orderBy('date', 'desc')->value('date');
 
-        $entitlement = Entitlement::where([
+        $leavePolicy = LeavePolicy::where('id', $this->leave_policy_id)->first();
+
+        $empEntitlement = Entitlement::where([
             ['staff_id', '=', $this->staff_id],
             ['leave_policy_id', '=', $this->leave_policy_id]
-        ])->first();
+        ])->whereHas('leavePolicy', function ($query) {
+            $query->where([
+                ['type', 1],
+            ]);
+        })->first();
 
-        $entitlementAmount = $entitlement->amount;
-        $balance = $entitlement->balance;
+        // //---------- ENTITLEMENT - for leave policy WITH entitlement ---------------// //
+        if ($empEntitlement) {
+            $entitlement = [
+                'amount' => $empEntitlement->amount,
+                'balance' => $empEntitlement->balance,
+            ];
+            $leaveCredit = null;
+        } else {
+            // //---------- CREDIT - for leave policy WITHOUT entitlement ---------------// //
+            $leaveCredit = [
+                'requested' => $duration,
+            ];
+            $entitlement = null;
+        }
+
 
         return [
             'id' => $this->id,
             'staff_id' => $this->staff_id,
             'leave_policy_id' => $this->leave_policy_id,
+            'leave_policy_name' => $leavePolicy->name,
             'status' => $this->status,
             'reason' => $this->reason,
             'documentation' => $this->documentation,
@@ -46,10 +67,8 @@ class LeaveRequestResource extends JsonResource
             'end_date' => $endDate,
             'type' => $type,
             'duration' => $duration,
-            'entitlement' => [
-                'amount' => $entitlementAmount,
-                'balance' => $balance
-            ],
+            'entitlement' => $entitlement,
+            'leave_credit' => $leaveCredit
         ];
     }
 }

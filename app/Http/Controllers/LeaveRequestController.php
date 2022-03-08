@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LeaveRequest\StoreRequest;
+use App\Http\Requests\LeaveRequest\LeaveRequestPostRequest;
 use App\Http\Resources\LeaveRequestResource;
-use App\Models\Approval;
+use App\Models\LeaveApproval;
 use App\Models\LeaveDate;
 use App\Models\LeaveRequest;
 use App\Services\LeaveRequestService;
@@ -39,11 +39,15 @@ class LeaveRequestController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Approval $approval, LeaveRequestService $service)
+    public function store(Request $request, LeaveApproval $approval, LeaveRequestService $service)
     {
         $result = $service->store($request, $approval);
 
-        return $this->sendResponse("Store leave request successful", $result, 200);
+        if ($result['code'] == 200 && !$result['data'] == null) {
+            return $this->sendResponse($result['message'], $result['data'], $result['code']);
+        } else {
+            return $this->sendError($result['message'], $result['data'], $result['code']);
+        }
     }
 
     /**
@@ -54,9 +58,9 @@ class LeaveRequestController extends Controller
      */
     public function show($id, LeaveDate $leaveDate)
     {
-        $leaveRequests = LeaveRequest::where('staff_id', $id)->get();
+        $leaveRequest = LeaveRequest::where('staff_id', $id)->get();
 
-        $result = LeaveRequestResource::collection($leaveRequests);
+        $result = LeaveRequestResource::collection($leaveRequest);
 
         return $this->sendResponse("Show staff's leave request successful", $result, 200);
     }
@@ -79,7 +83,7 @@ class LeaveRequestController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(LeaveRequest $leaveRequest, StoreRequest $request, $id)
+    public function update(LeaveRequest $leaveRequest, LeaveRequestPostRequest $request, $id)
     {
         $leaveRequest->update($request->validated());
     }

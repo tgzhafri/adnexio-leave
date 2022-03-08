@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\ApprovalRoute;
+namespace App\Http\Requests\Holiday;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class HolidayPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,14 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:50',
-            'layer_one' => 'required|max:100',
-            'layer_two' => 'sometimes|max:100',
-            'layer_three' => 'sometimes|max:100',
+            // 'company_id' => 'required',
+            'name' => 'required',
+            'date' => 'required',
+            'day' => 'required',
+            'type' => 'sometimes',
+            'holiday_type' => 'sometimes',
+            'location' => 'sometimes',
+            'status' => 'sometimes',
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Requests\LeavePolicy\StoreRequest;
+use App\Http\Requests\LeavePolicy\LeavePolicyPostRequest;
 use App\Models\Staff;
 use App\Models\Entitlement;
 use App\Models\LeaveCategory;
@@ -14,10 +14,10 @@ use Illuminate\Support\Arr;
 
 class LeavePolicyService
 {
-    public function store(StoreRequest $request)
+    public function store(LeavePolicyPostRequest $request)
     {
         $staffs = Staff::all();
-        $leavePolicy = LeavePolicy::create($request->all());
+        $leavePolicy = LeavePolicy::create($request->validated());
         // ---------- start code for date manipulation ---------------- //
         $months = $this->cyclePeriod()['months'];
         $startYear = $this->cyclePeriod()['startYear'];
@@ -26,7 +26,7 @@ class LeavePolicyService
         // ---------- end code for date manipulation ---------------- //
 
         $entitlements = $request->entitlement; // insert into leave entitlement table
-        if (!$entitlements && $request->with_entitlement == 0) {
+        if (!$entitlements) {
             // case for without entitlement leave policies,
             // insert into Entitlement table with NULL balance and amount for the said leave policy
             foreach ($staffs as $staff) {
@@ -65,7 +65,7 @@ class LeavePolicyService
         return $this->leavePolicyResponse($leavePolicy);
     }
 
-    public function update(LeavePolicy $leavePolicy, StoreRequest $request)
+    public function update(LeavePolicy $leavePolicy, LeavePolicyPostRequest $request)
     {
         $staffs = Staff::all();
         $leavePolicy->update($request->validated());
@@ -85,7 +85,7 @@ class LeavePolicyService
         // ------------ remove existing entitlement data and create new updated data -----------//
 
         $entitlements = $request->entitlement;
-        if (!$entitlements && $request->with_entitlement == 0) {
+        if (!$entitlements) {
             foreach ($staffs as $staff) {
                 $this->withoutEntitlement($leavePolicy, $staff, $startYear, $endYear);
             }

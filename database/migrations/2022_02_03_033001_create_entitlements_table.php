@@ -19,8 +19,8 @@ class CreateEntitlementsTable extends Migration
             $table->foreignId('leave_policy_id')->constrained('leave_policies')->onDelete('cascade');
             $table->date('cycle_start_date');
             $table->date('cycle_end_date');
-            $table->integer('amount')->nullable();
-            $table->integer('balance')->nullable();
+            $table->float('amount', 8, 2)->nullable();
+            $table->float('balance', 8, 2)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

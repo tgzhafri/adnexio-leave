@@ -54,7 +54,7 @@ class EntitlementController extends Controller
         // $result = EntitlementResource::collection($entitlements);
 
 
-        return $this->sendResponse("Show staff's entitlement succesful", $result, 200);
+        return $this->sendResponse("Show staff's entitlement successful", $result, 200);
     }
 
     /**

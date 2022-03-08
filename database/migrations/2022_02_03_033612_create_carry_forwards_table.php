@@ -18,7 +18,8 @@ class CreateCarryForwardsTable extends Migration
             $table->foreignId('entitlement_id')->constrained('entitlements')->onDelete('cascade');
             $table->string('year');
             $table->date('expiry_date');
-            $table->integer('amount');
+            $table->float('amount', 8, 2);
+            $table->float('utilised', 8, 2);
             $table->softDeletes();
             $table->timestamps();
         });

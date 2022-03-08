@@ -2,13 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Employee;
 use App\Models\Staff;
 use Illuminate\Database\Seeder;
-use File;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\PermissionRegistrar;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+
 
 class StaffSeeder extends Seeder
 {
@@ -19,7 +17,6 @@ class StaffSeeder extends Seeder
      */
     public function run()
     {
-
         $json = File::get("database/data/StaffData.json");
         $staff = json_decode($json);
         foreach ($staff as $key => $data) {
@@ -41,10 +38,16 @@ class StaffSeeder extends Seeder
                 'employment_type' => $data->employment_type,
                 'status' => $data->status,
             ]);
-            // $role = Role::findByName($data->role);
-            // $permissions = Permission::pluck('id', 'id')->all();
-            // $role->syncPermissions($permissions);
             $employee->assignRole($data->role);
         }
+
+        // $json = File::get("database/data/StaffData.json");
+        // $data = json_decode($json, true);
+
+        // foreach ($data as $value) {
+        //     $array[] = $value;
+        // }
+
+        // DB::table('staff')->insert($array);
     }
 }

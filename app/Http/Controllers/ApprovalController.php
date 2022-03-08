@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Approval;
+use App\Models\LeaveApproval;
 use Illuminate\Http\Request;
 
 class ApprovalController extends Controller
@@ -14,7 +14,7 @@ class ApprovalController extends Controller
      */
     public function index()
     {
-        $approvals = Approval::all();
+        $approvals = LeaveApproval::all();
 
         return response()->json([
             'success' => true,
@@ -52,7 +52,7 @@ class ApprovalController extends Controller
      */
     public function show($id)
     {
-        $approvals = Approval::where('verifier_id', $id)
+        $approvals = LeaveApproval::where('verifier_id', $id)
             ->with('leaveRequest')
             ->get();
         // dd($approvals);

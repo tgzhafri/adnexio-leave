@@ -17,7 +17,7 @@ class EntitlementService
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
         ])->whereHas('leavePolicy', function ($query) {
-            $query->where('with_entitlement', '=', 1);
+            $query->where('type', 1);
         })->get();
 
         $withoutEntitlements = Entitlement::where([
@@ -25,13 +25,23 @@ class EntitlementService
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
         ])->whereHas('leavePolicy', function ($query) {
-            $query->where('with_entitlement', '=', 0);
+            $query->where([
+                ['type', 0],
+            ]);
         })->get();
 
+        $leaveCredit = Entitlement::where([
+            ['staff_id', '=', $id],
+            ['cycle_start_date', '<=', $currentCycle],
+            ['cycle_end_date', '>=', $currentCycle]
+        ])->whereHas('leavePolicy', function ($query) {
+            $query->where('type', 2);
+        })->get();
 
         $result = [
             'with_entitlement' => EntitlementResource::collection($withEntitlements),
             'without_entitlement' => EntitlementResource::collection($withoutEntitlements),
+            'leave_credit' => EntitlementResource::collection($leaveCredit),
         ];
         return $result;
     }

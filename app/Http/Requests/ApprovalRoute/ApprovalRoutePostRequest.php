@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\LeaveRequest;
+namespace App\Http\Requests\ApprovalRoute;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreRequest extends FormRequest
+class ApprovalRoutePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,10 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'staff_id' => 'required',
-            'leave_policy_id' => 'required',
-            'status' => 'sometimes',
-            'reason' => 'sometimes',
-            'documentation' => 'sometimes|mimes:pdf,jpeg,png,jpg|max:2048',
+            'name' => 'required|max:50',
+            'layer_one' => 'required|max:100',
+            'layer_two' => 'sometimes|max:100',
+            'layer_three' => 'sometimes|max:100',
         ];
     }
 }

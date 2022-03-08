@@ -17,11 +17,11 @@ class LeaveCredit extends Model
      */
     protected $fillable = [
         'entitlement_id',
+        'leave_request_id',
         'requested',
         'granted',
         'rejected',
         'utilised',
-        'outstanding',
         'expiry_date',
         'status',
     ];
@@ -32,5 +32,13 @@ class LeaveCredit extends Model
     public function entitlement()
     {
         return $this->belongsTo(Entitlement::class);
+    }
+
+    /**
+     * Get the leave request associated with the leave credit.
+     */
+    public function leaveRequest()
+    {
+        return $this->belongsTo(LeaveRequest::class);
     }
 }

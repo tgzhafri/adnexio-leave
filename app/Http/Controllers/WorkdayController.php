@@ -16,7 +16,7 @@ class WorkdayController extends Controller
     {
         $workday = Workday::all();
 
-        return $this->sendResponse("Index workday succesful", $workday, 200);
+        return $this->sendResponse("Index workday successful", $workday, 200);
     }
 
     /**
@@ -82,7 +82,7 @@ class WorkdayController extends Controller
         // $workdayList = Workday::where('company_id', $workday->company_id)->get();
         $workdayList = Workday::all();
 
-        return $this->sendResponse("Update workday succesful", $workdayList, 200);
+        return $this->sendResponse("Update workday successful", $workdayList, 200);
     }
 
     /**

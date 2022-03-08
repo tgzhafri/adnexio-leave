@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Holiday\StoreRequest;
 use App\Http\Resources\HolidayResource;
 use App\Models\Holiday;
 use Carbon\Carbon;

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LeavePolicy\StoreRequest;
+use App\Http\Requests\LeavePolicy\LeavePolicyPostRequest;
 use App\Models\LeavePolicy;
 use App\Services\LeavePolicyService;
 use Illuminate\Http\Request;
@@ -37,7 +37,7 @@ class LeavePolicyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request, LeavePolicyService $service)
+    public function store(LeavePolicyPostRequest $request, LeavePolicyService $service)
     {
         $result = $service->store($request);
 
@@ -77,7 +77,7 @@ class LeavePolicyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(LeavePolicy $leavePolicy, StoreRequest $request, LeavePolicyService $service)
+    public function update(LeavePolicy $leavePolicy, LeavePolicyPostRequest $request, LeavePolicyService $service)
     {
         $result = $service->update($leavePolicy, $request);
 

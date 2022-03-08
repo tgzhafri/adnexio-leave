@@ -20,15 +20,15 @@ class LeaveRequest extends Model
         'leave_policy_id',
         'status',
         'reason',
-        'documentation',
+        'attachment',
     ];
 
     /**
      * Get the approval associated with the leave application.
      */
-    public function approval()
+    public function leaveApproval()
     {
-        return $this->hasOne(Approval::class);
+        return $this->hasOne(LeaveApproval::class);
     }
 
     /**
@@ -45,6 +45,14 @@ class LeaveRequest extends Model
     public function leaveDate()
     {
         return $this->hasOne(LeaveDate::class);
+    }
+
+    /**
+     * Get the leave credit associated with the leave application.
+     */
+    public function leaveCredit()
+    {
+        return $this->hasMany(LeaveDate::class);
     }
 
     /**

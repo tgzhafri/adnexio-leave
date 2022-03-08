@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Staff\StoreRequest;
-use App\Http\Requests\Staff\UpdateRequest;
+use App\Http\Requests\Staff\StaffPostRequest;
+use App\Http\Requests\Staff\StaffPutRequest;
 use App\Http\Resources\StaffResource;
 use App\Models\Staff;
 
@@ -40,7 +40,7 @@ class StaffController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRequest $request)
+    public function store(StaffPostRequest $request)
     {
         $staff = Staff::create($request->all());
 
@@ -81,7 +81,7 @@ class StaffController extends Controller
      * @param  \App\Models\Staff  $staff
      * @return \Illuminate\Http\Response
      */
-    public function update(Staff $staff, UpdateRequest $request)
+    public function update(Staff $staff, StaffPutRequest $request)
     {
         $staff->update($request->validated());
 

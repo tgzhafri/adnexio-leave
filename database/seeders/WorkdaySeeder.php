@@ -4,7 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Workday;
 use Illuminate\Database\Seeder;
-use File;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 
 class WorkdaySeeder extends Seeder
 {
@@ -15,14 +16,23 @@ class WorkdaySeeder extends Seeder
      */
     public function run()
     {
+        // $json = File::get("database/data/WorkdayData.json");
+        // $workday = json_decode($json);
+        // foreach ($workday as $key => $data) {
+        //     Workday::create([
+        //         // 'company_id' => $data->company_id,
+        //         'day' => $data->day,
+        //         'type' => $data->type,
+        //     ]);
+        // }
+
         $json = File::get("database/data/WorkdayData.json");
-        $workday = json_decode($json);
-        foreach ($workday as $key => $data) {
-            Workday::create([
-                // 'company_id' => $data->company_id,
-                'day' => $data->day,
-                'type' => $data->type,
-            ]);
+        $data = json_decode($json, true);
+
+        foreach ($data as $value) {
+            $array[] = $value;
         }
+
+        DB::table('workdays')->insert($array);
     }
 }
