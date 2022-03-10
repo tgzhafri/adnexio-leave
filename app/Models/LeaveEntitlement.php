@@ -16,18 +16,43 @@ class LeaveEntitlement extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'staff_id',
         'leave_policy_id',
-        'layer',
+        'cycle_start_date',
+        'cycle_end_date',
         'amount',
-        'start_year_of_service',
-        'end_year_of_service',
+        'balance',
     ];
 
     /**
-     * Get the leave policy associated with the leave eligibility.
+     * Get the carry forward associated with the leave application.
+     */
+    public function leaveCarryForward()
+    {
+        return $this->hasOne(LeaveCarryForward::class);
+    }
+
+    /**
+     * Get the leave credit associated with the leave application.
+     */
+    public function leaveCredit()
+    {
+        return $this->hasOne(LeaveCredit::class);
+    }
+
+    /**
+     * Get the leave policy associated with the entitlement.
      */
     public function leavePolicy()
     {
         return $this->belongsTo(LeavePolicy::class);
+    }
+
+    /**
+     * Get the staff associated with the entitlement.
+     */
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class);
     }
 }

@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Http\Requests\LeavePolicy\LeavePolicyPostRequest;
 use App\Models\Staff;
-use App\Models\Entitlement;
-use App\Models\LeaveCategory;
 use App\Models\LeaveEntitlement;
+use App\Models\LeaveCategory;
+use App\Models\LeavePolicyEntitlement;
 use App\Models\LeavePolicy;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -34,7 +34,7 @@ class LeavePolicyService
             }
         } else {
             foreach ($entitlements as $item) {
-                $this->createLeaveEntitlement($item, $leavePolicy);
+                $this->createLeavePolicyEntitlement($item, $leavePolicy);
             }
         }
         $categoryArr = $request->category; // insert into category table
@@ -44,20 +44,20 @@ class LeavePolicyService
             }
         }
 
-        $leaveEntitlements = LeaveEntitlement::where('leave_policy_id', $leavePolicy->id)->get()->toArray(); // toArray() return collection into a simplified array
+        $leavePolicyEntitlements = LeavePolicyEntitlement::where('leave_policy_id', $leavePolicy->id)->get()->toArray(); // toArray() return collection into a simplified array
         $categories = LeaveCategory::where([
             ['leave_policy_id', '=', $leavePolicy->id],
             ['status', '=', 1]
-        ])->select('name')->get()->toArray();
+        ])->select('data')->get()->toArray();
         $categoriesArr = Arr::flatten($categories);
 
         // //------ code start ---- Insert staff entitlement according to the requirement setup ----------////
         if ($leavePolicy->cycle_period == 'yearly') {
-            $this->yearly($staffs, $currentDate, $leaveEntitlements, $categoriesArr, $leavePolicy, $startYear, $endYear);
+            $this->yearly($staffs, $currentDate, $leavePolicyEntitlements, $categoriesArr, $leavePolicy, $startYear, $endYear);
         }
 
         if ($leavePolicy->cycle_period == 'monthly') {
-            $this->monthly($staffs, $months, $currentDate, $leaveEntitlements, $categoriesArr, $leavePolicy);
+            $this->monthly($staffs, $months, $currentDate, $leavePolicyEntitlements, $categoriesArr, $leavePolicy);
         }
         // //------ code end ---- Insert staff entitlement according to the requirement setup ----------////
 
@@ -69,7 +69,7 @@ class LeavePolicyService
     {
         $staffs = Staff::all();
         $leavePolicy->update($request->validated());
-        $getEntitlements = Entitlement::where('leave_policy_id', $leavePolicy->id)->first();
+        $getEntitlements = LeaveEntitlement::where('leave_policy_id', $leavePolicy->id)->first();
 
         // ---------- start code for date manipulation ---------------- //
         $months = $this->cyclePeriod()['months'];
@@ -80,7 +80,7 @@ class LeavePolicyService
 
         // ------------ remove existing entitlement data and create new updated data -----------//
         if ($getEntitlements) {
-            Entitlement::where('leave_policy_id', $leavePolicy->id)->forceDelete();
+            LeaveEntitlement::where('leave_policy_id', $leavePolicy->id)->forceDelete();
         }
         // ------------ remove existing entitlement data and create new updated data -----------//
 
@@ -92,9 +92,9 @@ class LeavePolicyService
         } else {
             foreach ($entitlements as $item) {
                 if (isset($item['id'])) {
-                    $this->updateLeaveEntitlement($item);
+                    $this->updateLeavePolicyEntitlement($item);
                 } else {
-                    $this->createLeaveEntitlement($item, $leavePolicy);
+                    $this->createLeavePolicyEntitlement($item, $leavePolicy);
                 }
             }
         }
@@ -110,22 +110,22 @@ class LeavePolicyService
                 }
             }
         }
-        $leaveEntitlements = LeaveEntitlement::where('leave_policy_id', $leavePolicy->id)->get()->toArray(); // toArray() return collection into a simplified array
+        $leavePolicyEntitlements = LeavePolicyEntitlement::where('leave_policy_id', $leavePolicy->id)->get()->toArray(); // toArray() return collection into a simplified array
         $categories = LeaveCategory::where([
             ['leave_policy_id', '=', $leavePolicy->id],
             ['status', '=', 1]
-        ])->select('name')->get()->toArray();
+        ])->select('data')->get()->toArray();
         $categoriesArr = Arr::flatten($categories);
 
-        // //------ code start ---- Insert staff entitlement according to the requirement setup ----------////
+        // //*------ code start ---- Insert staff entitlement according to the requirement setup ----------////
         if ($leavePolicy->cycle_period == 'yearly') { //------ cycle period YEARLY ----------//
-            $this->yearly($staffs, $currentDate, $leaveEntitlements, $categoriesArr, $leavePolicy, $startYear, $endYear);
+            $this->yearly($staffs, $currentDate, $leavePolicyEntitlements, $categoriesArr, $leavePolicy, $startYear, $endYear);
         }
 
         if ($leavePolicy->cycle_period == 'monthly') { // -------- cycle period MONTHLY ----------- //
-            $this->monthly($staffs, $months, $currentDate, $leaveEntitlements, $categoriesArr, $leavePolicy);
+            $this->monthly($staffs, $months, $currentDate, $leavePolicyEntitlements, $categoriesArr, $leavePolicy);
         }
-        // //------ code end ---- Insert staff entitlement according to the requirement setup ----------////
+        // //*------ code end ---- Insert staff entitlement according to the requirement setup ----------////
 
         // return leave policy including all related models
         return $this->leavePolicyResponse($leavePolicy);
@@ -136,7 +136,8 @@ class LeavePolicyService
         $startYear = Carbon::now()->startOfYear();
         $endYear = Carbon::now()->endOfYear();
         $currentDate = Carbon::now();
-        ////------- method to list all 12 months in a year using carbon-----------//
+
+        ////*------- method to list all 12 months in a year using carbon-----------//
         $period = CarbonPeriod::create($startYear, '1 month', $endYear);
         foreach ($period as $month) {
             $months[] = [
@@ -150,7 +151,7 @@ class LeavePolicyService
             'endYear' => $endYear,
             'months' => $months
         );
-        ////------- method to list all 12 months in a year using carbon-----------//
+        ////*------- method to list all 12 months in a year using carbon-----------//
         return $data;
     }
 
@@ -158,6 +159,7 @@ class LeavePolicyService
     {
         LeaveCategory::where('id', $item['id'])
             ->update([
+                'data' => $item['data'],
                 'name' => $item['name'],
                 'status' => $item['status'],
             ]);
@@ -168,14 +170,15 @@ class LeavePolicyService
         $arr = [
             'leave_policy_id' => $leavePolicy->id,
             'name' => $item['name'],
+            'data' => $item['data'],
             'status' => $item['status']
         ];
         LeaveCategory::create($arr);
     }
 
-    public function updateLeaveEntitlement($item)
+    public function updateLeavePolicyEntitlement($item)
     {
-        LeaveEntitlement::where('id', $item['id'])
+        LeavePolicyEntitlement::where('id', $item['id'])
             ->update([
                 'layer' => $item['layer'],
                 'amount' => $item['amount'],
@@ -184,7 +187,7 @@ class LeavePolicyService
             ]);
     }
 
-    public function createLeaveEntitlement($item, $leavePolicy)
+    public function createLeavePolicyEntitlement($item, $leavePolicy)
     {
         $arr = [
             'leave_policy_id' => $leavePolicy->id,
@@ -193,7 +196,7 @@ class LeavePolicyService
             'start_year_of_service' => $item['start_year_of_service'],
             'end_year_of_service' => $item['end_year_of_service'],
         ];
-        LeaveEntitlement::create($arr);
+        LeavePolicyEntitlement::create($arr);
     }
 
     public function withoutEntitlement($leavePolicy, $staff, $startYear, $endYear)
@@ -204,50 +207,50 @@ class LeavePolicyService
             'cycle_start_date' => $startYear,
             'cycle_end_date' => $endYear,
         ];
-        Entitlement::create($arr);
+        LeaveEntitlement::create($arr);
     }
 
-    public function yearly($staffs, $currentDate, $leaveEntitlements, $categoriesArr, $leavePolicy, $startYear, $endYear)
+    public function yearly($staffs, $currentDate, $leavePolicyEntitlements, $categoriesArr, $leavePolicy, $startYear, $endYear)
     {
         foreach ($staffs as $staff) {
             $joined_date = Carbon::createFromFormat('Y-m-d', $staff['joined_date']);
             $year_of_service = $currentDate->diffInYears($joined_date);
-            foreach ($leaveEntitlements as $leaveEntitlement) {
-                if ($year_of_service >= $leaveEntitlement['start_year_of_service'] && $year_of_service < $leaveEntitlement['end_year_of_service']) {
+            foreach ($leavePolicyEntitlements as $leavePolicyEntitlement) {
+                if ($year_of_service >= $leavePolicyEntitlement['start_year_of_service'] && $year_of_service < $leavePolicyEntitlement['end_year_of_service']) {
                     if (in_array($staff['gender'], $categoriesArr) && in_array($staff['marital_status'], $categoriesArr) && in_array($staff['employment_type'], $categoriesArr)) {
                         $arr = [
                             'leave_policy_id' => $leavePolicy->id,
                             'staff_id' => $staff['id'],
                             'cycle_start_date' => $startYear,
                             'cycle_end_date' => $endYear,
-                            'amount' => $leaveEntitlement['amount'],
-                            'balance' => $leaveEntitlement['amount']
+                            'amount' => $leavePolicyEntitlement['amount'],
+                            'balance' => $leavePolicyEntitlement['amount']
                         ];
-                        Entitlement::create($arr);
+                        LeaveEntitlement::create($arr);
                     }
                 }
             }
         }
     }
 
-    public function monthly($staffs, $months, $currentDate, $leaveEntitlements, $categoriesArr, $leavePolicy)
+    public function monthly($staffs, $months, $currentDate, $leavePolicyEntitlements, $categoriesArr, $leavePolicy)
     {
         foreach ($staffs as $staff) {
             foreach ($months as $month) {
                 $joined_date = Carbon::createFromFormat('Y-m-d', $staff['joined_date']);
                 $year_of_service = $currentDate->diffInYears($joined_date);
-                foreach ($leaveEntitlements as $leaveEntitlement) {
-                    if ($year_of_service >= $leaveEntitlement['start_year_of_service'] && $year_of_service < $leaveEntitlement['end_year_of_service']) {
+                foreach ($leavePolicyEntitlements as $leavePolicyEntitlement) {
+                    if ($year_of_service >= $leavePolicyEntitlement['start_year_of_service'] && $year_of_service < $leavePolicyEntitlement['end_year_of_service']) {
                         if (in_array($staff['gender'], $categoriesArr) && in_array($staff['marital_status'], $categoriesArr) && in_array($staff['employment_type'], $categoriesArr)) {
                             $arr = [
                                 'leave_policy_id' => $leavePolicy->id,
                                 'staff_id' => $staff['id'],
                                 'cycle_start_date' => $month['start_date'],
                                 'cycle_end_date' => $month['end_date'],
-                                'amount' => $leaveEntitlement['amount'],
-                                'balance' => $leaveEntitlement['amount']
+                                'amount' => $leavePolicyEntitlement['amount'],
+                                'balance' => $leavePolicyEntitlement['amount']
                             ];
-                            Entitlement::create($arr);
+                            LeaveEntitlement::create($arr);
                         }
                     }
                 }
@@ -258,7 +261,7 @@ class LeavePolicyService
     public function leavePolicyResponse($leavePolicy)
     {
         $detailPolicy = LeavePolicy::whereId($leavePolicy->id)
-            ->with(['leaveEntitlement', 'leaveCategory'])
+            ->with(['leavePolicyEntitlement', 'leaveCategory'])
             ->get();
 
         return $detailPolicy;

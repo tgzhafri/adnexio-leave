@@ -2,7 +2,8 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Entitlement;
+use App\Models\LeaveCarryForward;
+use App\Models\LeaveEntitlement;
 use App\Models\LeaveDate;
 use App\Models\LeavePolicy;
 use Carbon\Carbon;
@@ -30,7 +31,7 @@ class LeaveRequestResource extends JsonResource
 
         $leavePolicy = LeavePolicy::where('id', $this->leave_policy_id)->first();
 
-        $empEntitlement = Entitlement::where([
+        $empEntitlement = LeaveEntitlement::where([
             ['staff_id', '=', $this->staff_id],
             ['leave_policy_id', '=', $this->leave_policy_id]
         ])->whereHas('leavePolicy', function ($query) {
@@ -39,21 +40,54 @@ class LeaveRequestResource extends JsonResource
             ]);
         })->first();
 
-        // //---------- ENTITLEMENT - for leave policy WITH entitlement ---------------// //
+        $creditEntitlement = LeaveEntitlement::where([
+            ['staff_id', '=', $this->staff_id],
+        ])->whereHas('leavePolicy', function ($query) {
+            $query->where([
+                ['type', 2],
+            ]);
+        })->first();
+        // dd($creditEntitlement);
+        $carryForward = null;
+
+        // //*--------- ENTITLEMENT - for leave policy WITH entitlement ---------------// //
         if ($empEntitlement) {
             $entitlement = [
                 'amount' => $empEntitlement->amount,
                 'balance' => $empEntitlement->balance,
             ];
-            $leaveCredit = null;
+
+            // //*--------- ENTITLEMENT - for leave policy WITH entitlement WITH CREDIT DEDUCTION ---------------// //
+            if ($leavePolicy->credit_deduction == 1) {
+                $leaveCredit = [
+                    'amount'  => $creditEntitlement->amount,
+                    'balance'  => $creditEntitlement->balance,
+                ];
+            } else {
+                $leaveCredit = null;
+            }
+
+            if (
+                $leavePolicy->carry_forward_amount != null
+                && $empEntitlement != null
+            ) {
+                $carryForwardEntitlement = LeaveCarryForward::where('entitlement_id', $empEntitlement->id)->first();
+                if ($carryForwardEntitlement != null) {
+                    $carryForward = [
+                        'amount' => $carryForwardEntitlement->amount,
+                        'balance' => $carryForwardEntitlement->balance,
+                    ];
+                }
+            } else {
+                $carryForward = null;
+            }
         } else {
-            // //---------- CREDIT - for leave policy WITHOUT entitlement ---------------// //
+            // //*--------- LEAVE CREDIT & WITHOUT ENTITLEMENT LEAVE REQUEST ---------------// //
             $leaveCredit = [
-                'requested' => $duration,
+                'outstanding' => $duration,
             ];
             $entitlement = null;
         }
-
 
         return [
             'id' => $this->id,
@@ -67,8 +101,9 @@ class LeaveRequestResource extends JsonResource
             'end_date' => $endDate,
             'type' => $type,
             'duration' => $duration,
+            'leave_credit' => $leaveCredit,
             'entitlement' => $entitlement,
-            'leave_credit' => $leaveCredit
+            'carry_forward' => $carryForward
         ];
     }
 }

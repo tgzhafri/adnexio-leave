@@ -15,7 +15,7 @@ class CreateLeaveCreditsTable extends Migration
     {
         Schema::create('leave_credits', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('entitlement_id')->constrained('entitlements')->onDelete('cascade');
+            $table->foreignId('entitlement_id')->constrained('leave_entitlements')->onDelete('cascade');
             $table->foreignId('leave_request_id')->constrained('leave_requests')->onDelete('cascade');
             $table->float('requested', 8, 2);
             $table->float('granted', 8, 2)->nullable();

@@ -64,9 +64,9 @@ class Staff extends Authenticatable
     /**
      * Get the entitlement for the employee.
      */
-    public function entitlements()
+    public function leaveEntitlement()
     {
-        return $this->hasMany(Entitlement::class);
+        return $this->hasMany(LeaveEntitlement::class);
     }
 
     /**

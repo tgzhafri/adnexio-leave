@@ -16,15 +16,6 @@ class LeaveCategorySeeder extends Seeder
      */
     public function run()
     {
-        // $json = File::get("database/data/LeaveCategoryData.json");
-        // $categories = json_decode($json);
-        // foreach ($categories as $key => $data) {
-        //     LeaveCategory::create([
-        //         'leave_policy_id' => $data->leave_policy_id,
-        //         'name' => $data->name,
-        //     ]);
-        // }
-
         $json = File::get("database/data/LeaveCategoryData.json");
         $data = json_decode($json, true);
 

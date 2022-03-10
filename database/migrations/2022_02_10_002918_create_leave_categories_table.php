@@ -17,6 +17,7 @@ class CreateLeaveCategoriesTable extends Migration
             $table->id();
             $table->foreignId('leave_policy_id')->constrained('leave_policies')->onDelete('cascade');
             $table->string('name');
+            $table->string('data');
             $table->integer('status')->default(1);
             $table->softDeletes();
             $table->timestamps();

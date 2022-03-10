@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LeaveCategory extends Model
+class LeavePolicyEntitlement extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -17,13 +17,14 @@ class LeaveCategory extends Model
      */
     protected $fillable = [
         'leave_policy_id',
-        'name',
-        'data',
-        'status',
+        'layer',
+        'amount',
+        'start_year_of_service',
+        'end_year_of_service',
     ];
 
     /**
-     * Get the leave policy that the category belongs to.
+     * Get the leave policy associated with the leave eligibility.
      */
     public function leavePolicy()
     {

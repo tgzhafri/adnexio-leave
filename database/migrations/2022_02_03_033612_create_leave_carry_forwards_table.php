@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCarryForwardsTable extends Migration
+class CreateLeaveCarryForwardsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateCarryForwardsTable extends Migration
      */
     public function up()
     {
-        Schema::create('carry_forwards', function (Blueprint $table) {
+        Schema::create('leave_carry_forwards', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('entitlement_id')->constrained('entitlements')->onDelete('cascade');
-            $table->string('year');
+            $table->foreignId('entitlement_id')->constrained('leave_entitlements')->onDelete('cascade');
+            $table->string('from_year');
             $table->date('expiry_date');
             $table->float('amount', 8, 2);
-            $table->float('utilised', 8, 2);
+            $table->float('balance', 8, 2)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ class CreateCarryForwardsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('carry_forwards');
+        Schema::dropIfExists('leave_carry_forwards');
     }
 }

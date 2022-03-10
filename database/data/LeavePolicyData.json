@@ -24,7 +24,7 @@
         "restriction_amount": 0,
         "day_prior": null,
         "carry_forward_amount": 5,
-        "carry_forward_expiry": "cycle_period",
+        "carry_forward_expiry": "2022-12-31",
         "status": 1,
         "entitlement": [
             {

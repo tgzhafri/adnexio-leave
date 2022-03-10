@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\LeaveEntitlement;
+use App\Models\LeavePolicyEntitlement;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
-class LeaveEntitlementSeeder extends Seeder
+class LeavePolicyEntitlementSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,10 +16,10 @@ class LeaveEntitlementSeeder extends Seeder
      */
     public function run()
     {
-        // $json = File::get("database/data/LeaveEntitlementData.json");
+        // $json = File::get("database/data/LeavePolicyEntitlementData.json");
         // $entitlements = json_decode($json);
         // foreach ($entitlements as $key => $data) {
-        //     LeaveEntitlement::create([
+        //     LeavePolicyEntitlement::create([
         //         'leave_policy_id' => $data->leave_policy_id,
         //         'layer' => $data->layer,
         //         'amount' => $data->amount,
@@ -28,13 +28,13 @@ class LeaveEntitlementSeeder extends Seeder
         //     ]);
         // }
 
-        $json = File::get("database/data/LeaveEntitlementData.json");
+        $json = File::get("database/data/LeavePolicyEntitlementData.json");
         $data = json_decode($json, true);
 
         foreach ($data as $value) {
             $array[] = $value;
         }
 
-        DB::table('leave_entitlements')->insert($array);
+        DB::table('leave_policy_entitlements')->insert($array);
     }
 }

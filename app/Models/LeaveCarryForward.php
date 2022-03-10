@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class CarryForward extends Model
+class LeaveCarryForward extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -17,16 +17,16 @@ class CarryForward extends Model
      */
     protected $fillable = [
         'entitlement_id',
-        'year',
+        'from_year',
         'expiry_date',
         'amount',
-        'utilised'
+        'balance'
     ];
     /**
      * Get the approval associated with the leave application.
      */
-    public function entitlement()
+    public function leaveEntitlement()
     {
-        return $this->belongsTo(Entitlement::class);
+        return $this->belongsTo(LeaveEntitlement::class);
     }
 }

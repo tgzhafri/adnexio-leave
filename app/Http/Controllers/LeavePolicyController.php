@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LeavePolicy\LeavePolicyPostRequest;
+use App\Http\Resources\LeavePolicyResource;
 use App\Models\LeavePolicy;
 use App\Services\LeavePolicyService;
 use Illuminate\Http\Request;
@@ -16,9 +17,17 @@ class LeavePolicyController extends Controller
      */
     public function index(LeavePolicy $leavePolicy)
     {
-        $leavePolicy = LeavePolicy::all();
+        $withoutEntitlement = LeavePolicy::where('type', 0)->get();
+        $withEntitlement = LeavePolicy::where('type', 1)->get();
+        $leaveCredit = LeavePolicy::where('type', 2)->get();
 
-        return $this->sendResponse("Index leave policies successful", $leavePolicy, 200);
+        $result = [
+            'with_entitlement' => $withEntitlement,
+            'without_entitlement' => $withoutEntitlement,
+            'leave_credit' => $leaveCredit,
+        ];
+
+        return $this->sendResponse("Index leave policies successful", $result, 200);
     }
 
     /**
@@ -53,7 +62,7 @@ class LeavePolicyController extends Controller
     public function show($id)
     {
         $leavePolicy = LeavePolicy::whereId($id)
-            ->with(['leaveEntitlement', 'leaveCategory'])
+            ->with('leavePolicyEntitlement', 'leaveCategory')
             ->get();
 
         return $this->sendResponse("Show leave policies successful", $leavePolicy, 200);

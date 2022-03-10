@@ -2,17 +2,17 @@
 
 namespace App\Services;
 
-use App\Http\Resources\EntitlementResource;
-use App\Models\Entitlement;
+use App\Http\Resources\LeaveEntitlementResource;
+use App\Models\LeaveEntitlement;
 use Carbon\Carbon;
 
-class EntitlementService
+class LeaveEntitlementService
 {
     public function show($id)
     {
         $currentCycle = Carbon::now()->format('Y-m-d');
 
-        $withEntitlements = Entitlement::where([
+        $withEntitlements = LeaveEntitlement::where([
             ['staff_id', '=', $id],
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
@@ -20,7 +20,7 @@ class EntitlementService
             $query->where('type', 1);
         })->get();
 
-        $withoutEntitlements = Entitlement::where([
+        $withoutEntitlements = LeaveEntitlement::where([
             ['staff_id', '=', $id],
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
@@ -30,7 +30,7 @@ class EntitlementService
             ]);
         })->get();
 
-        $leaveCredit = Entitlement::where([
+        $leaveCredit = LeaveEntitlement::where([
             ['staff_id', '=', $id],
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
@@ -39,9 +39,9 @@ class EntitlementService
         })->get();
 
         $result = [
-            'with_entitlement' => EntitlementResource::collection($withEntitlements),
-            'without_entitlement' => EntitlementResource::collection($withoutEntitlements),
-            'leave_credit' => EntitlementResource::collection($leaveCredit),
+            'with_entitlement' => LeaveEntitlementResource::collection($withEntitlements),
+            'without_entitlement' => LeaveEntitlementResource::collection($withoutEntitlements),
+            'leave_credit' => LeaveEntitlementResource::collection($leaveCredit),
         ];
         return $result;
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateEntitlementsTable extends Migration
+class CreateLeaveEntitlementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateEntitlementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('entitlements', function (Blueprint $table) {
+        Schema::create('leave_entitlements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('staff_id')->constrained('staff')->onDelete('cascade');
             $table->foreignId('leave_policy_id')->constrained('leave_policies')->onDelete('cascade');
@@ -33,6 +33,6 @@ class CreateEntitlementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entitlements');
+        Schema::dropIfExists('leave_entitlements');
     }
 }

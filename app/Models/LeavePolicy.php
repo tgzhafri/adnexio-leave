@@ -63,17 +63,17 @@ class LeavePolicy extends Model
     /**
      * Get the leave eligibility associated with the leave policy.
      */
-    public function entitlement()
+    public function leaveEntitlement()
     {
-        return $this->hasMany(Entitlement::class);
+        return $this->hasMany(LeaveEntitlement::class);
     }
 
     /**
      * Get the leave eligibility associated with the leave policy.
      */
-    public function leaveEntitlement()
+    public function leavePolicyEntitlement()
     {
-        return $this->hasMany(LeaveEntitlement::class);
+        return $this->hasMany(LeavePolicyEntitlement::class);
     }
 
     /**

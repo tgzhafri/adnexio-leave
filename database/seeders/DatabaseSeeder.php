@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
             PositionSeeder::class,
             LeavePolicySeeder::class,
             LeaveCategorySeeder::class,
-            LeaveEntitlementSeeder::class,
+            LeavePolicyEntitlementSeeder::class,
             StaffSeeder::class,
             WorkdaySeeder::class,
         ]);

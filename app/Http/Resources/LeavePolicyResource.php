@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\LeaveCategory;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
 
@@ -15,6 +16,9 @@ class LeavePolicyResource extends JsonResource
      */
     public function toArray($request): array
     {
+        $leaveCategory = LeaveCategory::where('leave_policy_id', $request->id)->get();
+
+
         return [
             'id' => $this->id,
             // 'company_id' => $this->company_id,

@@ -29,9 +29,9 @@ class LeaveCredit extends Model
     /**
      * Get the entitlement associated with the leave credit.
      */
-    public function entitlement()
+    public function leaveEntitlement()
     {
-        return $this->belongsTo(Entitlement::class);
+        return $this->belongsTo(LeaveEntitlement::class);
     }
 
     /**

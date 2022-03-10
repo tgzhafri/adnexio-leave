@@ -18,7 +18,8 @@ class CreateLeavePoliciesTable extends Migration
             // $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->string('name', 50);
             $table->string('abbreviation', 10);
-            $table->string('description', 125);
+            $table->string('description', 125)->nullable();
+            $table->text('detail_description', 125)->nullable();
             $table->string('color')->nullable();
             $table->integer('type'); // 0 - without entitlement, 1 - with entitlement, 2 - leave credit
             $table->boolean('attachment_required');
@@ -39,7 +40,7 @@ class CreateLeavePoliciesTable extends Migration
             $table->integer('restriction_amount')->nullable();
             $table->integer('day_prior')->nullable();
             $table->integer('carry_forward_amount')->nullable();
-            $table->string('carry_forward_expiry')->nullable();
+            $table->date('carry_forward_expiry')->nullable();
             $table->integer('status')->default(1);
             $table->softDeletes();
             $table->timestamps();

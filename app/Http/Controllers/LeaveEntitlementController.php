@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LeaveEntitlementResource;
 use App\Models\LeaveEntitlement;
+use App\Services\LeaveEntitlementService;
 use Illuminate\Http\Request;
 
 class LeaveEntitlementController extends Controller
@@ -15,9 +15,8 @@ class LeaveEntitlementController extends Controller
      */
     public function index()
     {
-        $leaveEntitlement = LeaveEntitlement::all();
-
-        return $this->sendResponse("Index leave entitlement successful", $leaveEntitlement, 200);
+        $entitlements = LeaveEntitlement::all();
+        return $this->sendResponse("Index entitlement successful", $entitlements, 200);
     }
 
     /**
@@ -47,11 +46,15 @@ class LeaveEntitlementController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, LeaveEntitlementService $service)
     {
-        $leaveEntitlement = LeaveEntitlement::where('leave_policy_id', $id)->get();
+        $result = $service->show($id);
 
-        return $this->sendResponse("Index entitlement successful", $leaveEntitlement, 200);
+        // $entitlements = Entitlement::where('staff_id', $id)->get();
+        // $result = EntitlementResource::collection($entitlements);
+
+
+        return $this->sendResponse("Show staff's entitlement successful", $result, 200);
     }
 
     /**

@@ -1,162 +1,242 @@
 [
     {
         "leave_policy_id": 1,
-        "name": "female"
+        "name": "gender",
+        "data": "female"
     },
     {
         "leave_policy_id": 1,
-        "name": "male"
+        "name": "gender",
+        "data": "male"
     },
     {
         "leave_policy_id": 1,
-        "name": "single"
+        "name": "marital_status",
+        "data": "single"
     },
     {
         "leave_policy_id": 1,
-        "name": "married"
+        "name": "marital_status",
+        "data": "married"
     },
     {
         "leave_policy_id": 1,
-        "name": "divorced"
+        "name": "marital_status",
+        "data": "divorced"
     },
     {
         "leave_policy_id": 1,
-        "name": "widowed"
+        "name": "marital_status",
+        "data": "widowed"
     },
     {
         "leave_policy_id": 1,
-        "name": "contract"
+        "name": "employment_type",
+        "data": "contract"
     },
     {
         "leave_policy_id": 1,
-        "name": "permanent"
+        "name": "employment_type",
+        "data": "permanent"
     },
     {
         "leave_policy_id": 2,
-        "name": "female"
+        "name": "gender",
+        "data": "female"
     },
     {
         "leave_policy_id": 2,
-        "name": "male"
+        "name": "gender",
+        "data": "male"
     },
     {
         "leave_policy_id": 2,
-        "name": "single"
+        "name": "marital_status",
+        "data": "single"
     },
     {
         "leave_policy_id": 2,
-        "name": "married"
+        "name": "marital_status",
+        "data": "married"
     },
     {
         "leave_policy_id": 2,
-        "name": "divorced"
+        "name": "marital_status",
+        "data": "divorced"
     },
     {
         "leave_policy_id": 2,
-        "name": "widowed"
+        "name": "marital_status",
+        "data": "widowed"
     },
     {
         "leave_policy_id": 2,
-        "name": "contract"
+        "name": "employment_type",
+        "data": "contract"
     },
     {
         "leave_policy_id": 2,
-        "name": "permanent"
+        "name": "employment_type",
+        "data": "permanent"
     },
     {
         "leave_policy_id": 3,
-        "name": "female"
+        "name": "gender",
+        "data": "female"
     },
     {
         "leave_policy_id": 3,
-        "name": "male"
+        "name": "gender",
+        "data": "male"
     },
     {
         "leave_policy_id": 3,
-        "name": "single"
+        "name": "marital_status",
+        "data": "single"
     },
     {
         "leave_policy_id": 3,
-        "name": "married"
+        "name": "marital_status",
+        "data": "married"
     },
     {
         "leave_policy_id": 3,
-        "name": "divorced"
+        "name": "marital_status",
+        "data": "divorced"
     },
     {
         "leave_policy_id": 3,
-        "name": "widowed"
+        "name": "marital_status",
+        "data": "widowed"
     },
     {
         "leave_policy_id": 3,
-        "name": "contract"
+        "name": "employment_type",
+        "data": "contract"
     },
     {
         "leave_policy_id": 3,
-        "name": "permanent"
+        "name": "employment_type",
+        "data": "permanent"
     },
     {
         "leave_policy_id": 4,
-        "name": "female"
+        "name": "gender",
+        "data": "female"
     },
     {
         "leave_policy_id": 4,
-        "name": "male"
+        "name": "gender",
+        "data": "male"
     },
     {
         "leave_policy_id": 4,
-        "name": "single"
+        "name": "marital_status",
+        "data": "single"
     },
     {
         "leave_policy_id": 4,
-        "name": "married"
+        "name": "marital_status",
+        "data": "married"
     },
     {
         "leave_policy_id": 4,
-        "name": "divorced"
+        "name": "marital_status",
+        "data": "divorced"
     },
     {
         "leave_policy_id": 4,
-        "name": "widowed"
+        "name": "marital_status",
+        "data": "widowed"
     },
     {
         "leave_policy_id": 4,
-        "name": "contract"
+        "name": "employment_type",
+        "data": "contract"
     },
     {
         "leave_policy_id": 4,
-        "name": "permanent"
+        "name": "employment_type",
+        "data": "permanent"
     },
     {
         "leave_policy_id": 5,
-        "name": "female"
+        "name": "gender",
+        "data": "female"
     },
     {
         "leave_policy_id": 5,
-        "name": "male"
+        "name": "gender",
+        "data": "male"
     },
     {
         "leave_policy_id": 5,
-        "name": "single"
+        "name": "marital_status",
+        "data": "single"
     },
     {
         "leave_policy_id": 5,
-        "name": "married"
+        "name": "marital_status",
+        "data": "married"
     },
     {
         "leave_policy_id": 5,
-        "name": "divorced"
+        "name": "marital_status",
+        "data": "divorced"
     },
     {
         "leave_policy_id": 5,
-        "name": "widowed"
+        "name": "marital_status",
+        "data": "widowed"
     },
     {
         "leave_policy_id": 5,
-        "name": "contract"
+        "name": "employment_type",
+        "data": "contract"
     },
     {
         "leave_policy_id": 5,
-        "name": "permanent"
+        "name": "employment_type",
+        "data": "permanent"
+    },
+    {
+        "leave_policy_id": 6,
+        "name": "gender",
+        "data": "female"
+    },
+    {
+        "leave_policy_id": 6,
+        "name": "gender",
+        "data": "male"
+    },
+    {
+        "leave_policy_id": 6,
+        "name": "marital_status",
+        "data": "single"
+    },
+    {
+        "leave_policy_id": 6,
+        "name": "marital_status",
+        "data": "married"
+    },
+    {
+        "leave_policy_id": 6,
+        "name": "marital_status",
+        "data": "divorced"
+    },
+    {
+        "leave_policy_id": 6,
+        "name": "marital_status",
+        "data": "widowed"
+    },
+    {
+        "leave_policy_id": 6,
+        "name": "employment_type",
+        "data": "contract"
+    },
+    {
+        "leave_policy_id": 6,
+        "name": "employment_type",
+        "data": "permanent"
     }
 ]
