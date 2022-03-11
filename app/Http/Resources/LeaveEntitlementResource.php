@@ -21,7 +21,7 @@ class LeaveEntitlementResource extends JsonResource
      */
     public function toArray($request)
     {
-        $currentDate = Carbon::now()->format('Y-m-d');
+        $currentDate = Carbon::now()->startOfDay()->format('Y-m-d');
         $utilised = null;
         $outstanding = null;
         $requested = null;
@@ -57,7 +57,6 @@ class LeaveEntitlementResource extends JsonResource
                 }
             }
         }
-
         // //* ----- to show WITHOUT ENTITLEMENT leave policy ---------- // //
         if ($leavePolicy['type'] !== 1) {
 
@@ -84,8 +83,8 @@ class LeaveEntitlementResource extends JsonResource
             ];
         } else {
             $entitlement = [
-                'amount' => $this->amount,
-                'balance' => $this->balance,
+                'amount' => $this->entitlement()['amount'],
+                'balance' => $this->entitlement()['balance'],
                 'utilised' => $utilised,
                 'outstanding' => $outstanding
             ];

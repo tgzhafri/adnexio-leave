@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -54,5 +55,48 @@ class LeaveEntitlement extends Model
     public function staff()
     {
         return $this->belongsTo(Staff::class);
+    }
+
+    public function entitlement()
+    {
+        $leavePolicy = LeavePolicy::whereId($this->leave_policy_id)->first();
+        if ($leavePolicy->accrual_option == 'full_amount') {
+            return [
+                'amount' => $this->amount,
+                'balance' => $this->balance
+            ];
+        }
+        if ($leavePolicy->accrual_option == 'prorate') {
+            $currentMonth = Carbon::now()->format('m');
+            $prevMonth = Carbon::now()->subMonth()->format('m');
+            $currentDate = Carbon::now()->startOfDay()->format('Y-m-d');
+            $startOfCurrentMonth = Carbon::now()->startOfMonth()->format('Y-m-d');
+            $endOfCurrentMonth = Carbon::now()->endOfMonth()->format('Y-m-d');
+
+            if ($leavePolicy->accrual_happen == 'start_month') {
+                if ($currentDate >= $startOfCurrentMonth) {
+                    $prorated = $this->balance / 12 * $currentMonth;
+                    return [
+                        'amount' => $prorated,
+                        'balance' => $prorated
+                    ];
+                }
+            }
+            if ($leavePolicy->accrual_happen == 'end_month') {
+                if ($currentDate >= $endOfCurrentMonth) {
+                    $prorated = $this->balance / 12 * $currentMonth;
+                    return [
+                        'amount' => $prorated,
+                        'balance' => $prorated
+                    ];
+                } else {
+                    $prorated = $this->balance / 12 * $prevMonth;
+                    return [
+                        'amount' => $prorated,
+                        'balance' => $prorated
+                    ];
+                }
+            }
+        }
     }
 }

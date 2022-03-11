@@ -50,10 +50,6 @@ class LeaveEntitlementController extends Controller
     {
         $result = $service->show($id);
 
-        // $entitlements = Entitlement::where('staff_id', $id)->get();
-        // $result = EntitlementResource::collection($entitlements);
-
-
         return $this->sendResponse("Show staff's entitlement successful", $result, 200);
     }
 

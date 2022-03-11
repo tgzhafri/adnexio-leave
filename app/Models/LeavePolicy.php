@@ -40,7 +40,8 @@ class LeavePolicy extends Model
         'restriction_amount',
         'day_prior',
         'carry_forward_amount',
-        'carry_forward_expiry',
+        'carry_forward_expiry_amount',
+        'carry_forward_expiry_period',
         'status',
     ];
 

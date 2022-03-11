@@ -45,7 +45,7 @@ class LeavePolicyPostRequest extends FormRequest
             'restriction_amount' => 'sometimes|max:50',
             'day_prior' => 'sometimes|max:50',
             'carry_forward_amount' => 'sometimes|max:50',
-            'carry_forward_expiry' => 'sometimes|max:50',
+            'carry_forward_expiry_month' => 'sometimes|max:50',
             'credit_deduction' => 'sometimes|boolean',
             'credit_expiry_amount' => 'sometimes|max:50',
             'credit_expiry_period' => 'sometimes|max:50',

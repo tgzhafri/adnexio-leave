@@ -40,7 +40,8 @@ class CreateLeavePoliciesTable extends Migration
             $table->integer('restriction_amount')->nullable();
             $table->integer('day_prior')->nullable();
             $table->integer('carry_forward_amount')->nullable();
-            $table->date('carry_forward_expiry')->nullable();
+            $table->integer('carry_forward_expiry_amount')->nullable();
+            $table->enum('carry_forward_expiry_period', ['end_of_year', 'day', 'week', 'month'])->nullable();
             $table->integer('status')->default(1);
             $table->softDeletes();
             $table->timestamps();
