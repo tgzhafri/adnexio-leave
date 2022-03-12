@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\HolidayType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -21,7 +22,7 @@ class CreateHolidaysTable extends Migration
             $table->string('type');
             $table->date('date');
             $table->string('location')->nullable();
-            $table->enum('holiday_type', ['custom', 'public'])->default('public');
+            $table->string('holiday_type')->default(HolidayType::Public);
             $table->integer('status')->default(1);
             $table->softDeletes();
             $table->timestamps();

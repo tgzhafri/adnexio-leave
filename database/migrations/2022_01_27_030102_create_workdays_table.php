@@ -17,7 +17,7 @@ class CreateWorkdaysTable extends Migration
             $table->id();
             // $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
             $table->string('day');
-            $table->enum('type', ['full_day', 'am', 'pm', 'off_day', 'rest_day']);
+            $table->string('type');
             $table->softDeletes();
             $table->timestamps();
         });

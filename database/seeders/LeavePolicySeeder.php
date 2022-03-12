@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\LeavePolicy;
 use Illuminate\Database\Seeder;
-use File;
+use Illuminate\Support\Facades\File;
 
 class LeavePolicySeeder extends Seeder
 {
@@ -35,7 +35,7 @@ class LeavePolicySeeder extends Seeder
                 'cycle_period' => $data->cycle_period,
                 'eligible_amount' => $data->eligible_amount,
                 'eligible_period' => $data->eligible_period,
-                'accrual_option' => $data->accrual_option,
+                'accrual_type' => $data->accrual_type,
                 'accrual_happen' => $data->accrual_happen,
                 // 'approval_route_id' => $data->approval_route_id,
                 'quota_amount' => $data->quota_amount,
@@ -44,7 +44,8 @@ class LeavePolicySeeder extends Seeder
                 'restriction_amount' => $data->restriction_amount,
                 'day_prior' => $data->day_prior,
                 'carry_forward_amount' => $data->carry_forward_amount,
-                'carry_forward_expiry' => $data->carry_forward_expiry,
+                'carry_forward_expiry_amount' => $data->carry_forward_expiry_amount,
+                'carry_forward_expiry_period' => $data->carry_forward_expiry_period,
                 // 'status' => $data->status,
             ]);
         }

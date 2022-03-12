@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\HolidayType;
 use App\Http\Resources\HolidayResource;
 use App\Models\Holiday;
 use Carbon\Carbon;
@@ -54,7 +55,7 @@ class HolidayController extends Controller
                     'date' => $date,
                     'day' => $item['week_day'],
                     'type' => $item['type'],
-                    'holiday_type' => 'public',
+                    'holiday_type' => HolidayType::Public,
                     'location' => $item['location'],
                 ];
                 Holiday::create($arr);

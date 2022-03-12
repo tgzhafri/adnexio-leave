@@ -15,7 +15,7 @@ class CreatePositionsTable extends Migration
     {
         Schema::create('positions', function (Blueprint $table) {
             $table->id();
-            $table->enum('name', ['team_member', 'team_leader', 'head_of_department', 'ceo']);
+            $table->string('name');
             $table->softDeletes();
             $table->timestamps();
         });

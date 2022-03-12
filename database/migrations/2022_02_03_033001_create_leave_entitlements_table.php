@@ -21,6 +21,7 @@ class CreateLeaveEntitlementsTable extends Migration
             $table->date('cycle_end_date');
             $table->float('amount', 8, 2)->nullable();
             $table->float('balance', 8, 2)->nullable();
+            $table->float('prorate', 8, 2)->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -31,7 +31,7 @@ class LeavePolicy extends Model
         'cycle_period',
         'eligible_amount',
         'eligible_period',
-        'accrual_option',
+        'accrual_type',
         'accrual_happen',
         // 'approval_route_id',
         'quota_amount',

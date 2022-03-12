@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Holiday;
 
+use App\Enums\HolidayType;
 use Illuminate\Foundation\Http\FormRequest;
 
 class HolidayPostRequest extends FormRequest
@@ -29,7 +30,7 @@ class HolidayPostRequest extends FormRequest
             'date' => 'required',
             'day' => 'required',
             'type' => 'sometimes',
-            'holiday_type' => 'sometimes',
+            'holiday_type' => 'sometimes:enum_value:' . HolidayType::class,
             'location' => 'sometimes',
             'status' => 'sometimes',
         ];

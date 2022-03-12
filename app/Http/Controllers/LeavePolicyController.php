@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LeavePolicyType;
 use App\Http\Requests\LeavePolicy\LeavePolicyPostRequest;
-use App\Http\Resources\LeavePolicyResource;
 use App\Models\LeavePolicy;
 use App\Services\LeavePolicyService;
-use Illuminate\Http\Request;
 
 class LeavePolicyController extends Controller
 {
@@ -17,9 +16,9 @@ class LeavePolicyController extends Controller
      */
     public function index(LeavePolicy $leavePolicy)
     {
-        $withoutEntitlement = LeavePolicy::where('type', 0)->get();
-        $withEntitlement = LeavePolicy::where('type', 1)->get();
-        $leaveCredit = LeavePolicy::where('type', 2)->get();
+        $withoutEntitlement = LeavePolicy::where('type', LeavePolicyType::WithoutEntitlement)->get();
+        $withEntitlement = LeavePolicy::where('type', LeavePolicyType::WithEntitlement)->get();
+        $leaveCredit = LeavePolicy::where('type', LeavePolicyType::LeaveCredit)->get();
 
         $result = [
             'with_entitlement' => $withEntitlement,

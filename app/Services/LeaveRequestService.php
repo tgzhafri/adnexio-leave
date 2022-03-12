@@ -2,6 +2,10 @@
 
 namespace App\Services;
 
+use App\Enums\AccrualType;
+use App\Enums\LeaveDayType;
+use App\Enums\LeavePolicyType;
+use App\Enums\QuotaType;
 use App\Http\Resources\LeaveRequestResource;
 use App\Models\LeaveCarryForward;
 use App\Models\LeaveEntitlement;
@@ -12,6 +16,7 @@ use App\Models\LeaveRequest;
 use App\Models\Staff;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use League\CommonMark\Extension\SmartPunct\Quote;
 
 class LeaveRequestService
 {
@@ -23,12 +28,11 @@ class LeaveRequestService
 
         $leavePolicy = LeavePolicy::whereId($request->leave_policy_id)->first();
         $staffTotal = Staff::all()->count();
-        $withEntitlementPolicy = LeavePolicy::where('type', 1)->select('id')->get()->toArray();
-        $withoutEntitlementPolicy = LeavePolicy::where('type', 0)->select('id')->get()->toArray();
-        $leaveCreditPolicy = LeavePolicy::where('type', 2)->select('id')->first();
+        $withEntitlementPolicy = LeavePolicy::where('type', LeavePolicyType::WithEntitlement)->select('id')->get()->toArray();
+        $withoutEntitlementPolicy = LeavePolicy::where('type', LeavePolicyType::WithoutEntitlement)->select('id')->get()->toArray();
+        $leaveCreditPolicy = LeavePolicy::where('type', LeavePolicyType::LeaveCredit)->select('id')->first();
         $currentDate = Carbon::now()->startOfDay();
-        $currentYear = Carbon::now()->startOfDay()->format('Y');
-        $lastYear = $currentYear - 1;
+        $lastYear = Carbon::now()->startOfYear()->subYear()->format('Y');
 
         //* sort leave date request in ascending date order *//
         $dates = $request->date;
@@ -38,7 +42,7 @@ class LeaveRequestService
         $withEntitlementArr = Arr::flatten($withEntitlementPolicy);
         $withoutEntitlementArr = Arr::flatten($withoutEntitlementPolicy);
 
-        $entitlement = LeaveEntitlement::where([
+        $leaveEntitlement = LeaveEntitlement::where([
             ['staff_id', '=', $request->staff_id],
             ['leave_policy_id', '=', $request->leave_policy_id]
         ])->first();
@@ -47,15 +51,23 @@ class LeaveRequestService
             ['staff_id', $request->staff_id]
         ])->whereHas('leavePolicy', function ($query) {
             $query->where([
-                ['type', 2],
+                ['type', LeavePolicyType::LeaveCredit],
             ]);
         })->first();
 
         $carryForward = LeaveCarryForward::where([
-            ['entitlement_id', $entitlement->id],
+            ['entitlement_id', $leaveEntitlement->id],
             ['from_year', $lastYear]
         ])->first();
 
+        if ($leaveEntitlement->balance < count($request->date)) {
+            $error = [
+                'code' => 400,
+                'message' => 'Requested off days is more than leave balance available',
+                'data' => null
+            ];
+            return $error;
+        }
         if ($leavePolicy->attachment_required === 1 && $request->attachment == null) {
             $error = [
                 'code' => 400,
@@ -98,7 +110,7 @@ class LeaveRequestService
                     ]);
                 })->count();
 
-            if ($item['type'] !== 'full_day' && $leavePolicy->half_day_option === 1 && count($dates) > 1) {
+            if ($item['type'] !== LeaveDayType::FullDay && $leavePolicy->half_day_option === 1 && count($dates) > 1) {
                 $error = [
                     'code' => 400,
                     'message' => 'Half day leave request can only apply one date at a time',
@@ -110,11 +122,11 @@ class LeaveRequestService
             //* TODO: logic condition for department, quota_unit NUMBER & PERCENT
             if ($leavePolicy->quota_amount !== null && $leavePolicy->quota_unit !== null && $leavePolicy->quota_category) {
 
-                if ($leavePolicy->quota_unit == 'number' && $leavePolicy->quota_category == 'company') {
+                if ($leavePolicy->quota_unit == QuotaType::Number && $leavePolicy->quota_category == QuotaType::Company) {
                     $quota = $leavePolicy->quota_amount;
                 }
 
-                if ($leavePolicy->quota_unit == 'percent' && $leavePolicy->quota_category == 'company') {
+                if ($leavePolicy->quota_unit == QuotaType::Percent && $leavePolicy->quota_category == QuotaType::Company) {
                     $quota = round($leavePolicy->quota_amount / 100 * $staffTotal);
                 }
 
@@ -174,7 +186,7 @@ class LeaveRequestService
             //* check if employee has balance entitlement before storing the leave request WITH ENTITLEMENT
 
             if (
-                $entitlement->balance
+                $leaveEntitlement->balance
                 || $creditEntitlement->balance
                 || $carryForward->balance
             ) {
@@ -187,7 +199,7 @@ class LeaveRequestService
                         'type' => $item['type']
                     ];
                     LeaveDate::create($arr);
-                    $item['type'] == 'full_day' ? $requestDuration += 1.0 : $requestDuration = 0.5;
+                    $item['type'] == LeaveDayType::FullDay ? $requestDuration += 1.0 : $requestDuration = 0.5;
                 }
             } else {
                 $error = [
@@ -220,20 +232,23 @@ class LeaveRequestService
                     $balanceAfterCreditDeduction = $requestDuration - $creditEntitlement->balance;
 
                     if ($carryForward->balance <= $balanceAfterCreditDeduction) {
-                        LeaveCarryForward::where('entitlement_id', $entitlement->id)->update([
+                        LeaveCarryForward::where('entitlement_id', $leaveEntitlement->id)->update([
                             'balance' => 0
                         ]);
 
                         // //*--------- update leave balance for staff entitlement ----------*/ //
-                        $balanceAfterCarryForwardDeduction = $balanceAfterCreditDeduction - $carryForward->balance;
-                        $updatedBalance = $entitlement->balance - $balanceAfterCarryForwardDeduction;
 
-                        LeaveEntitlement::where('id', $entitlement->id)->update([
-                            'balance' => $updatedBalance
-                        ]);
+                        if ($leavePolicy->accrual_type == AccrualType::FullAmount) {
+                            $balanceAfterCarryForwardDeduction = $balanceAfterCreditDeduction - $carryForward->balance;
+                            $updatedBalance = $leaveEntitlement->balance - $balanceAfterCarryForwardDeduction;
+
+                            LeaveEntitlement::where('id', $leaveEntitlement->id)->update([
+                                'balance' => $updatedBalance
+                            ]);
+                        }
                     } else {
                         $bal = $carryForward->balance - $balanceAfterCreditDeduction;
-                        LeaveCarryForward::where('entitlement_id', $entitlement->id)->update([
+                        LeaveCarryForward::where('entitlement_id', $leaveEntitlement->id)->update([
                             'balance' => $bal
                         ]);
                     }
@@ -244,9 +259,9 @@ class LeaveRequestService
                     ]);
                 }
             } else {
-                $balance = $entitlement->balance - $requestDuration;
-                LeaveEntitlement::where('id', $entitlement->id)->update([
-                    'balance' => $balance
+                $balance = $leaveEntitlement->balance - $requestDuration;
+                LeaveEntitlement::where('id', $leaveEntitlement->id)->update([
+                    'balance' => $balance,
                 ]);
             }
             $detailRequest = LeaveRequest::whereId($leaveRequest->id)->get();
@@ -277,11 +292,11 @@ class LeaveRequestService
                     'type' => $item['type']
                 ];
                 LeaveDate::create($arr);
-                $item['type'] == 'full_day' ? $requestDuration += 1.0 : $requestDuration = 0.5;
+                $item['type'] == LeaveDayType::FullDay ? $requestDuration += 1.0 : $requestDuration = 0.5;
             }
 
             $arr = [
-                'entitlement_id' => $entitlement->id,
+                'entitlement_id' => $leaveEntitlement->id,
                 'leave_request_id' => $leaveRequest->id,
                 'requested' => $requestDuration,
                 'status' => 1

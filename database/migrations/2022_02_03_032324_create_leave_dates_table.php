@@ -17,7 +17,7 @@ class CreateLeaveDatesTable extends Migration
             $table->id();
             $table->foreignId('leave_request_id')->constrained('leave_requests')->onDelete('cascade');
             $table->date('date');
-            $table->enum('type', ['full_day', 'am', 'pm']);
+            $table->string('type');
             $table->softDeletes();
             $table->timestamps();
         });

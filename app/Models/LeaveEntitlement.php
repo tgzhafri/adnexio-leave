@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\AccrualType;
+use App\Enums\LeavePeriodType;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -23,6 +25,7 @@ class LeaveEntitlement extends Model
         'cycle_end_date',
         'amount',
         'balance',
+        'prorate',
     ];
 
     /**
@@ -60,40 +63,51 @@ class LeaveEntitlement extends Model
     public function entitlement()
     {
         $leavePolicy = LeavePolicy::whereId($this->leave_policy_id)->first();
-        if ($leavePolicy->accrual_option == 'full_amount') {
+        if ($leavePolicy->accrual_type == AccrualType::FullAmount) {
             return [
                 'amount' => $this->amount,
                 'balance' => $this->balance
             ];
         }
-        if ($leavePolicy->accrual_option == 'prorate') {
+        if ($leavePolicy->accrual_type == AccrualType::Prorate) {
             $currentMonth = Carbon::now()->format('m');
             $prevMonth = Carbon::now()->subMonth()->format('m');
             $currentDate = Carbon::now()->startOfDay()->format('Y-m-d');
             $startOfCurrentMonth = Carbon::now()->startOfMonth()->format('Y-m-d');
             $endOfCurrentMonth = Carbon::now()->endOfMonth()->format('Y-m-d');
+            $leaveDate = LeaveDate::whereHas('leaveRequest', function ($query) {
+                $query->where([
+                    ['leave_policy_id', $this->leave_policy_id],
+                    ['staff_id', $this->staff_id],
+                ]);
+            })->with(['leaveRequest' => function ($query) {
+                return $query->select(['id', 'staff_id', 'leave_policy_id']);
+            }])->get()->count();
 
-            if ($leavePolicy->accrual_happen == 'start_month') {
+            if ($leavePolicy->accrual_happen == LeavePeriodType::StartMonth) {
+                $prorated = $this->balance / 12 * $currentMonth;
+                $bal = $prorated - $leaveDate;
+                LeaveEntitlement::whereId($this->id)->update([
+                    'prorate' => $bal
+                ]);
                 if ($currentDate >= $startOfCurrentMonth) {
-                    $prorated = $this->balance / 12 * $currentMonth;
                     return [
-                        'amount' => $prorated,
-                        'balance' => $prorated
+                        'prorate' => $prorated,
                     ];
                 }
             }
-            if ($leavePolicy->accrual_happen == 'end_month') {
+            if ($leavePolicy->accrual_happen == LeavePeriodType::EndMonth) {
                 if ($currentDate >= $endOfCurrentMonth) {
                     $prorated = $this->balance / 12 * $currentMonth;
                     return [
-                        'amount' => $prorated,
-                        'balance' => $prorated
+                        'prorate' => $prorated,
+
                     ];
                 } else {
                     $prorated = $this->balance / 12 * $prevMonth;
                     return [
-                        'amount' => $prorated,
-                        'balance' => $prorated
+                        'prorate' => $prorated,
+
                     ];
                 }
             }

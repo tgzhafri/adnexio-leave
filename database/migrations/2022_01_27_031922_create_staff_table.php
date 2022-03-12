@@ -28,8 +28,8 @@ class CreateStaffTable extends Migration
             $table->string('employment_type');
             $table->string('profile_photo')->nullable();
             $table->date('joined_date');
-            $table->enum('gender', ['male', 'female'])->nullable();
-            $table->enum('marital_status', ['single', 'married', 'divorced', 'widowed'])->nullable();
+            $table->string('gender')->nullable();
+            $table->string('marital_status')->nullable();
             $table->integer('status');
             $table->softDeletes();
             $table->timestamps();

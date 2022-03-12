@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\LeavePolicyType;
 use App\Models\LeaveEntitlement;
 use App\Models\LeaveCarryForward;
 use App\Models\LeaveCredit;
@@ -33,7 +34,7 @@ class LeaveEntitlementResource extends JsonResource
         $entitlement = null;
         $carryForward = null;
 
-        $replacementLeavePolicy = LeavePolicy::where('type', 2)->first();
+        $replacementLeavePolicy = LeavePolicy::where('type', LeavePolicyType::LeaveCredit)->first();
         $leavePolicy = LeavePolicy::where('id', $this->leave_policy_id)->first();
 
         $leaveRequests = LeaveRequest::where([
@@ -43,12 +44,12 @@ class LeaveEntitlementResource extends JsonResource
             $query->where('type', '<>', 2);
         })->get();
 
-        $empEntitlements = LeaveEntitlement::where([
+        $leaveEntitlements = LeaveEntitlement::where([
             ['staff_id', '=', $this->staff_id],
             ['leave_policy_id', '=', $this->leave_policy_id]
         ])->get();
 
-        if ($leavePolicy['type'] === 1) {
+        if ($leavePolicy['type'] == LeavePolicyType::WithEntitlement) {
             foreach ($leaveRequests as $item) {
                 $leaveDates = LeaveDate::where('leave_request_id', $item['id'])->select('date')->get();
 
@@ -58,9 +59,9 @@ class LeaveEntitlementResource extends JsonResource
             }
         }
         // //* ----- to show WITHOUT ENTITLEMENT leave policy ---------- // //
-        if ($leavePolicy['type'] !== 1) {
+        if ($leavePolicy['type'] !== LeavePolicyType::WithEntitlement) {
 
-            foreach ($empEntitlements as $item) {
+            foreach ($leaveEntitlements as $item) {
                 $requested = LeaveCredit::where('entitlement_id', $item['id'])->sum('requested');
             }
 
@@ -83,8 +84,9 @@ class LeaveEntitlementResource extends JsonResource
             ];
         } else {
             $entitlement = [
-                'amount' => $this->entitlement()['amount'],
-                'balance' => $this->entitlement()['balance'],
+                'amount' => $this->amount,
+                'balance' => $this->balance,
+                'prorate' => $this->prorate,
                 'utilised' => $utilised,
                 'outstanding' => $outstanding
             ];
@@ -97,7 +99,7 @@ class LeaveEntitlementResource extends JsonResource
                 ['staff_id', '=', $this->staff_id],
             ])->whereHas('leavePolicy', function ($query) {
                 $query->where([
-                    ['type', 2],
+                    ['type', LeavePolicyType::LeaveCredit],
                 ]);
             })->first();
 
@@ -109,12 +111,14 @@ class LeaveEntitlementResource extends JsonResource
                 }
             }
 
-            $leaveCredit = [
-                'amount' => $creditEntitlement->amount,
-                'balance' => $creditEntitlement->balance,
-                'utilised' => $creditUtilised,
-                'outstanding' => $creditOutstanding
-            ];
+            if ($creditEntitlement) {
+                $leaveCredit = [
+                    'amount' => $creditEntitlement->amount,
+                    'balance' => $creditEntitlement->balance,
+                    'utilised' => $creditUtilised,
+                    'outstanding' => $creditOutstanding
+                ];
+            }
         }
 
         // //* ----- To show replacement CREDIT applicable to which leave policy -------- // //
@@ -167,7 +171,7 @@ class LeaveEntitlementResource extends JsonResource
                 'cycle_period' => $leavePolicy->cycle_period,
                 'eligible_amount' => $leavePolicy->eligible_amount,
                 'eligible_period' => $leavePolicy->eligible_period,
-                'accrual_option' => $leavePolicy->accrual_option,
+                'accrual_type' => $leavePolicy->accrual_type,
                 'accrual_happen' => $leavePolicy->accrual_happen,
                 'approval_route_id' => $leavePolicy->approval_route_id,
                 'quota_amount' => $leavePolicy->quota_amount,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\LeavePolicyType;
 use App\Models\LeaveCategory;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
@@ -17,7 +18,6 @@ class LeavePolicyResource extends JsonResource
     public function toArray($request): array
     {
         $leaveCategory = LeaveCategory::where('leave_policy_id', $request->id)->get();
-
 
         return [
             'id' => $this->id,
@@ -36,7 +36,7 @@ class LeavePolicyResource extends JsonResource
             'cycle_period' => $this->cycle_period,
             'eligible_amount' => $this->eligible_amount,
             'eligible_period' => $this->eligible_period,
-            'accrual_option' => $this->accrual_option,
+            'accrual_type' => $this->accrual_type,
             'accrual_happen' => $this->accrual_happen,
             // 'approval_route_id' => $this->approval_route_id,
             'quota_amount' => $this->quota_amount,

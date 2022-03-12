@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\LeavePolicyType;
 use App\Http\Resources\LeaveEntitlementResource;
 use App\Models\LeaveEntitlement;
 use Carbon\Carbon;
@@ -17,7 +18,7 @@ class LeaveEntitlementService
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
         ])->whereHas('leavePolicy', function ($query) {
-            $query->where('type', 1);
+            $query->where('type', LeavePolicyType::WithEntitlement);
         })->get();
 
         $withoutEntitlements = LeaveEntitlement::where([
@@ -26,7 +27,7 @@ class LeaveEntitlementService
             ['cycle_end_date', '>=', $currentCycle]
         ])->whereHas('leavePolicy', function ($query) {
             $query->where([
-                ['type', 0],
+                ['type', LeavePolicyType::WithoutEntitlement],
             ]);
         })->get();
 
@@ -35,7 +36,7 @@ class LeaveEntitlementService
             ['cycle_start_date', '<=', $currentCycle],
             ['cycle_end_date', '>=', $currentCycle]
         ])->whereHas('leavePolicy', function ($query) {
-            $query->where('type', 2);
+            $query->where('type', LeavePolicyType::LeaveCredit);
         })->get();
 
         $result = [

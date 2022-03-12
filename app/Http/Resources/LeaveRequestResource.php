@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\LeaveDayType;
+use App\Enums\LeavePolicyType;
 use App\Models\LeaveCarryForward;
 use App\Models\LeaveEntitlement;
 use App\Models\LeaveDate;
@@ -20,7 +22,7 @@ class LeaveRequestResource extends JsonResource
     public function toArray($request)
     {
         $type = LeaveDate::where('leave_request_id', $this->id)->value('type');
-        if ($type == 'full_day') {
+        if ($type == LeaveDayType::FullDay) {
             $duration = LeaveDate::where('leave_request_id', $this->id)->count();
         } else {
             $duration = 0.5;
@@ -31,12 +33,12 @@ class LeaveRequestResource extends JsonResource
 
         $leavePolicy = LeavePolicy::where('id', $this->leave_policy_id)->first();
 
-        $empEntitlement = LeaveEntitlement::where([
+        $leaveEntitlement = LeaveEntitlement::where([
             ['staff_id', '=', $this->staff_id],
             ['leave_policy_id', '=', $this->leave_policy_id]
         ])->whereHas('leavePolicy', function ($query) {
             $query->where([
-                ['type', 1],
+                ['type', LeavePolicyType::WithEntitlement],
             ]);
         })->first();
 
@@ -44,17 +46,18 @@ class LeaveRequestResource extends JsonResource
             ['staff_id', '=', $this->staff_id],
         ])->whereHas('leavePolicy', function ($query) {
             $query->where([
-                ['type', 2],
+                ['type', LeavePolicyType::LeaveCredit],
             ]);
         })->first();
         // dd($creditEntitlement);
         $carryForward = null;
 
         // //*--------- ENTITLEMENT - for leave policy WITH entitlement ---------------// //
-        if ($empEntitlement) {
+        if ($leaveEntitlement) {
             $entitlement = [
-                'amount' => $empEntitlement->amount,
-                'balance' => $empEntitlement->balance,
+                'amount' => $leaveEntitlement->amount,
+                'balance' => $leaveEntitlement->balance,
+                'prorate' => $leaveEntitlement->prorate,
             ];
 
             // //*--------- ENTITLEMENT - for leave policy WITH entitlement WITH CREDIT DEDUCTION ---------------// //
@@ -69,9 +72,9 @@ class LeaveRequestResource extends JsonResource
 
             if (
                 $leavePolicy->carry_forward_amount != null
-                && $empEntitlement != null
+                && $leaveEntitlement != null
             ) {
-                $carryForwardEntitlement = LeaveCarryForward::where('entitlement_id', $empEntitlement->id)->first();
+                $carryForwardEntitlement = LeaveCarryForward::where('entitlement_id', $leaveEntitlement->id)->first();
                 if ($carryForwardEntitlement != null) {
                     $carryForward = [
                         'amount' => $carryForwardEntitlement->amount,
