@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\HolidayType;
+use App\Http\Requests\Holiday\HolidayPostRequest;
 use App\Http\Resources\HolidayResource;
 use App\Models\Holiday;
 use Carbon\Carbon;
@@ -36,15 +37,14 @@ class HolidayController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\Holiday\HolidayPostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(HolidayPostRequest $request)
     {
         $holidays = $request->holidays;
-
         if (!$holidays) { // update single holiday
-            $singleHoliday = Holiday::create($request->all());
+            $singleHoliday = Holiday::create($request->validated());
             return $this->sendResponse("Store holiday successful", $singleHoliday, 200);
         } else {
             foreach ($holidays as $item) { // update mass holidays
@@ -53,7 +53,7 @@ class HolidayController extends Controller
                     // 'company_id' => 1,
                     'name' => $item['name'],
                     'date' => $date,
-                    'day' => $item['week_day'],
+                    'day' => $item['day'],
                     'type' => $item['type'],
                     'holiday_type' => HolidayType::Public,
                     'location' => $item['location'],

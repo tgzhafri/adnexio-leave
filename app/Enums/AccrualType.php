@@ -12,6 +12,6 @@ use BenSampo\Enum\Enum;
 final class AccrualType extends Enum
 {
     const FullAmount = 'full_amount';
-    const ProrateFullAmount = 'full_amount_prorate';
+    const FullAmountProrate = 'full_amount_prorate';
     const Prorate = 'prorate';
 }

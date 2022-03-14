@@ -11,8 +11,8 @@ use BenSampo\Enum\Enum;
  */
 final class LeavePeriodType extends Enum
 {
-    const Day =   'day';
-    const Week =   'week';
+    const Day = 'day';
+    const Week = 'week';
     const Month = 'month';
     const Monthly = 'monthly';
     const Year = 'year';

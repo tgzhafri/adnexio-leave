@@ -13,6 +13,7 @@ use App\Models\LeavePolicyEntitlement;
 use App\Models\LeavePolicy;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
 class LeavePolicyService
@@ -68,7 +69,7 @@ class LeavePolicyService
         return $this->leavePolicyResponse($leavePolicy);
     }
 
-    public function update(LeavePolicy $leavePolicy, LeavePolicyPostRequest $request)
+    public function update($leavePolicy, LeavePolicyPostRequest $request)
     {
         $staffs = Staff::all();
         $leavePolicy->update($request->validated());
@@ -121,11 +122,11 @@ class LeavePolicyService
         $categoriesArr = Arr::flatten($categories);
 
         // //*------ code start ---- Insert staff entitlement according to the requirement setup ----------////
-        if ($leavePolicy->cycle_period == LeavePeriodType::Yearly) { //------ cycle period YEARLY ----------//
+        if ($leavePolicy->cycle_period == LeavePeriodType::Yearly) {
             $this->yearly($staffs, $currentDate, $leavePolicyEntitlements, $categoriesArr, $leavePolicy, $startYear, $endYear);
         }
 
-        if ($leavePolicy->cycle_period == LeavePeriodType::Monthly) { // -------- cycle period MONTHLY ----------- //
+        if ($leavePolicy->cycle_period == LeavePeriodType::Monthly) {
             $this->monthly($staffs, $months, $currentDate, $leavePolicyEntitlements, $categoriesArr, $leavePolicy);
         }
         // //*------ code end ---- Insert staff entitlement according to the requirement setup ----------////
@@ -221,12 +222,19 @@ class LeavePolicyService
             $yearOfService = $currentDate->diffInYears($joinedDate);
             $diffMonth = $currentDate->diffInMonths($joinedMonth);
             foreach ($leavePolicyEntitlements as $leavePolicyEntitlement) {
-                if ($yearOfService >= $leavePolicyEntitlement['start_year_of_service'] && $yearOfService < $leavePolicyEntitlement['end_year_of_service']) {
-                    if (in_array($staff['gender'], $categoriesArr) && in_array($staff['marital_status'], $categoriesArr) && in_array($staff['employment_type'], $categoriesArr)) {
+                if (
+                    $yearOfService >= $leavePolicyEntitlement['start_year_of_service']
+                    && $yearOfService < $leavePolicyEntitlement['end_year_of_service']
+                ) {
+                    if (
+                        in_array($staff[LeaveCategoryType::Gender], $categoriesArr)
+                        && in_array($staff[LeaveCategoryType::MaritalStatus], $categoriesArr)
+                        && in_array($staff[LeaveCategoryType::EmploymentType], $categoriesArr)
+                    ) {
                         if (
                             $diffMonth < 12
                             && $yearOfService == 0
-                            && $leavePolicy->accrual_type != AccrualType::FullAmount
+                            && $leavePolicy->accrual_type == AccrualType::FullAmountProrate
                         ) {
                             $prorate = ceil($leavePolicyEntitlement['amount'] / 12 * (12 - $diffMonth));
                             $arr = [
@@ -237,7 +245,11 @@ class LeavePolicyService
                                 'amount' => $prorate,
                                 'balance' => $prorate
                             ];
-                        } else {
+                        } elseif (
+                            $diffMonth > 12
+                            && $yearOfService > 0
+                            && $leavePolicy->accrual_type == AccrualType::FullAmountProrate
+                        ) {
                             $arr = [
                                 'leave_policy_id' => $leavePolicy->id,
                                 'staff_id' => $staff['id'],
@@ -245,6 +257,24 @@ class LeavePolicyService
                                 'cycle_end_date' => $endYear,
                                 'amount' => $leavePolicyEntitlement['amount'],
                                 'balance' => $leavePolicyEntitlement['amount']
+                            ];
+                        } elseif ($leavePolicy->accrual_type == AccrualType::FullAmount) {
+                            $arr = [
+                                'leave_policy_id' => $leavePolicy->id,
+                                'staff_id' => $staff['id'],
+                                'cycle_start_date' => $startYear,
+                                'cycle_end_date' => $endYear,
+                                'amount' => $leavePolicyEntitlement['amount'],
+                                'balance' => $leavePolicyEntitlement['amount']
+                            ];
+                        } elseif ($leavePolicy->accrual_type == AccrualType::Prorate) {
+                            $arr = [
+                                'leave_policy_id' => $leavePolicy->id,
+                                'staff_id' => $staff['id'],
+                                'cycle_start_date' => $startYear,
+                                'cycle_end_date' => $endYear,
+                                'amount' => 0,
+                                'balance' => 0
                             ];
                         }
                         LeaveEntitlement::create($arr);
@@ -261,8 +291,15 @@ class LeavePolicyService
                 $joinedDate = Carbon::createFromFormat('Y-m-d', $staff['joined_date']);
                 $yearOfService = $currentDate->diffInYears($joinedDate);
                 foreach ($leavePolicyEntitlements as $leavePolicyEntitlement) {
-                    if ($yearOfService >= $leavePolicyEntitlement['start_year_of_service'] && $yearOfService < $leavePolicyEntitlement['end_year_of_service']) {
-                        if (in_array($staff[LeaveCategoryType::Gender], $categoriesArr) && in_array($staff[LeaveCategoryType::MaritalStatus], $categoriesArr) && in_array($staff[LeaveCategoryType::EmploymentType], $categoriesArr)) {
+                    if (
+                        $yearOfService >= $leavePolicyEntitlement['start_year_of_service']
+                        && $yearOfService < $leavePolicyEntitlement['end_year_of_service']
+                    ) {
+                        if (
+                            in_array($staff[LeaveCategoryType::Gender], $categoriesArr)
+                            && in_array($staff[LeaveCategoryType::MaritalStatus], $categoriesArr)
+                            && in_array($staff[LeaveCategoryType::EmploymentType], $categoriesArr)
+                        ) {
                             $arr = [
                                 'leave_policy_id' => $leavePolicy->id,
                                 'staff_id' => $staff['id'],

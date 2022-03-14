@@ -8,7 +8,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     protected $commands = [
-        'App\Console\Commands\ProrateLeaveEntitlement',
+        'App\Console\Commands\ProrateMonthly',
     ];
 
     /**
@@ -20,7 +20,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('cron:prorate-leave')->everyMinute();
+        $schedule->command('cron:prorate-monthly')->monthly();
     }
 
     /**

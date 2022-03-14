@@ -6,6 +6,7 @@ use App\Enums\LeavePolicyType;
 use App\Http\Requests\LeavePolicy\LeavePolicyPostRequest;
 use App\Models\LeavePolicy;
 use App\Services\LeavePolicyService;
+use Illuminate\Http\Request;
 
 class LeavePolicyController extends Controller
 {
@@ -14,7 +15,7 @@ class LeavePolicyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(LeavePolicy $leavePolicy)
+    public function index()
     {
         $withoutEntitlement = LeavePolicy::where('type', LeavePolicyType::WithoutEntitlement)->get();
         $withEntitlement = LeavePolicy::where('type', LeavePolicyType::WithEntitlement)->get();
@@ -81,7 +82,7 @@ class LeavePolicyController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\LeavePolicy\LeavePolicyPostRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
